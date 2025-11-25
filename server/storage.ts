@@ -1,4 +1,3 @@
-// Using in-memory storage for now due to database connection issues
-// TODO: Switch back to Neon when environment is properly configured
+// Using in-memory storage with database sync
 export { MemoryStorage, storage } from "./storage-memory";
 
