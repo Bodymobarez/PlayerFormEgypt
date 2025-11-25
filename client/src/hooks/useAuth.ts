@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 
 interface Club {
@@ -11,6 +11,7 @@ interface Club {
 
 export function useAuth() {
   const [, navigate] = useLocation();
+  const queryClient = useQueryClient();
 
   const { data: club, isLoading } = useQuery<Club | null>({
     queryKey: ["auth", "me"],
@@ -37,11 +38,14 @@ export function useAuth() {
       });
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message);
+        throw new Error(error.error?.message || "فشل تسجيل الدخول");
       }
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      // Invalidate and refetch the auth query immediately
+      await queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
+      // Navigate after auth state is updated
       navigate("/dashboard");
     },
   });
