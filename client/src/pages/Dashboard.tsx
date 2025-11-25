@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Redirect } from "wouter";
-import { LogOut, Trash2, CheckCircle, Clock } from "lucide-react";
+import { LogOut, Trash2, CheckCircle, Clock, Settings } from "lucide-react";
+import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
 interface Assessment {
@@ -78,15 +79,27 @@ export default function Dashboard() {
               <p className="text-sm text-muted-foreground">لوحة إدارة الاختبارات</p>
             </div>
           </div>
-          <Button
-            variant="outline"
-            onClick={() => logout()}
-            className="gap-2"
-            data-testid="button-logout"
-          >
-            <LogOut className="h-4 w-4" />
-            تسجيل خروج
-          </Button>
+          <div className="flex gap-2">
+            <Link href="/admin/settings">
+              <Button
+                variant="outline"
+                className="gap-2"
+                data-testid="button-admin-settings"
+              >
+                <Settings className="h-4 w-4" />
+                الإعدادات
+              </Button>
+            </Link>
+            <Button
+              variant="outline"
+              onClick={() => logout()}
+              className="gap-2"
+              data-testid="button-logout"
+            >
+              <LogOut className="h-4 w-4" />
+              تسجيل خروج
+            </Button>
+          </div>
         </div>
         <div className="h-1" style={{ backgroundColor: club.primaryColor }} />
       </div>

@@ -346,6 +346,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
     );
   }
 
+  // ==================== ADMIN ROUTES ====================
+  // Get all clubs for admin management
+  app.get(
+    "/api/admin/clubs",
+    asyncHandler(async (req, res) => {
+      const clubs = await storage.getAllClubs();
+      const clubsData = clubs.map(club => ({
+        id: club.id,
+        clubId: club.clubId,
+        name: club.name,
+        logoUrl: club.logoUrl,
+        primaryColor: club.primaryColor,
+        username: club.username,
+        assessmentPrice: club.assessmentPrice,
+      }));
+      res.json(clubsData);
+    })
+  );
+
+  // Update club settings (name, price, color, logo)
+  app.put(
+    "/api/admin/clubs/:clubId",
+    asyncHandler(async (req, res) => {
+      const { clubId } = req.params;
+      const { name, assessmentPrice, primaryColor, logoUrl } = req.body;
+
+      const club = await storage.getClubByClubId(clubId);
+      if (!club) {
+        throw new NotFoundError("Club");
+      }
+
+      const updated = await storage.updateClub(club.id, {
+        ...(name && { name }),
+        ...(assessmentPrice !== undefined && { assessmentPrice }),
+        ...(primaryColor && { primaryColor }),
+        ...(logoUrl && { logoUrl }),
+      });
+
+      res.json({
+        id: updated!.id,
+        clubId: updated!.clubId,
+        name: updated!.name,
+        logoUrl: updated!.logoUrl,
+        primaryColor: updated!.primaryColor,
+        assessmentPrice: updated!.assessmentPrice,
+      });
+    })
+  );
+
   // Error handler (must be last)
   app.use(errorHandler);
 
