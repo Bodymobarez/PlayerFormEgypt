@@ -3,21 +3,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import leagueLogo from "@assets/generated_images/egyptian_youth_football_league_official_logo.png";
 
-// Logos
-import redEagleLogo from "@assets/generated_images/red_eagle_sports_club_logo.png";
-import whiteKnightLogo from "@assets/generated_images/white_knight_sports_club_logo.png";
-import yellowCoastalLogo from "@assets/generated_images/yellow_coastal_sports_club_logo.png";
-import pyramidsLogo from "@assets/generated_images/pyramids_fc_logo_approximation.png";
-import masryLogo from "@assets/generated_images/al_masry_sc_logo_approximation.png";
-import ittihadLogo from "@assets/generated_images/al_ittihad_alexandria_logo_approximation.png";
-import futureLogo from "@assets/generated_images/modern_future_fc_logo_approximation.png";
-import smouhaLogo from "@assets/generated_images/smouha_sc_logo_approximation.png";
-import zedLogo from "@assets/generated_images/zed_fc_logo_approximation.png";
-import ceramicaLogo from "@assets/generated_images/ceramica_cleopatra_logo_approximation.png";
-import enppiLogo from "@assets/generated_images/enppi_club_logo_approximation.png";
-import talaeaLogo from "@assets/generated_images/talaea_el_gaish_logo_approximation.png";
-import bankLogo from "@assets/generated_images/bank_al_ahly_logo_approximation.png";
-
 export interface Club {
   id: string;
   name: string;
@@ -29,80 +14,116 @@ export const CLUBS: Club[] = [
   {
     id: "ahly",
     name: "النادي الأهلي",
-    logo: redEagleLogo,
+    logo: "/logos/al_ahly.png",
     primaryColor: "hsl(354 70% 45%)"
   },
   {
     id: "zamalek",
     name: "نادي الزمالك",
-    logo: whiteKnightLogo,
+    logo: "/logos/zamalek.png",
     primaryColor: "hsl(222 47% 11%)" 
   },
   {
     id: "pyramids",
     name: "نادي بيراميدز",
-    logo: pyramidsLogo,
+    logo: "/logos/pyramids.png",
     primaryColor: "hsl(210 60% 30%)"
   },
   {
     id: "masry",
     name: "النادي المصري",
-    logo: masryLogo,
+    logo: "/logos/al_masry.png",
     primaryColor: "hsl(140 60% 35%)"
   },
   {
     id: "ismaily",
     name: "النادي الإسماعيلي",
-    logo: yellowCoastalLogo,
+    logo: "/logos/ismaily.png",
     primaryColor: "hsl(45 90% 50%)"
   },
   {
     id: "ittihad",
     name: "نادي الاتحاد السكندري",
-    logo: ittihadLogo,
+    logo: "/logos/al_ittihad_alexandria.png",
     primaryColor: "hsl(140 60% 35%)"
   },
   {
-    id: "future",
-    name: "مودرن فيوتشر",
-    logo: futureLogo,
+    id: "modern_sport",
+    name: "مودرن سبورت",
+    logo: "/logos/modern_sport.png",
     primaryColor: "hsl(350 70% 40%)"
   },
   {
     id: "smouha",
     name: "نادي سموحة",
-    logo: smouhaLogo,
+    logo: "/logos/smouha.png",
     primaryColor: "hsl(215 80% 45%)"
   },
   {
     id: "zed",
     name: "نادي زد (ZED)",
-    logo: zedLogo,
+    logo: "/logos/zed.png",
     primaryColor: "hsl(150 100% 40%)"
   },
   {
     id: "ceramica",
     name: "سيراميكا كليوباترا",
-    logo: ceramicaLogo,
+    logo: "/logos/ceramica_cleopatra.png",
     primaryColor: "hsl(40 60% 45%)"
   },
   {
     id: "enppi",
     name: "نادي إنبي",
-    logo: enppiLogo,
+    logo: "/logos/enppi.png",
     primaryColor: "hsl(200 70% 30%)"
   },
   {
     id: "talaea",
     name: "طلائع الجيش",
-    logo: talaeaLogo,
+    logo: "/logos/tala_ea_el_gaish.png",
     primaryColor: "hsl(0 0% 20%)"
   },
   {
     id: "bank",
     name: "البنك الأهلي",
-    logo: bankLogo,
+    logo: "/logos/national_bank_of_egypt.png",
     primaryColor: "hsl(30 80% 50%)"
+  },
+  {
+    id: "pharco",
+    name: "نادي فاركو",
+    logo: "/logos/pharco.png",
+    primaryColor: "hsl(25 90% 50%)"
+  },
+  {
+    id: "gouna",
+    name: "نادي الجونة",
+    logo: "/logos/el_gouna.png",
+    primaryColor: "hsl(210 20% 80%)"
+  },
+  {
+    id: "mokawloon",
+    name: "المقاولون العرب",
+    logo: "/logos/al_mokawloon_al_arab.png",
+    primaryColor: "hsl(50 90% 50%)"
+  },
+  {
+    id: "ghazl",
+    name: "غزل المحلة",
+    logo: "/logos/ghazl_el_mahalla.png",
+    primaryColor: "hsl(190 70% 45%)"
+  },
+  {
+    id: "haras",
+    name: "حرس الحدود",
+    logo: "/logos/haras_el_hodoud.png",
+    primaryColor: "hsl(0 70% 40%)"
+  },
+  {
+    id: "petrojet",
+    name: "بتروجيت",
+    logo: "/logos/petrojet.png",
+    primaryColor: "hsl(210 80% 40%)"
   }
 ];
 
