@@ -3,7 +3,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Redirect } from "wouter";
@@ -15,6 +14,7 @@ interface Assessment {
   id: number;
   fullName: string;
   birthDate: string;
+  birthPlace: string;
   position: string;
   phone: string;
   nationalId: string;
@@ -99,6 +99,18 @@ export default function Dashboard() {
   const completedPayments = assessments?.filter((a) => a.paymentStatus === "completed").length || 0;
   const totalRevenue = assessments?.reduce((sum, a) => sum + (a.paymentStatus === "completed" ? a.assessmentPrice : 0), 0) || 0;
 
+  // Group assessments by governorate (birthPlace)
+  const groupedByGovernorate = assessments?.reduce((groups, assessment) => {
+    const gov = assessment.birthPlace || "غير محدد";
+    if (!groups[gov]) {
+      groups[gov] = [];
+    }
+    groups[gov].push(assessment);
+    return groups;
+  }, {} as Record<string, Assessment[]>) || {};
+
+  const sortedGovernorates = Object.keys(groupedByGovernorate).sort();
+
   return (
     <div
       className="min-h-screen bg-background pb-20"
@@ -170,10 +182,10 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Assessments Table */}
+        {/* Assessments by Governorate */}
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl">قائمة التسجيلات</CardTitle>
+            <CardTitle className="text-2xl">قائمة التسجيلات حسب المحافظات</CardTitle>
           </CardHeader>
           <CardContent>
             {!assessments || assessments.length === 0 ? (
@@ -181,168 +193,181 @@ export default function Dashboard() {
                 <p className="text-muted-foreground mb-4">لا توجد تسجيلات في الاختبارات حتى الآن</p>
               </div>
             ) : (
-              <div className="space-y-4">
-                {assessments.map((assessment) => (
-                  <div key={assessment.id} className="border rounded-lg p-4 bg-card hover:bg-muted/50 transition-colors">
-                    {editingId === assessment.id ? (
-                      // Edit Mode
-                      <div className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <Label>تاريخ الاختبار</Label>
-                            <Input
-                              type="date"
-                              value={editForm.assessmentDate || ""}
-                              onChange={(e) => setEditForm({ ...editForm, assessmentDate: e.target.value })}
-                            />
-                          </div>
-                          <div>
-                            <Label>مكان الاختبار (الملعب)</Label>
-                            <Input
-                              placeholder="مثال: ملعب النادي الأهلي"
-                              value={editForm.assessmentLocation || ""}
-                              onChange={(e) => setEditForm({ ...editForm, assessmentLocation: e.target.value })}
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <Label>النتيجة</Label>
-                          <div className="flex gap-2 mt-2">
-                            <Button
-                              size="sm"
-                              variant={editForm.resultStatus === "accepted" ? "default" : "outline"}
-                              onClick={() => setEditForm({ ...editForm, resultStatus: "accepted" })}
-                              className="flex-1"
-                              data-testid={`button-accept-${assessment.id}`}
-                            >
-                              ✓ قبول
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant={editForm.resultStatus === "rejected" ? "default" : "outline"}
-                              onClick={() => setEditForm({ ...editForm, resultStatus: "rejected" })}
-                              className="flex-1"
-                              data-testid={`button-reject-${assessment.id}`}
-                            >
-                              ✗ رفض
-                            </Button>
-                          </div>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            onClick={() => updateMutation.mutate({ id: assessment.id, updates: editForm })}
-                            disabled={updateMutation.isPending}
-                            className="flex-1"
-                            data-testid={`button-save-${assessment.id}`}
-                          >
-                            <Save className="h-4 w-4 mr-2" />
-                            حفظ
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              setEditingId(null);
-                              setEditForm({});
-                            }}
-                            className="flex-1"
-                          >
-                            <X className="h-4 w-4 mr-2" />
-                            إلغاء
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      // View Mode
-                      <div className="space-y-3">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <h3 className="font-bold text-lg">{assessment.fullName}</h3>
-                            <p className="text-sm text-muted-foreground">الرقم القومي: {assessment.nationalId}</p>
-                          </div>
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                setEditingId(assessment.id);
-                                setEditForm({
-                                  assessmentDate: assessment.assessmentDate || "",
-                                  assessmentLocation: assessment.assessmentLocation || "",
-                                  resultStatus: assessment.resultStatus || "",
-                                });
-                              }}
-                              data-testid={`button-edit-${assessment.id}`}
-                            >
-                              <Edit2 className="h-4 w-4 mr-2" />
-                              تحديث
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => deleteMutation.mutate(assessment.id)}
-                              disabled={deleteMutation.isPending}
-                              data-testid={`button-delete-${assessment.id}`}
-                            >
-                              <Trash2 className="h-4 w-4 text-destructive" />
-                            </Button>
-                          </div>
-                        </div>
+              <div className="space-y-6">
+                {sortedGovernorates.map((governorate) => (
+                  <div key={governorate} className="border-t pt-6 first:border-t-0 first:pt-0">
+                    <div className="flex items-center justify-between mb-4 pb-2 border-b">
+                      <h3 className="text-xl font-bold text-primary">{governorate}</h3>
+                      <span className="text-sm font-medium bg-primary/10 text-primary px-3 py-1 rounded-full">
+                        {groupedByGovernorate[governorate].length} لاعب
+                      </span>
+                    </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
-                          <div>
-                            <p className="text-muted-foreground">المركز</p>
-                            <p className="font-medium">{assessment.position}</p>
-                          </div>
-                          <div>
-                            <p className="text-muted-foreground">الهاتف</p>
-                            <p className="font-medium" dir="ltr">{assessment.phone}</p>
-                          </div>
-                          <div>
-                            <p className="text-muted-foreground">الدفع</p>
-                            <div className="flex items-center gap-1">
-                              {assessment.paymentStatus === "completed" ? (
-                                <>
-                                  <CheckCircle className="h-4 w-4 text-green-600" />
-                                  <span className="text-green-600 font-medium">مدفوع</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Clock className="h-4 w-4 text-yellow-600" />
-                                  <span className="text-yellow-600 font-medium">في الانتظار</span>
-                                </>
+                    <div className="space-y-4">
+                      {groupedByGovernorate[governorate].map((assessment) => (
+                        <div key={assessment.id} className="border rounded-lg p-4 bg-card hover:bg-muted/50 transition-colors">
+                          {editingId === assessment.id ? (
+                            // Edit Mode
+                            <div className="space-y-4">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <Label>تاريخ الاختبار</Label>
+                                  <Input
+                                    type="date"
+                                    value={editForm.assessmentDate || ""}
+                                    onChange={(e) => setEditForm({ ...editForm, assessmentDate: e.target.value })}
+                                  />
+                                </div>
+                                <div>
+                                  <Label>مكان الاختبار (الملعب)</Label>
+                                  <Input
+                                    placeholder="مثال: ملعب النادي الأهلي"
+                                    value={editForm.assessmentLocation || ""}
+                                    onChange={(e) => setEditForm({ ...editForm, assessmentLocation: e.target.value })}
+                                  />
+                                </div>
+                              </div>
+                              <div>
+                                <Label>النتيجة</Label>
+                                <div className="flex gap-2 mt-2">
+                                  <Button
+                                    size="sm"
+                                    variant={editForm.resultStatus === "accepted" ? "default" : "outline"}
+                                    onClick={() => setEditForm({ ...editForm, resultStatus: "accepted" })}
+                                    className="flex-1"
+                                    data-testid={`button-accept-${assessment.id}`}
+                                  >
+                                    ✓ قبول
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant={editForm.resultStatus === "rejected" ? "default" : "outline"}
+                                    onClick={() => setEditForm({ ...editForm, resultStatus: "rejected" })}
+                                    className="flex-1"
+                                    data-testid={`button-reject-${assessment.id}`}
+                                  >
+                                    ✗ رفض
+                                  </Button>
+                                </div>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  onClick={() => updateMutation.mutate({ id: assessment.id, updates: editForm })}
+                                  disabled={updateMutation.isPending}
+                                  className="flex-1"
+                                  data-testid={`button-save-${assessment.id}`}
+                                >
+                                  <Save className="h-4 w-4 mr-2" />
+                                  حفظ
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => {
+                                    setEditingId(null);
+                                    setEditForm({});
+                                  }}
+                                  className="flex-1"
+                                >
+                                  <X className="h-4 w-4 mr-2" />
+                                  إلغاء
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            // View Mode
+                            <div className="space-y-3">
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <h3 className="font-bold text-lg">{assessment.fullName}</h3>
+                                  <p className="text-sm text-muted-foreground">الرقم القومي: {assessment.nationalId}</p>
+                                </div>
+                                <div className="flex gap-2">
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => {
+                                      setEditingId(assessment.id);
+                                      setEditForm({
+                                        assessmentDate: assessment.assessmentDate || "",
+                                        assessmentLocation: assessment.assessmentLocation || "",
+                                        resultStatus: assessment.resultStatus || "",
+                                      });
+                                    }}
+                                    data-testid={`button-edit-${assessment.id}`}
+                                  >
+                                    <Edit2 className="h-4 w-4 mr-2" />
+                                    تحديث
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    onClick={() => deleteMutation.mutate(assessment.id)}
+                                    disabled={deleteMutation.isPending}
+                                    data-testid={`button-delete-${assessment.id}`}
+                                  >
+                                    <Trash2 className="h-4 w-4 text-destructive" />
+                                  </Button>
+                                </div>
+                              </div>
+
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                                <div>
+                                  <p className="text-muted-foreground">المركز</p>
+                                  <p className="font-medium">{assessment.position}</p>
+                                </div>
+                                <div>
+                                  <p className="text-muted-foreground">الهاتف</p>
+                                  <p className="font-medium" dir="ltr">{assessment.phone}</p>
+                                </div>
+                                <div>
+                                  <p className="text-muted-foreground">الدفع</p>
+                                  <div className="flex items-center gap-1">
+                                    {assessment.paymentStatus === "completed" ? (
+                                      <>
+                                        <CheckCircle className="h-4 w-4 text-green-600" />
+                                        <span className="text-green-600 font-medium">مدفوع</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Clock className="h-4 w-4 text-yellow-600" />
+                                        <span className="text-yellow-600 font-medium">في الانتظار</span>
+                                      </>
+                                    )}
+                                  </div>
+                                </div>
+                                <div>
+                                  <p className="text-muted-foreground">التسجيل</p>
+                                  <p className="font-medium">{new Date(assessment.createdAt).toLocaleDateString("ar-EG")}</p>
+                                </div>
+                              </div>
+
+                              {assessment.assessmentDate && (
+                                <div className="bg-blue-50 p-3 rounded-lg">
+                                  <p className="text-sm text-muted-foreground">اختبار في</p>
+                                  <p className="font-medium text-blue-900">
+                                    {new Date(assessment.assessmentDate).toLocaleDateString("ar-EG")} - {assessment.assessmentLocation}
+                                  </p>
+                                </div>
+                              )}
+
+                              {assessment.resultStatus && (
+                                <div
+                                  className={`p-3 rounded-lg font-medium text-center ${
+                                    assessment.resultStatus === "accepted"
+                                      ? "bg-green-50 text-green-700"
+                                      : "bg-red-50 text-red-700"
+                                  }`}
+                                >
+                                  {assessment.resultStatus === "accepted" ? "✓ تم قبول اللاعب" : "✗ تم رفض اللاعب"}
+                                </div>
                               )}
                             </div>
-                          </div>
-                          <div>
-                            <p className="text-muted-foreground">التسجيل</p>
-                            <p className="font-medium">{new Date(assessment.createdAt).toLocaleDateString("ar-EG")}</p>
-                          </div>
+                          )}
                         </div>
-
-                        {assessment.assessmentDate && (
-                          <div className="bg-blue-50 p-3 rounded-lg">
-                            <p className="text-sm text-muted-foreground">اختبار في</p>
-                            <p className="font-medium text-blue-900">
-                              {new Date(assessment.assessmentDate).toLocaleDateString("ar-EG")} - {assessment.assessmentLocation}
-                            </p>
-                          </div>
-                        )}
-
-                        {assessment.resultStatus && (
-                          <div
-                            className={`p-3 rounded-lg font-medium text-center ${
-                              assessment.resultStatus === "accepted"
-                                ? "bg-green-50 text-green-700"
-                                : "bg-red-50 text-red-700"
-                            }`}
-                          >
-                            {assessment.resultStatus === "accepted" ? "✓ تم قبول اللاعب" : "✗ تم رفض اللاعب"}
-                          </div>
-                        )}
-                      </div>
-                    )}
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
