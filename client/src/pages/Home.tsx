@@ -1,10 +1,20 @@
 import { useState } from "react";
-import { Header, CLUBS, Club } from "@/components/Header";
+import { useAuth } from "@/hooks/useAuth";
+import { Redirect } from "wouter";
+import { Header, CLUBS } from "@/components/Header";
 import { RegistrationForm } from "@/components/RegistrationForm";
+import { Club } from "@/components/Header";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { LogIn } from "lucide-react";
 
 export default function Home() {
-  // Default to first club or null, let's default to null to force selection for "official" feel
+  const { club: authClub, isAuthenticated } = useAuth();
   const [selectedClub, setSelectedClub] = useState<Club | null>(CLUBS[0]);
+
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
 
   const handleClubChange = (clubId: string) => {
     const club = CLUBS.find(c => c.id === clubId) || null;
@@ -23,6 +33,27 @@ export default function Home() {
           <p className="text-muted-foreground text-lg">
             منصة التسجيل الإلكتروني الموحدة للأندية المصرية
           </p>
+        </div>
+
+        {/* Admin Login Card */}
+        <div className="max-w-4xl mx-auto mb-12">
+          <Card className="bg-primary/5 border-primary/20 p-6 text-center">
+            <h3 className="text-xl font-bold mb-2 text-foreground">مسؤول النادي؟</h3>
+            <p className="text-muted-foreground mb-4">
+              قم بتسجيل الدخول لعرض والتحكم في بيانات اللاعبين المسجلين
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="gap-2"
+              data-testid="button-admin-login"
+            >
+              <a href="/login">
+                <LogIn className="h-5 w-5" />
+                تسجيل دخول الإدارة
+              </a>
+            </Button>
+          </Card>
         </div>
 
         <RegistrationForm selectedClub={selectedClub} />

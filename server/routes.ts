@@ -23,7 +23,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       cookie: {
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+        maxAge: 1000 * 60 * 60 * 24 * 7,
       },
     })
   );
@@ -149,6 +149,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "حدث خطأ أثناء الحذف" });
     }
   });
+
+  // Admin routes to seed clubs (only in dev mode)
+  if (process.env.NODE_ENV !== "production") {
+    app.post("/api/admin/seed-clubs", async (req, res) => {
+      try {
+        const CLUBS_DATA = [
+          { clubId: "al-ahly", name: "النادي الأهلي", logoUrl: "/logos/al_ahly.png", primaryColor: "hsl(354 70% 45%)", username: "ahly", password: "ahly123" },
+          { clubId: "zamalek", name: "نادي الزمالك", logoUrl: "/logos/zamalek.png", primaryColor: "hsl(222 47% 11%)", username: "zamalek", password: "zamalek123" },
+          { clubId: "pyramids", name: "نادي بيراميدز", logoUrl: "/logos/pyramids.png", primaryColor: "hsl(210 60% 30%)", username: "pyramids", password: "pyramids123" },
+          { clubId: "al-masry", name: "النادي المصري", logoUrl: "/logos/al_masry.png", primaryColor: "hsl(140 60% 35%)", username: "masry", password: "masry123" },
+        ];
+
+        let added = 0;
+        for (const clubData of CLUBS_DATA) {
+          const existing = await storage.getClubByClubId(clubData.clubId);
+          if (!existing) {
+            const hashedPassword = await bcrypt.hash(clubData.password, 10);
+            await storage.createClub({ ...clubData, password: hashedPassword });
+            added++;
+          }
+        }
+        
+        res.json({ message: `تم إضافة ${added} أندية` });
+      } catch (error) {
+        console.error("Seed error:", error);
+        res.status(500).json({ message: "حدث خطأ أثناء إضافة البيانات" });
+      }
+    });
+  }
 
   const httpServer = createServer(app);
 

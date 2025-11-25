@@ -5,17 +5,13 @@ import * as z from "zod";
 import { Club } from "./Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Upload, Calendar, User, MapPin, Phone, Shield, Activity } from "lucide-react";
+import { Upload, User, Phone, Shield, Activity, Loader } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-// Zod Schema for Validation
 const formSchema = z.object({
   fullName: z.string().min(10, "الاسم يجب أن يكون رباعياً على الأقل"),
   birthDate: z.string().refine((val) => val !== "", "تاريخ الميلاد مطلوب"),
@@ -39,6 +35,7 @@ interface RegistrationFormProps {
 
 export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,12 +51,12 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
       position: "",
       height: "",
       weight: "",
-      previousClub: "لا يوجد",
-      medicalHistory: "لا يوجد",
+      previousClub: "",
+      medicalHistory: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!selectedClub) {
       toast({
         title: "تنبيه",
@@ -69,12 +66,37 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
       return;
     }
 
-    console.log(values);
-    toast({
-      title: "تم التسجيل بنجاح",
-      description: `تم إرسال استمارة اللاعب ${values.fullName} إلى ${selectedClub.name}`,
-      className: "bg-green-600 text-white border-none",
-    });
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/players", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...values,
+          clubId: selectedClub.id,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "فشل حفظ البيانات");
+      }
+
+      toast({
+        title: "تم التسجيل بنجاح",
+        description: `تم إرسال استمارة اللاعب ${values.fullName} إلى ${selectedClub.name}`,
+        className: "bg-green-600 text-white border-none",
+      });
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "خطأ",
+        description: error instanceof Error ? error.message : "حدث خطأ أثناء حفظ البيانات",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -105,7 +127,7 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                       <FormItem className="col-span-1 md:col-span-2">
                         <FormLabel>الاسم رباعي</FormLabel>
                         <FormControl>
-                          <Input placeholder="اكتب اسم اللاعب كاملاً..." {...field} className="bg-muted/30" />
+                          <Input placeholder="اكتب اسم اللاعب كاملاً..." {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -119,7 +141,7 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                       <FormItem>
                         <FormLabel>الرقم القومي (١٤ رقم)</FormLabel>
                         <FormControl>
-                          <Input placeholder="الرقم الموجود في شهادة الميلاد" maxLength={14} {...field} className="bg-muted/30" />
+                          <Input placeholder="الرقم الموجود في شهادة الميلاد" maxLength={14} {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -133,21 +155,21 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                       <FormItem>
                         <FormLabel>تاريخ الميلاد</FormLabel>
                         <FormControl>
-                          <Input type="date" {...field} className="bg-muted/30" />
+                          <Input type="date" {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                   <FormField
+                  <FormField
                     control={form.control}
                     name="birthPlace"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>محل الميلاد</FormLabel>
                         <FormControl>
-                          <Input placeholder="المحافظة / المدينة" {...field} className="bg-muted/30" />
+                          <Input placeholder="المحافظة / المدينة" {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -161,7 +183,7 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                       <FormItem>
                         <FormLabel>المدرسة / الجامعة</FormLabel>
                         <FormControl>
-                          <Input placeholder="اسم المدرسة أو الكلية" {...field} className="bg-muted/30" />
+                          <Input placeholder="اسم المدرسة أو الكلية" {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -185,7 +207,7 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                       <FormItem className="col-span-1 md:col-span-2">
                         <FormLabel>العنوان بالتفصيل</FormLabel>
                         <FormControl>
-                          <Input placeholder="اسم الشارع، رقم المنزل، المنطقة..." {...field} className="bg-muted/30" />
+                          <Input placeholder="اسم الشارع، رقم المنزل، المنطقة..." {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -197,9 +219,9 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>رقم هاتف اللاعب (إن وجد)</FormLabel>
+                        <FormLabel>رقم هاتف اللاعب</FormLabel>
                         <FormControl>
-                          <Input placeholder="01xxxxxxxxx" {...field} className="bg-muted/30" />
+                          <Input placeholder="01xxxxxxxxx" {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -213,21 +235,21 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                       <FormItem>
                         <FormLabel>رقم هاتف ولي الأمر</FormLabel>
                         <FormControl>
-                          <Input placeholder="01xxxxxxxxx" {...field} className="bg-muted/30" />
+                          <Input placeholder="01xxxxxxxxx" {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                   <FormField
+                  <FormField
                     control={form.control}
                     name="guardianName"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>اسم ولي الأمر</FormLabel>
                         <FormControl>
-                          <Input placeholder="الاسم ثلاثي" {...field} className="bg-muted/30" />
+                          <Input placeholder="الاسم ثلاثي" {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -250,23 +272,19 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>مركز اللعب</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value} dir="rtl">
+                        <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting} dir="rtl">
                           <FormControl>
                             <SelectTrigger className="bg-muted/30">
                               <SelectValue placeholder="اختر المركز" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="gk">حارس مرمى (GK)</SelectItem>
-                            <SelectItem value="cb">مدافع (CB)</SelectItem>
-                            <SelectItem value="lb">ظهير أيسر (LB)</SelectItem>
-                            <SelectItem value="rb">ظهير أيمن (RB)</SelectItem>
-                            <SelectItem value="cdm">وسط مدافع (CDM)</SelectItem>
-                            <SelectItem value="cm">وسط ملعب (CM)</SelectItem>
-                            <SelectItem value="cam">صانع ألعاب (CAM)</SelectItem>
-                            <SelectItem value="lw">جناح أيسر (LW)</SelectItem>
-                            <SelectItem value="rw">جناح أيمن (RW)</SelectItem>
-                            <SelectItem value="st">مهاجم صريح (ST)</SelectItem>
+                            <SelectItem value="gk">حارس مرمى</SelectItem>
+                            <SelectItem value="cb">مدافع</SelectItem>
+                            <SelectItem value="lb">ظهير أيسر</SelectItem>
+                            <SelectItem value="rb">ظهير أيمن</SelectItem>
+                            <SelectItem value="cm">وسط ملعب</SelectItem>
+                            <SelectItem value="st">مهاجم</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -281,7 +299,7 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                       <FormItem>
                         <FormLabel>الطول (سم)</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="175" {...field} className="bg-muted/30" />
+                          <Input type="number" placeholder="175" {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -295,7 +313,7 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                       <FormItem>
                         <FormLabel>الوزن (كجم)</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="70" {...field} className="bg-muted/30" />
+                          <Input type="number" placeholder="70" {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -307,9 +325,9 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                     name="previousClub"
                     render={({ field }) => (
                       <FormItem className="md:col-span-3">
-                        <FormLabel>النادي السابق (إن وجد)</FormLabel>
+                        <FormLabel>النادي السابق</FormLabel>
                         <FormControl>
-                          <Input placeholder="اكتب اسم النادي السابق..." {...field} className="bg-muted/30" />
+                          <Input placeholder="اكتب اسم النادي السابق..." {...field} disabled={isSubmitting} className="bg-muted/30" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -318,39 +336,22 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                 </div>
               </div>
 
-              {/* Section 4: Documents Upload (Mock) */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-primary pb-2 border-b">
-                  <Shield className="h-5 w-5" />
-                  <h3 className="font-bold text-lg">المرفقات</h3>
-                </div>
-
-                <div className="grid grid-cols-1 gap-4">
-                   <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center hover:bg-muted/10 transition-colors cursor-pointer bg-muted/5">
-                      <Upload className="h-10 w-10 mx-auto text-muted-foreground mb-2" />
-                      <p className="text-sm font-medium">صورة شخصية حديثة (٤*٦)</p>
-                      <p className="text-xs text-muted-foreground mt-1">اضغط لرفع الصورة</p>
-                   </div>
-                   
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                     <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:bg-muted/10 transition-colors cursor-pointer bg-muted/5">
-                        <p className="text-sm font-medium">صورة شهادة الميلاد</p>
-                     </div>
-                     <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:bg-muted/10 transition-colors cursor-pointer bg-muted/5">
-                        <p className="text-sm font-medium">صورة بطاقة ولي الأمر</p>
-                     </div>
-                   </div>
-                </div>
-              </div>
-
               <Separator className="my-8" />
 
               <Button 
                 type="submit" 
                 className="w-full h-12 text-lg font-bold shadow-lg hover:scale-[1.01] transition-transform"
+                disabled={isSubmitting}
                 style={{ backgroundColor: selectedClub?.primaryColor || 'var(--color-primary)' }}
               >
-                حفظ البيانات وإرسال الاستمارة
+                {isSubmitting ? (
+                  <>
+                    <Loader className="h-5 w-5 animate-spin ml-2" />
+                    جاري الحفظ...
+                  </>
+                ) : (
+                  "حفظ البيانات وإرسال الاستمارة"
+                )}
               </Button>
             </form>
           </Form>
