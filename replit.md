@@ -14,6 +14,7 @@ Soccer Hunters is a web-based player assessment registration platform for Egypti
 5. **Club Dashboard** - Admin panel to manage registrations and view revenue
 6. **Database Schema** - PostgreSQL with assessments and clubs tables
 7. **Admin Routes** - API endpoints for registration, payment, and club management
+8. **Professional Backend** - Service layer with error handling, validation, caching, and export functionality
 
 ### 🎯 Key Pages
 - **Home** (`/`) - Public registration and club selection
@@ -37,15 +38,52 @@ Soccer Hunters is a web-based player assessment registration platform for Egypti
 - React Hook Form for form validation
 
 **Backend (Express + TypeScript)**
-- RESTful API structure
+- RESTful API structure with professional error handling
+- Service layer pattern (auth, assessment, payment, stats, export)
 - Express session management for authentication
-- Stripe payment processing
-- Database abstraction layer with Drizzle ORM
+- Stripe payment processing with webhook support
+- Memory-based storage (TODO: switch to Neon PostgreSQL)
+- Request validation with Zod schemas
+- Response formatting middleware for consistent API responses
+- Built-in caching system for stats
 
-**Database (PostgreSQL)**
+**Database (In-Memory - Development)**
 - `clubs` - Club info, logo, pricing, credentials
 - `assessments` - Player registration and payment data
-- Session store via connect-pg-simple
+- Pre-populated with sample club (النادي الأهلي - Al Ahly)
+
+### 🔧 Backend Services
+
+1. **AuthService** - Club login and access control
+2. **AssessmentService** - Assessment registration and validation
+3. **PaymentService** - Stripe checkout and payment verification
+4. **StatsService** - Club and platform statistics with caching
+5. **ExportService** - CSV and JSON export functionality
+
+### 📋 API Endpoints
+
+**Authentication**
+- `POST /api/auth/login` - Club login
+- `POST /api/auth/logout` - Club logout
+- `GET /api/auth/me` - Current club info
+
+**Assessments**
+- `POST /api/assessments` - Create new assessment registration
+- `GET /api/assessments` - List assessments (auth required)
+- `GET /api/assessments/stats` - Detailed club statistics
+- `GET /api/assessments/export/csv` - Export as CSV
+- `GET /api/assessments/export/json` - Export as JSON
+- `DELETE /api/assessments/:id` - Delete assessment record
+
+**Statistics**
+- `GET /api/stats/club` - Club dashboard stats (auth required)
+- `GET /api/stats/platform` - Platform-wide stats
+
+**Payment**
+- `GET /api/checkout/status` - Verify payment status
+
+**Clubs**
+- `GET /api/clubs/:clubId` - Get public club information
 
 ## Technical Decisions
 
@@ -53,27 +91,82 @@ Soccer Hunters is a web-based player assessment registration platform for Egypti
 2. **Session-based Auth** - Server-side sessions for security
 3. **Assessments Table** - Renamed from "players" to reflect assessment registration flow
 4. **Price per Club** - Each club can set different assessment fees
-5. **Centralized Header** - Consistent club selection across the app
+5. **Service Layer** - Professional separation of concerns
+6. **In-Memory Storage** - Development storage (TODO: migrate to Neon)
+7. **Error Handling Classes** - Comprehensive error management
+8. **Response Formatting Middleware** - Consistent API responses
 
 ## User Preferences
 
 - Simple, everyday Arabic language
 - Professional, modern design with club branding
 - Fast, efficient implementation focus
-- Clean code structure
+- Clean code structure with type safety
+- Best practices for error handling
 
-## Next Steps for Production
+## Testing
 
-1. Add club management API for creating/updating clubs
-2. Implement email notifications for payment confirmation
-3. Add assessment scheduling and location management
-4. Set up Stripe webhook handlers for payment events
-5. Create export functionality for admin reports
-6. Add multi-language support
-7. Implement SSL certificates for production
+**Available Test Users:**
+- Club: النادي الأهلي (Al Ahly)
+- Username: `ahly`
+- Password: `ahly123`
+- Assessment Fee: 5000 EGP
 
-## Database Notes
+**API Testing:**
+```bash
+# Login
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"ahly","password":"ahly123"}'
 
-- Current schema uses assessments table for player registration data
-- Payment status tracks Stripe checkout sessions
-- Assessment price stored per registration for audit trail
+# Get club info
+curl http://localhost:5000/api/clubs/al-ahly
+```
+
+## Deployment Status
+
+The application is ready for development use with in-memory storage. For production:
+
+1. **Database Migration** - Switch from memory to Neon PostgreSQL
+2. **Environment Setup** - Configure Stripe webhooks and API keys
+3. **Email Notifications** - Add payment confirmation emails
+4. **Assessment Scheduling** - Implement tryout date management
+5. **SSL Certificates** - Install TLS for production
+6. **Health Checks** - Add readiness and liveness probes
+
+## Known Issues & TODOs
+
+- ✅ Backend API fully functional
+- ✅ Payment integration structure ready
+- ✅ Error handling and validation complete
+- ⚠️ Database: Currently using in-memory storage (TODO: migrate to Neon)
+- ⚠️ Webhooks: Stripe webhook handlers need environment setup
+- 📝 Email: Notification system not yet implemented
+- 📝 Admin Panel: Club management UI in progress
+
+## File Structure
+
+```
+server/
+├── routes.ts           # All API endpoints
+├── services/
+│   ├── auth.service.ts
+│   ├── assessment.service.ts
+│   ├── payment.service.ts
+│   ├── stats.service.ts
+│   └── export.service.ts
+├── middleware.ts       # Express middleware
+├── errors.ts          # Error classes
+├── validators.ts      # Zod schemas
+├── storage-memory.ts  # In-memory storage (development)
+├── cache.ts           # Caching system
+└── types.ts           # TypeScript types
+
+client/
+├── src/
+│   ├── pages/         # Route pages
+│   ├── components/    # React components
+│   └── hooks/         # Custom hooks
+└── index.html         # HTML template
+```
+
