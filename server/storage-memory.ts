@@ -168,6 +168,105 @@ export class MemoryStorage implements IStorage {
   async deleteAssessment(id: number): Promise<void> {
     assessments = assessments.filter((a) => a.id !== id);
   }
+
+  // Add some sample assessments with various statuses for testing
+  async initializeSampleData(): Promise<void> {
+    if (assessments.length === 0) {
+      // Add sample assessments with different result statuses
+      assessments = [
+        {
+          id: 5,
+          clubId: "al-ahly",
+          fullName: "علي محمود أحمد",
+          birthDate: "2005-05-15",
+          birthPlace: "القاهرة",
+          nationalId: "30005151234567",
+          address: "القاهرة - مصر الجديدة",
+          phone: "01012345678",
+          guardianPhone: "01087654321",
+          guardianName: "محمود أحمد",
+          school: "مدرسة النيل",
+          position: "مهاجم",
+          height: "175",
+          weight: "70",
+          previousClub: "نادي الجزيرة",
+          medicalHistory: "لا توجد",
+          paymentStatus: "completed",
+          assessmentPrice: 5000,
+          assessmentDate: new Date("2025-02-01"),
+          assessmentLocation: "ملعب النادي الأهلي",
+          assessmentStatus: "completed",
+          resultStatus: "accepted",
+          stripeCheckoutSessionId: null,
+          stripePaymentIntentId: null,
+          notes: "أداء ممتاز",
+          createdAt: new Date("2025-01-15"),
+          updatedAt: new Date("2025-01-30"),
+        },
+        {
+          id: 6,
+          clubId: "zamalek",
+          fullName: "محمد أحمد علي",
+          birthDate: "2006-08-20",
+          birthPlace: "الإسكندرية",
+          nationalId: "30006201234567",
+          address: "الإسكندرية - سيدي بشر",
+          phone: "01098765432",
+          guardianPhone: "01056789123",
+          guardianName: "أحمد علي",
+          school: "مدرسة الإسكندرية",
+          position: "لاعب وسط",
+          height: "172",
+          weight: "68",
+          previousClub: "نادي الشرقية",
+          medicalHistory: "لا توجد",
+          paymentStatus: "completed",
+          assessmentPrice: 5000,
+          assessmentDate: new Date("2025-02-05"),
+          assessmentLocation: "ملعب الزمالك",
+          assessmentStatus: "completed",
+          resultStatus: "rejected",
+          stripeCheckoutSessionId: null,
+          stripePaymentIntentId: null,
+          notes: "يحتاج تطوير في التمرير",
+          createdAt: new Date("2025-01-10"),
+          updatedAt: new Date("2025-01-28"),
+        },
+        {
+          id: 7,
+          clubId: "pyramids",
+          fullName: "يوسف محمد أحمد",
+          birthDate: "2005-12-10",
+          birthPlace: "المنيا",
+          nationalId: "30005121234567",
+          address: "المنيا",
+          phone: "01123456789",
+          guardianPhone: "01145678901",
+          guardianName: "محمد أحمد",
+          school: "مدرسة المنيا",
+          position: "حارس",
+          height: "188",
+          weight: "75",
+          previousClub: "نادي المنيا",
+          medicalHistory: "لا توجد",
+          paymentStatus: "pending",
+          assessmentPrice: 4500,
+          assessmentDate: null,
+          assessmentLocation: null,
+          assessmentStatus: "registered",
+          resultStatus: null,
+          stripeCheckoutSessionId: null,
+          stripePaymentIntentId: null,
+          notes: null,
+          createdAt: new Date("2025-01-20"),
+          updatedAt: new Date("2025-01-20"),
+        },
+      ];
+    }
+  }
 }
 
 export const storage = new MemoryStorage();
+
+// Initialize sample data
+storage.initializeSampleData();

@@ -481,6 +481,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
     })
   );
 
+  // ==================== PLAYER ROUTES ====================
+  // Player login
+  app.post(
+    "/api/player/login",
+    asyncHandler(async (req, res) => {
+      const { phone, nationalId } = req.body;
+
+      if (!phone || !nationalId) {
+        throw new ValidationError("رقم الهاتف والرقم القومي مطلوبان");
+      }
+
+      // Check if player has assessment with this phone and national ID
+      const allClubs = await storage.getAllClubs();
+      let assessment = null;
+      
+      for (const club of allClubs) {
+        const assessments = await storage.getAssessmentsByClubId(club.clubId);
+        const found = assessments.find(a => a.phone === phone && a.nationalId === nationalId);
+        if (found) {
+          assessment = found;
+          break;
+        }
+      }
+
+      if (!assessment) {
+        throw new AuthenticationError("لم نجد سجل بهذه البيانات");
+      }
+
+      res.json({ message: "تم التحقق بنجاح" });
+    })
+  );
+
+  // Get player assessments
+  app.get(
+    "/api/player/assessments",
+    asyncHandler(async (req, res) => {
+      const { phone, nationalId } = req.query;
+
+      if (!phone || !nationalId) {
+        throw new ValidationError("رقم الهاتف والرقم القومي مطلوبان");
+      }
+
+      const allClubs = await storage.getAllClubs();
+      const playerAssessments: any[] = [];
+      
+      for (const club of allClubs) {
+        const assessments = await storage.getAssessmentsByClubId(club.clubId);
+        const found = assessments.filter(a => a.phone === phone && a.nationalId === nationalId);
+        playerAssessments.push(...found);
+      }
+
+      res.json(playerAssessments);
+    })
+  );
+
+  // Get all clubs (public)
+  app.get(
+    "/api/clubs",
+    asyncHandler(async (req, res) => {
+      const clubs = await storage.getAllClubs();
+      const clubsData = clubs.map(club => ({
+        clubId: club.clubId,
+        name: club.name,
+        logoUrl: club.logoUrl,
+        primaryColor: club.primaryColor,
+      }));
+      res.json(clubsData);
+    })
+  );
+
   // Error handler (must be last)
   app.use(errorHandler);
 

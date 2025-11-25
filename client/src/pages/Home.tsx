@@ -35,8 +35,8 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Admin Cards */}
-        <div className="max-w-4xl mx-auto mb-12 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* User Type Selection */}
+        <div className="max-w-4xl mx-auto mb-12 grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Club Admin */}
           <Card className="bg-primary/5 border-primary/20 p-6 text-center">
             <h3 className="text-xl font-bold mb-2 text-foreground">مسؤول النادي؟</h3>
@@ -71,6 +71,25 @@ export default function Home() {
               <a href="/admin/login">
                 <Settings className="h-5 w-5" />
                 لوحة التحكم
+              </a>
+            </Button>
+          </Card>
+
+          {/* Player */}
+          <Card className="bg-purple-50 border-purple-200 p-6 text-center">
+            <h3 className="text-xl font-bold mb-2 text-purple-900">اللاعب؟</h3>
+            <p className="text-purple-700 mb-4 text-sm">
+              تتبع حالة اختبارك ومعرفة نتيجتك
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="gap-2 w-full bg-purple-600 hover:bg-purple-700"
+              data-testid="button-player-login"
+            >
+              <a href="/player/login">
+                <LogIn className="h-5 w-5" />
+                دخول اللاعب
               </a>
             </Button>
           </Card>

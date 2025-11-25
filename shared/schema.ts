@@ -68,6 +68,7 @@ export const assessments = pgTable("assessments", {
   assessmentDate: timestamp("assessment_date"),
   assessmentLocation: text("assessment_location"),
   assessmentStatus: text("assessment_status").notNull().default("registered"), // registered, in_progress, completed, not_attended
+  resultStatus: text("result_status"), // accepted, rejected, null = pending
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

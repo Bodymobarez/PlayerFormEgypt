@@ -11,6 +11,8 @@ import Checkout from "@/pages/Checkout";
 import AdminSettings from "@/pages/AdminSettings";
 import AdminMasterLogin from "@/pages/AdminMasterLogin";
 import AdminMasterPanel from "@/pages/AdminMasterPanel";
+import PlayerLogin from "@/pages/PlayerLogin";
+import PlayerDashboard from "@/pages/PlayerDashboard";
 
 function Router() {
   return (
@@ -21,6 +23,8 @@ function Router() {
       <Route path="/admin/settings" component={AdminSettings} />
       <Route path="/admin/login" component={AdminMasterLogin} />
       <Route path="/admin/master" component={AdminMasterPanel} />
+      <Route path="/player/login" component={PlayerLogin} />
+      <Route path="/player/dashboard" component={PlayerDashboard} />
       <Route path="/checkout" component={Checkout} />
       <Route component={NotFound} />
     </Switch>
@@ -31,10 +35,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div dir="rtl">
-          <Router />
-          <Toaster />
-        </div>
+        <Router />
+        <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
   );
