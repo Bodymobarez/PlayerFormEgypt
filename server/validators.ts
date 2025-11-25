@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
+import { ValidationError } from "./errors";
 
 // Auth validators
 export const loginSchema = z.object({
@@ -37,7 +38,7 @@ export function validateData<T>(schema: z.ZodSchema, data: any): T {
   const result = schema.safeParse(data);
   if (!result.success) {
     const errors = fromZodError(result.error);
-    throw new Error(errors.message);
+    throw new ValidationError(errors.message);
   }
   return result.data as T;
 }

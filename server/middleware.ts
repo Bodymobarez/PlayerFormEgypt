@@ -36,16 +36,9 @@ export function responseFormatter(
   const originalJson = res.json;
 
   res.json = function (body: any) {
-    if (body instanceof AppError || body.code) {
-      return originalJson.call(this, {
-        success: false,
-        error: {
-          code: body.code || "UNKNOWN_ERROR",
-          message: body.message || "An error occurred",
-          details: body.details,
-        },
-        timestamp: new Date().toISOString(),
-      } as ApiResponse<any>);
+    // Don't format if already formatted
+    if (body && typeof body === "object" && ("success" in body || "error" in body)) {
+      return originalJson.call(this, body);
     }
 
     return originalJson.call(this, {
