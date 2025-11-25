@@ -12,14 +12,20 @@ interface Club {
 export function useAuth() {
   const [, navigate] = useLocation();
 
-  const { data: club, isLoading, error } = useQuery<Club | null>({
+  const { data: club, isLoading } = useQuery<Club | null>({
     queryKey: ["auth", "me"],
     queryFn: async () => {
-      const response = await fetch("/api/auth/me");
-      if (!response.ok) return null;
-      const data = await response.json();
-      return data.club;
+      try {
+        const response = await fetch("/api/auth/me");
+        if (!response.ok) return null;
+        const data = await response.json();
+        return data.data?.club || null;
+      } catch {
+        return null;
+      }
     },
+    retry: false,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const loginMutation = useMutation({
