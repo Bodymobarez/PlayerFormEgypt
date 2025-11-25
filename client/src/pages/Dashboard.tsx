@@ -29,7 +29,8 @@ export default function Dashboard() {
     queryFn: async () => {
       const response = await fetch("/api/assessments");
       if (!response.ok) throw new Error("فشل جلب البيانات");
-      return response.json();
+      const json = await response.json();
+      return json.data || [];
     },
   });
 
