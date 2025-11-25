@@ -1,7 +1,7 @@
 import { type User, type InsertUser, type Club, type InsertClub, type Assessment, type InsertAssessment } from "@shared/schema";
 
 let users: User[] = [];
-// Hash generated with bcrypt for password "ahly123"
+// All clubs with hashed passwords (generated with bcrypt)
 let clubs: (Club)[] = [
   {
     id: 1,
@@ -16,10 +16,49 @@ let clubs: (Club)[] = [
     stripePriceId: null,
     createdAt: new Date("2025-01-01"),
   },
+  {
+    id: 2,
+    clubId: "zamalek",
+    name: "نادي الزمالك",
+    logoUrl: "/logos/zamalek.png",
+    primaryColor: "hsl(222 47% 11%)",
+    username: "zamalek",
+    password: "$2b$10$ys.vYCLcSFSUKsFUDm3gpeZTTaaFbheDjAbRku.oopc2/0/KvVZUW", // password: "zamalek123"
+    assessmentPrice: 5000,
+    stripeProductId: null,
+    stripePriceId: null,
+    createdAt: new Date("2025-01-01"),
+  },
+  {
+    id: 3,
+    clubId: "pyramids",
+    name: "نادي بيراميدز",
+    logoUrl: "/logos/pyramids.png",
+    primaryColor: "hsl(210 60% 30%)",
+    username: "pyramids",
+    password: "$2b$10$QUWdAtXZ52gNb7H5ocrsMuHnxKqQXkysOGSxjemnKBNmgp1AzNJhu", // password: "pyramids123"
+    assessmentPrice: 4500,
+    stripeProductId: null,
+    stripePriceId: null,
+    createdAt: new Date("2025-01-01"),
+  },
+  {
+    id: 4,
+    clubId: "al-masry",
+    name: "النادي المصري",
+    logoUrl: "/logos/al_masry.png",
+    primaryColor: "hsl(140 60% 35%)",
+    username: "masry",
+    password: "$2b$10$TAm4ZTtgoKz02U1js4u.DuB1erUyDMNWmR27m9qvaRhd1T4Csxunq", // password: "masry123"
+    assessmentPrice: 4500,
+    stripeProductId: null,
+    stripePriceId: null,
+    createdAt: new Date("2025-01-01"),
+  },
 ];
 let assessments: Assessment[] = [];
 let nextUserId = 1;
-let nextAssessmentId = 1;
+let nextAssessmentId = 5;
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
