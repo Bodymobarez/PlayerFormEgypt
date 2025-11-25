@@ -6,7 +6,7 @@ import { RegistrationForm } from "@/components/RegistrationForm";
 import { Club } from "@/components/Header";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { LogIn } from "lucide-react";
+import { LogIn, Settings } from "lucide-react";
 
 export default function Home() {
   const { club: authClub, isAuthenticated } = useAuth();
@@ -35,22 +35,42 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Admin Login Card */}
-        <div className="max-w-4xl mx-auto mb-12">
+        {/* Admin Cards */}
+        <div className="max-w-4xl mx-auto mb-12 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Club Admin */}
           <Card className="bg-primary/5 border-primary/20 p-6 text-center">
             <h3 className="text-xl font-bold mb-2 text-foreground">مسؤول النادي؟</h3>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-muted-foreground mb-4 text-sm">
               قم بتسجيل الدخول لعرض والتحكم في قائمة اللاعبين المسجلين
             </p>
             <Button
               asChild
               size="lg"
-              className="gap-2"
-              data-testid="button-admin-login"
+              className="gap-2 w-full"
+              data-testid="button-club-admin-login"
             >
               <a href="/login">
                 <LogIn className="h-5 w-5" />
-                تسجيل دخول الإدارة
+                دخول النادي
+              </a>
+            </Button>
+          </Card>
+
+          {/* Master Admin */}
+          <Card className="bg-blue-50 border-blue-200 p-6 text-center">
+            <h3 className="text-xl font-bold mb-2 text-blue-900">مسؤول البلاتفورم؟</h3>
+            <p className="text-blue-700 mb-4 text-sm">
+              لوحة تحكم رئيسية لإدارة جميع الأندية والاختبارات والأسعار
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="gap-2 w-full bg-blue-600 hover:bg-blue-700"
+              data-testid="button-master-admin-login"
+            >
+              <a href="/admin/login">
+                <Settings className="h-5 w-5" />
+                لوحة التحكم
               </a>
             </Button>
           </Card>
