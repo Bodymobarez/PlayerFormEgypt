@@ -185,6 +185,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     })
   );
 
+  app.put(
+    "/api/assessments/:id",
+    requireAuth,
+    asyncHandler(async (req, res) => {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        throw new ValidationError("Invalid assessment ID");
+      }
+
+      const { assessmentDate, assessmentLocation, resultStatus } = req.body;
+      const updated = await storage.updateAssessment(id, {
+        ...(assessmentDate && { assessmentDate: new Date(assessmentDate) }),
+        ...(assessmentLocation && { assessmentLocation }),
+        ...(resultStatus && { resultStatus }),
+        updatedAt: new Date(),
+      });
+
+      if (!updated) {
+        throw new NotFoundError("Assessment");
+      }
+
+      statsService.invalidateStats(req.session.clubId!);
+      res.json(updated);
+    })
+  );
+
   app.delete(
     "/api/assessments/:id",
     requireAuth,
