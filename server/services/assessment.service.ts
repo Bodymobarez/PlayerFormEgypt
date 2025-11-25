@@ -75,9 +75,13 @@ export class AssessmentService {
       position: assessment.position,
       phone: assessment.phone,
       birthDate: assessment.birthDate,
+      birthPlace: assessment.birthPlace,
       paymentStatus: assessment.paymentStatus,
       assessmentPrice: assessment.assessmentPrice,
       createdAt: assessment.createdAt,
+      assessmentDate: assessment.assessmentDate,
+      assessmentLocation: assessment.assessmentLocation,
+      resultStatus: assessment.resultStatus,
     };
   }
 
