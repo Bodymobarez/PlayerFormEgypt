@@ -9,6 +9,8 @@ import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
 import Checkout from "@/pages/Checkout";
 import AdminSettings from "@/pages/AdminSettings";
+import AdminMasterLogin from "@/pages/AdminMasterLogin";
+import AdminMasterPanel from "@/pages/AdminMasterPanel";
 
 function Router() {
   return (
@@ -17,6 +19,8 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/admin/settings" component={AdminSettings} />
+      <Route path="/admin/login" component={AdminMasterLogin} />
+      <Route path="/admin/master" component={AdminMasterPanel} />
       <Route path="/checkout" component={Checkout} />
       <Route component={NotFound} />
     </Switch>

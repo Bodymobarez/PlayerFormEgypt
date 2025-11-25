@@ -27,6 +27,7 @@ declare module "express-session" {
   interface SessionData {
     clubId?: string;
     clubUsername?: string;
+    isAdmin?: boolean;
   }
 }
 
@@ -346,11 +347,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
     );
   }
 
-  // ==================== ADMIN ROUTES ====================
+  // ==================== MASTER ADMIN ROUTES ====================
+  // Master admin login
+  app.post(
+    "/api/admin/login",
+    asyncHandler(async (req, res) => {
+      const { password } = req.body;
+      const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+      
+      if (password !== adminPassword) {
+        throw new AuthenticationError("كلمة المرور غير صحيحة");
+      }
+
+      req.session.isAdmin = true;
+      res.json({ message: "تم تسجيل الدخول بنجاح" });
+    })
+  );
+
+  // Check admin session
+  app.get(
+    "/api/admin/session",
+    asyncHandler(async (req, res) => {
+      res.json({ isAdmin: !!req.session.isAdmin });
+    })
+  );
+
+  // Master admin logout
+  app.post(
+    "/api/admin/logout",
+    asyncHandler(async (req, res) => {
+      return new Promise((resolve) => {
+        req.session.destroy((err) => {
+          if (err) {
+            throw new Error("Logout failed");
+          }
+          res.json({ message: "تم تسجيل الخروج بنجاح" });
+          resolve(undefined);
+        });
+      });
+    })
+  );
+
   // Get all clubs for admin management
   app.get(
     "/api/admin/clubs",
     asyncHandler(async (req, res) => {
+      if (!req.session.isAdmin) {
+        throw new AuthenticationError("صلاحية إدارية مطلوبة");
+      }
+      
       const clubs = await storage.getAllClubs();
       const clubsData = clubs.map(club => ({
         id: club.id,
@@ -365,10 +410,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
     })
   );
 
+  // Get all assessments for admin
+  app.get(
+    "/api/admin/assessments",
+    asyncHandler(async (req, res) => {
+      if (!req.session.isAdmin) {
+        throw new AuthenticationError("صلاحية إدارية مطلوبة");
+      }
+
+      const clubs = await storage.getAllClubs();
+      const allAssessments: any[] = [];
+      
+      for (const club of clubs) {
+        const assessments = await storage.getAssessmentsByClubId(club.clubId);
+        allAssessments.push(...assessments.map(a => ({
+          ...a,
+          clubId: club.clubId,
+        })));
+      }
+
+      res.json(allAssessments);
+    })
+  );
+
+  // Delete assessment (admin)
+  app.delete(
+    "/api/admin/assessments/:id",
+    asyncHandler(async (req, res) => {
+      if (!req.session.isAdmin) {
+        throw new AuthenticationError("صلاحية إدارية مطلوبة");
+      }
+
+      const id = parseInt(req.params.id);
+      await storage.deleteAssessment(id);
+      res.json({ message: "تم الحذف بنجاح" });
+    })
+  );
+
   // Update club settings (name, price, color, logo)
   app.put(
     "/api/admin/clubs/:clubId",
     asyncHandler(async (req, res) => {
+      if (!req.session.isAdmin) {
+        throw new AuthenticationError("صلاحية إدارية مطلوبة");
+      }
+
       const { clubId } = req.params;
       const { name, assessmentPrice, primaryColor, logoUrl } = req.body;
 
