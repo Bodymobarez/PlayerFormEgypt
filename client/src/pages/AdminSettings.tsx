@@ -31,7 +31,8 @@ export default function AdminSettings() {
     queryFn: async () => {
       const response = await fetch("/api/admin/clubs");
       if (!response.ok) throw new Error("فشل جلب البيانات");
-      return response.json();
+      const json = await response.json();
+      return json.data || [];
     },
   });
 
