@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Upload, User, Phone, Shield, Activity, Loader } from "lucide-react";
+import { User, Phone, Shield, Activity, Loader } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
@@ -68,12 +68,13 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/players", {
+      const response = await fetch("/api/assessments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
           clubId: selectedClub.id,
+          assessmentPrice: selectedClub.assessmentPrice,
         }),
       });
 
@@ -82,11 +83,19 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
         throw new Error(error.message || "فشل حفظ البيانات");
       }
 
+      const data = await response.json();
+
       toast({
         title: "تم التسجيل بنجاح",
-        description: `تم إرسال استمارة اللاعب ${values.fullName} إلى ${selectedClub.name}`,
+        description: "سيتم توجيهك للدفع الآن",
         className: "bg-green-600 text-white border-none",
       });
+
+      // Redirect to checkout
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      }
+      
       form.reset();
     } catch (error) {
       toast({
@@ -103,9 +112,15 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
     <div className="max-w-4xl mx-auto py-8 px-4 md:px-0">
       <Card className="shadow-xl border-t-4" style={{ borderTopColor: selectedClub?.primaryColor || 'var(--color-primary)' }}>
         <CardHeader className="text-center space-y-2 pb-8">
-          <CardTitle className="text-3xl font-bold text-foreground">استمارة قيد لاعب</CardTitle>
+          <CardTitle className="text-3xl font-bold text-foreground">استمارة اختبار اللاعب</CardTitle>
           <CardDescription className="text-lg">
-            {selectedClub ? `استمارة تسجيل خاصة بـ ${selectedClub.name}` : "يرجى اختيار النادي للبدء في التسجيل"}
+            {selectedClub ? (
+              <>
+                تسجيل في اختبارات {selectedClub.name}
+                <br />
+                <span className="text-primary font-bold text-base">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(2)} جنيه</span>
+              </>
+            ) : "يرجى اختيار النادي للبدء في التسجيل"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -338,6 +353,10 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
 
               <Separator className="my-8" />
 
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-700">
+                بعد إتمام هذه الاستمارة، ستنتقل إلى صفحة الدفع لإتمام التسجيل في الاختبارات
+              </div>
+
               <Button 
                 type="submit" 
                 className="w-full h-12 text-lg font-bold shadow-lg hover:scale-[1.01] transition-transform"
@@ -347,10 +366,10 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                 {isSubmitting ? (
                   <>
                     <Loader className="h-5 w-5 animate-spin ml-2" />
-                    جاري الحفظ...
+                    جاري المتابعة...
                   </>
                 ) : (
-                  "حفظ البيانات وإرسال الاستمارة"
+                  `متابعة إلى الدفع - ${selectedClub ? (selectedClub.assessmentPrice / 100).toFixed(2) : '0'} جنيه`
                 )}
               </Button>
             </form>

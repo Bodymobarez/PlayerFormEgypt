@@ -28,10 +28,10 @@ export default function Home() {
       <main className="container mx-auto px-4 pt-8">
         <div className="max-w-4xl mx-auto mb-8 text-center space-y-2">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-            بوابة قطاع الناشئين
+            منصة اختبارات اللاعبين
           </h2>
           <p className="text-muted-foreground text-lg">
-            منصة التسجيل الإلكتروني الموحدة للأندية المصرية
+            سجل في اختبارات النادي واشترك في الموسم الجديد
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export default function Home() {
           <Card className="bg-primary/5 border-primary/20 p-6 text-center">
             <h3 className="text-xl font-bold mb-2 text-foreground">مسؤول النادي؟</h3>
             <p className="text-muted-foreground mb-4">
-              قم بتسجيل الدخول لعرض والتحكم في بيانات اللاعبين المسجلين
+              قم بتسجيل الدخول لعرض والتحكم في قائمة اللاعبين المسجلين
             </p>
             <Button
               asChild
@@ -61,8 +61,8 @@ export default function Home() {
 
       <footer className="border-t border-border mt-auto bg-white py-8 text-center text-sm text-muted-foreground">
         <div className="container mx-auto">
-          <p>© 2024 الاتحاد المصري لكرة القدم - جميع الحقوق محفوظة</p>
-          <p className="mt-1">تم التطوير بواسطة قطاع التكنولوجيا والمعلومات</p>
+          <p>© 2024 Soccer Hunters - جميع الحقوق محفوظة</p>
+          <p className="mt-1">منصة متخصصة في اختبارات لاعبي كرة القدم</p>
         </div>
       </footer>
     </div>

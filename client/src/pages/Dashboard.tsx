@@ -4,16 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Redirect } from "wouter";
-import { LogOut, Plus, Trash2 } from "lucide-react";
+import { LogOut, Trash2, CheckCircle, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-interface Player {
+interface Assessment {
   id: number;
   fullName: string;
   birthDate: string;
   position: string;
   phone: string;
   nationalId: string;
+  paymentStatus: "pending" | "completed" | "failed";
+  assessmentPrice: number;
+  createdAt: string;
 }
 
 export default function Dashboard() {
@@ -21,31 +24,31 @@ export default function Dashboard() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: players, isLoading } = useQuery<Player[]>({
-    queryKey: ["players"],
+  const { data: assessments, isLoading } = useQuery<Assessment[]>({
+    queryKey: ["assessments"],
     queryFn: async () => {
-      const response = await fetch("/api/players");
-      if (!response.ok) throw new Error("Failed to fetch players");
+      const response = await fetch("/api/assessments");
+      if (!response.ok) throw new Error("فشل جلب البيانات");
       return response.json();
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      const response = await fetch(`/api/players/${id}`, { method: "DELETE" });
-      if (!response.ok) throw new Error("Failed to delete player");
+      const response = await fetch(`/api/assessments/${id}`, { method: "DELETE" });
+      if (!response.ok) throw new Error("فشل الحذف");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["players"] });
+      queryClient.invalidateQueries({ queryKey: ["assessments"] });
       toast({
         title: "تم الحذف بنجاح",
-        description: "تم حذف اللاعب من السجل",
+        description: "تم حذف السجل من قائمة الاختبارات",
       });
     },
     onError: () => {
       toast({
         title: "خطأ",
-        description: "حدث خطأ أثناء حذف اللاعب",
+        description: "حدث خطأ أثناء حذف السجل",
         variant: "destructive",
       });
     },
@@ -53,6 +56,9 @@ export default function Dashboard() {
 
   if (authLoading) return <div className="p-8 text-center">جاري التحميل...</div>;
   if (!club) return <Redirect to="/login" />;
+
+  const completedPayments = assessments?.filter((a) => a.paymentStatus === "completed").length || 0;
+  const totalRevenue = assessments?.reduce((sum, a) => sum + (a.paymentStatus === "completed" ? a.assessmentPrice : 0), 0) || 0;
 
   return (
     <div
@@ -68,7 +74,7 @@ export default function Dashboard() {
             <img src={club.logoUrl} alt={club.name} className="h-12 w-12 object-contain" />
             <div>
               <h1 className="text-2xl font-bold text-foreground">{club.name}</h1>
-              <p className="text-sm text-muted-foreground">لوحة إدارة اللاعبين</p>
+              <p className="text-sm text-muted-foreground">لوحة إدارة الاختبارات</p>
             </div>
           </div>
           <Button
@@ -90,26 +96,38 @@ export default function Dashboard() {
           <Card>
             <CardContent className="pt-6">
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary">{players?.length || 0}</div>
-                <p className="text-muted-foreground mt-1">إجمالي اللاعبين المسجلين</p>
+                <div className="text-4xl font-bold text-primary">{assessments?.length || 0}</div>
+                <p className="text-muted-foreground mt-1">إجمالي التسجيلات</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-green-600">{completedPayments}</div>
+                <p className="text-muted-foreground mt-1">الدفعات المكتملة</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-blue-600">{(totalRevenue / 100).toFixed(2)} ج.م</div>
+                <p className="text-muted-foreground mt-1">إجمالي الإيرادات</p>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Players Table */}
+        {/* Assessments Table */}
         <Card className="shadow-lg">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-2xl">اللاعبون المسجلون</CardTitle>
-            <Button className="gap-2" data-testid="button-add-player">
-              <Plus className="h-4 w-4" />
-              إضافة لاعب
-            </Button>
+          <CardHeader>
+            <CardTitle className="text-2xl">قائمة التسجيلات</CardTitle>
           </CardHeader>
           <CardContent>
-            {!players || players.length === 0 ? (
+            {!assessments || assessments.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground mb-4">لا توجد بيانات لاعبين حتى الآن</p>
+                <p className="text-muted-foreground mb-4">لا توجد تسجيلات في الاختبارات حتى الآن</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
@@ -121,24 +139,40 @@ export default function Dashboard() {
                       <TableHead className="text-right">تاريخ الميلاد</TableHead>
                       <TableHead className="text-right">المركز</TableHead>
                       <TableHead className="text-right">الهاتف</TableHead>
+                      <TableHead className="text-right">الدفع</TableHead>
                       <TableHead className="text-right">الإجراءات</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {players.map((player) => (
-                      <TableRow key={player.id} data-testid={`row-player-${player.id}`}>
-                        <TableCell className="font-medium">{player.fullName}</TableCell>
-                        <TableCell>{player.nationalId}</TableCell>
-                        <TableCell>{player.birthDate}</TableCell>
-                        <TableCell>{player.position}</TableCell>
-                        <TableCell dir="ltr">{player.phone}</TableCell>
+                    {assessments.map((assessment) => (
+                      <TableRow key={assessment.id} data-testid={`row-assessment-${assessment.id}`}>
+                        <TableCell className="font-medium">{assessment.fullName}</TableCell>
+                        <TableCell>{assessment.nationalId}</TableCell>
+                        <TableCell>{assessment.birthDate}</TableCell>
+                        <TableCell>{assessment.position}</TableCell>
+                        <TableCell dir="ltr">{assessment.phone}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            {assessment.paymentStatus === "completed" ? (
+                              <>
+                                <CheckCircle className="h-4 w-4 text-green-600" />
+                                <span className="text-sm text-green-600">مدفوع</span>
+                              </>
+                            ) : (
+                              <>
+                                <Clock className="h-4 w-4 text-yellow-600" />
+                                <span className="text-sm text-yellow-600">في الانتظار</span>
+                              </>
+                            )}
+                          </div>
+                        </TableCell>
                         <TableCell>
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => deleteMutation.mutate(player.id)}
+                            onClick={() => deleteMutation.mutate(assessment.id)}
                             disabled={deleteMutation.isPending}
-                            data-testid={`button-delete-${player.id}`}
+                            data-testid={`button-delete-${assessment.id}`}
                           >
                             <Trash2 className="h-4 w-4 text-destructive" />
                           </Button>

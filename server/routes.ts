@@ -2,9 +2,11 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import session from "express-session";
-import { insertPlayerSchema, insertClubSchema } from "@shared/schema";
+import { insertAssessmentSchema, insertClubSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import bcrypt from "bcrypt";
+import Stripe from "stripe";
+import { getStripeSecretKey } from "./stripe-client";
 
 declare module "express-session" {
   interface SessionData {
@@ -17,7 +19,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Session middleware
   app.use(
     session({
-      secret: process.env.SESSION_SECRET || "egyptian-football-league-secret-2024",
+      secret: process.env.SESSION_SECRET || "soccer-hunters-secret-2024",
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -108,57 +110,128 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Player routes
-  app.post("/api/players", async (req, res) => {
+  // Assessment routes
+  app.post("/api/assessments", async (req, res) => {
     try {
-      const validation = insertPlayerSchema.safeParse(req.body);
+      const validation = insertAssessmentSchema.safeParse(req.body);
       if (!validation.success) {
         const error = fromZodError(validation.error);
         return res.status(400).json({ message: error.message });
       }
 
-      const player = await storage.createPlayer(validation.data);
-      res.status(201).json(player);
+      const assessment = await storage.createAssessment({
+        ...validation.data,
+        assessmentPrice: req.body.assessmentPrice,
+      });
+
+      // Create Stripe checkout session
+      try {
+        const stripe = new Stripe(await getStripeSecretKey());
+        const club = await storage.getClubByClubId(validation.data.clubId);
+
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ["card"],
+          line_items: [
+            {
+              price_data: {
+                currency: "egp",
+                unit_amount: req.body.assessmentPrice,
+                product_data: {
+                  name: `اختبار ${club?.name || "النادي"}`,
+                  description: `تسجيل اللاعب ${validation.data.fullName}`,
+                },
+              },
+              quantity: 1,
+            },
+          ],
+          mode: "payment",
+          success_url: `${req.protocol}://${req.get('host')}/checkout?session_id={CHECKOUT_SESSION_ID}&assessment_id=${assessment.id}`,
+          cancel_url: `${req.protocol}://${req.get('host')}/`,
+          metadata: {
+            assessmentId: assessment.id.toString(),
+          },
+        });
+
+        res.status(201).json({
+          assessment,
+          checkoutUrl: session.url,
+        });
+      } catch (stripeError) {
+        console.error("Stripe error:", stripeError);
+        res.status(201).json({ assessment, checkoutUrl: null });
+      }
     } catch (error) {
-      console.error("Create player error:", error);
-      res.status(500).json({ message: "حدث خطأ أثناء حفظ بيانات اللاعب" });
+      console.error("Create assessment error:", error);
+      res.status(500).json({ message: "حدث خطأ أثناء حفظ البيانات" });
     }
   });
 
-  app.get("/api/players", requireAuth, async (req, res) => {
+  app.get("/api/assessments", requireAuth, async (req, res) => {
     try {
-      const players = await storage.getPlayersByClubId(req.session.clubId!);
-      res.json(players);
+      const assessments = await storage.getAssessmentsByClubId(req.session.clubId!);
+      res.json(assessments);
     } catch (error) {
-      console.error("Get players error:", error);
+      console.error("Get assessments error:", error);
       res.status(500).json({ message: "حدث خطأ أثناء جلب البيانات" });
     }
   });
 
-  app.delete("/api/players/:id", requireAuth, async (req, res) => {
+  app.delete("/api/assessments/:id", requireAuth, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
-        return res.status(400).json({ message: "معرف اللاعب غير صحيح" });
+        return res.status(400).json({ message: "معرف الاختبار غير صحيح" });
       }
 
-      await storage.deletePlayer(id);
-      res.json({ message: "تم حذف اللاعب بنجاح" });
+      await storage.deleteAssessment(id);
+      res.json({ message: "تم حذف السجل بنجاح" });
     } catch (error) {
-      console.error("Delete player error:", error);
+      console.error("Delete assessment error:", error);
       res.status(500).json({ message: "حدث خطأ أثناء الحذف" });
     }
   });
 
-  // Admin routes to seed clubs (only in dev mode)
+  app.get("/api/checkout/status", async (req, res) => {
+    try {
+      const sessionId = req.query.session_id as string;
+      if (!sessionId) {
+        return res.status(400).json({ message: "معرف الجلسة مطلوب" });
+      }
+
+      const stripe = new Stripe(await getStripeSecretKey());
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+      if (session.payment_status === "paid") {
+        const assessmentId = session.metadata?.assessmentId;
+        if (assessmentId) {
+          const assessment = await storage.getAssessment(parseInt(assessmentId));
+          if (assessment) {
+            await storage.updateAssessment(parseInt(assessmentId), {
+              paymentStatus: "completed",
+              stripeCheckoutSessionId: sessionId,
+            });
+          }
+        }
+        res.json({
+          paymentStatus: "completed",
+          assessmentId,
+        });
+      } else {
+        res.json({ paymentStatus: "pending" });
+      }
+    } catch (error) {
+      console.error("Checkout status error:", error);
+      res.status(500).json({ message: "حدث خطأ" });
+    }
+  });
+
+  // Admin routes to seed clubs (dev only)
   if (process.env.NODE_ENV !== "production") {
     app.post("/api/admin/seed-clubs", async (req, res) => {
       try {
         const CLUBS_DATA = [
-          { clubId: "al-ahly", name: "النادي الأهلي", logoUrl: "/logos/al_ahly.png", primaryColor: "hsl(354 70% 45%)", username: "ahly", password: "ahly123" },
-          { clubId: "zamalek", name: "نادي الزمالك", logoUrl: "/logos/zamalek.png", primaryColor: "hsl(222 47% 11%)", username: "zamalek", password: "zamalek123" },
-          { clubId: "pyramids", name: "نادي بيراميدز", logoUrl: "/logos/pyramids.png", primaryColor: "hsl(210 60% 30%)", username: "pyramids", password: "pyramids123" },
-          { clubId: "al-masry", name: "النادي المصري", logoUrl: "/logos/al_masry.png", primaryColor: "hsl(140 60% 35%)", username: "masry", password: "masry123" },
+          { clubId: "al-ahly", name: "النادي الأهلي", logoUrl: "/logos/al_ahly.png", primaryColor: "hsl(354 70% 45%)", username: "ahly", password: "ahly123", assessmentPrice: 5000 },
+          { clubId: "zamalek", name: "نادي الزمالك", logoUrl: "/logos/zamalek.png", primaryColor: "hsl(222 47% 11%)", username: "zamalek", password: "zamalek123", assessmentPrice: 5000 },
         ];
 
         let added = 0;

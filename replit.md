@@ -1,128 +1,79 @@
-# Egyptian Youth Football League Registration System
+# Soccer Hunters - Player Assessment Platform
 
 ## Overview
 
-This is a web-based player registration system for Egyptian football clubs' youth academies (الناشئين والبراعم). The application allows clubs to register young players with comprehensive personal and athletic information, and provides club administrators with a dashboard to manage their registered players. The system is built as a full-stack application with a React frontend and Express backend, supporting multiple Egyptian football clubs with Arabic language and RTL (right-to-left) layout.
+Soccer Hunters is a web-based player assessment registration platform for Egyptian football clubs. The platform allows players to register for club assessment trials and make online payments, while club administrators can manage registrations and track payment status.
+
+## Current Implementation Status
+
+### ✅ Completed Features
+1. **Frontend Architecture** - React 18 with Vite, TypeScript, RTL support
+2. **Authentication System** - Club admin login with sessions and bcrypt
+3. **Player Assessment Registration** - Comprehensive form with validation
+4. **Payment Integration** - Stripe integration for assessment fees
+5. **Club Dashboard** - Admin panel to manage registrations and view revenue
+6. **Database Schema** - PostgreSQL with assessments and clubs tables
+7. **Admin Routes** - API endpoints for registration, payment, and club management
+
+### 🎯 Key Pages
+- **Home** (`/`) - Public registration and club selection
+- **Login** (`/login`) - Club administrator login
+- **Dashboard** (`/dashboard`) - Admin panel with stats and assessment list
+- **Checkout** (`/checkout`) - Payment status page
+
+### 💳 Payment System
+- Stripe integration for handling payments
+- Each club sets its own assessment fee
+- Payment status tracking (pending/completed/failed)
+- Automatic checkout session creation after registration
+
+### 🏗️ Architecture
+
+**Frontend (React + TypeScript)**
+- Component-based UI with Shadcn components
+- RTL layout support for Arabic
+- Wouter for client-side routing
+- TanStack Query for server state management
+- React Hook Form for form validation
+
+**Backend (Express + TypeScript)**
+- RESTful API structure
+- Express session management for authentication
+- Stripe payment processing
+- Database abstraction layer with Drizzle ORM
+
+**Database (PostgreSQL)**
+- `clubs` - Club info, logo, pricing, credentials
+- `assessments` - Player registration and payment data
+- Session store via connect-pg-simple
+
+## Technical Decisions
+
+1. **Stripe Payments** - Direct integration for payment processing
+2. **Session-based Auth** - Server-side sessions for security
+3. **Assessments Table** - Renamed from "players" to reflect assessment registration flow
+4. **Price per Club** - Each club can set different assessment fees
+5. **Centralized Header** - Consistent club selection across the app
 
 ## User Preferences
 
-Preferred communication style: Simple, everyday language.
+- Simple, everyday Arabic language
+- Professional, modern design with club branding
+- Fast, efficient implementation focus
+- Clean code structure
 
-## System Architecture
+## Next Steps for Production
 
-### Frontend Architecture
+1. Add club management API for creating/updating clubs
+2. Implement email notifications for payment confirmation
+3. Add assessment scheduling and location management
+4. Set up Stripe webhook handlers for payment events
+5. Create export functionality for admin reports
+6. Add multi-language support
+7. Implement SSL certificates for production
 
-**Framework & Build System**
-- React 18 with Vite as the build tool and development server
-- TypeScript for type safety
-- Wouter for client-side routing (lightweight React Router alternative)
+## Database Notes
 
-**UI Framework**
-- Shadcn UI components with Radix UI primitives for accessible, composable components
-- Tailwind CSS for styling with custom theme configuration
-- Cairo font for proper Arabic typography
-- RTL (right-to-left) layout support throughout the application
-
-**State Management**
-- TanStack Query (React Query) for server state management and API calls
-- React Hook Form with Zod for form validation
-- No global client state management (relying on server state)
-
-**Key Design Patterns**
-- Component composition using Radix UI's unstyled primitives
-- Form validation using Zod schemas shared between frontend and backend
-- Custom hooks for authentication (`useAuth`) and UI utilities
-- Centralized API client with credential-based authentication
-
-### Backend Architecture
-
-**Server Framework**
-- Express.js with TypeScript and ES modules
-- Development mode uses Vite middleware for HMR and SSR
-- Production mode serves static built assets
-
-**Authentication & Sessions**
-- Express-session for server-side session management
-- BCrypt for password hashing
-- Session-based authentication (no JWT tokens)
-- Session cookies with HTTP-only flag for security
-
-**API Structure**
-- RESTful API endpoints under `/api` prefix
-- Authentication routes: `/api/auth/login`, `/api/auth/logout`, `/api/auth/me`
-- Player management: `/api/players` (GET, POST), `/api/players/:id` (DELETE)
-- Club management: `/api/clubs` (GET)
-- Middleware for authentication requirements
-
-**Code Organization**
-- Separate development (`index-dev.ts`) and production (`index-prod.ts`) entry points
-- Shared routing logic in `routes.ts`
-- Storage abstraction layer in `storage.ts`
-- Application setup in `app.ts`
-
-### Data Storage
-
-**ORM & Database**
-- Drizzle ORM for type-safe database queries
-- Neon serverless Postgres driver (@neondatabase/serverless)
-- Schema-first approach with TypeScript types generated from Drizzle schemas
-
-**Database Schema**
-Three main tables defined in `shared/schema.ts`:
-
-1. **users** - Generic user authentication (currently unused, likely for future expansion)
-   - UUID primary key
-   - Username and hashed password
-
-2. **clubs** - Football club information and credentials
-   - Club ID, name, logo URL, primary color for branding
-   - Separate username/password for club admin login
-   - Created timestamp
-
-3. **players** - Youth player registration data
-   - Links to club via clubId
-   - Personal info: full name, birth date/place, national ID, address
-   - Contact: phone numbers for player and guardian
-   - Athletic info: position, height, weight, previous club
-   - Medical history, school information
-   - Photo URL, consent flags
-
-**Data Access Pattern**
-- Repository pattern through `IStorage` interface
-- All database operations abstracted in `DbStorage` class
-- Shared Zod schemas for validation between client and server
-
-### External Dependencies
-
-**Database Service**
-- Neon Postgres (serverless PostgreSQL)
-- Environment variable: `DATABASE_URL`
-- Connection pooling via @neondatabase/serverless Pool
-
-**Development Tools**
-- Replit-specific Vite plugins for development banner and cartographer
-- Custom Vite plugin for OpenGraph meta image URL updates
-
-**Session Storage**
-- connect-pg-simple for PostgreSQL session store (installed but configuration not visible in provided files)
-- Session secret from environment variable or fallback
-
-**UI Component Libraries**
-- Radix UI suite (@radix-ui/react-*) for headless accessible components
-- Lucide React for icons
-- cmdk for command palette functionality
-- vaul for drawer components
-- react-day-picker for calendar/date selection
-- recharts for potential data visualization
-
-**Form & Validation**
-- react-hook-form for form state management
-- @hookform/resolvers for Zod integration
-- zod and drizzle-zod for schema validation
-- zod-validation-error for user-friendly error messages
-
-**Styling**
-- @tailwindcss/vite for Tailwind CSS v4
-- class-variance-authority (CVA) for component variant management
-- clsx and tailwind-merge for className utilities
-- Google Fonts (Cairo) for Arabic typography
+- Current schema uses assessments table for player registration data
+- Payment status tracks Stripe checkout sessions
+- Assessment price stored per registration for audit trail
