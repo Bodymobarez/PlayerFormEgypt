@@ -146,6 +146,64 @@ export class MemoryStorage implements IStorage {
     assessments = assessments.filter((a) => a.id !== id);
   }
 
+  async getTeamsByClubId(clubId: string): Promise<Team[]> {
+    return teams.filter((t) => t.clubId === clubId);
+  }
+
+  async createTeam(team: InsertTeam): Promise<Team> {
+    const newTeam: Team = {
+      id: teams.length + 1,
+      ...team,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as Team;
+    teams.push(newTeam);
+    return newTeam;
+  }
+
+  async updateTeam(id: number, updates: Partial<Team>): Promise<Team | undefined> {
+    const team = teams.find((t) => t.id === id);
+    if (team) {
+      Object.assign(team, updates);
+    }
+    return team;
+  }
+
+  async deleteTeam(id: number): Promise<void> {
+    teams = teams.filter((t) => t.id !== id);
+  }
+
+  async getPlayersByTeamId(teamId: number): Promise<Player[]> {
+    return players.filter((p) => p.teamId === teamId);
+  }
+
+  async getPlayersByClubId(clubId: string): Promise<Player[]> {
+    return players.filter((p) => p.clubId === clubId);
+  }
+
+  async createPlayer(player: InsertPlayer): Promise<Player> {
+    const newPlayer: Player = {
+      id: players.length + 1,
+      ...player,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as Player;
+    players.push(newPlayer);
+    return newPlayer;
+  }
+
+  async updatePlayer(id: number, updates: Partial<Player>): Promise<Player | undefined> {
+    const player = players.find((p) => p.id === id);
+    if (player) {
+      Object.assign(player, updates);
+    }
+    return player;
+  }
+
+  async deletePlayer(id: number): Promise<void> {
+    players = players.filter((p) => p.id !== id);
+  }
+
   // Add some sample assessments with various statuses for testing
   async initializeSampleData(): Promise<void> {
     if (assessments.length === 0) {
