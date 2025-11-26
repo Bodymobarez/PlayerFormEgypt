@@ -88,3 +88,50 @@ export const insertAssessmentSchema = createInsertSchema(assessments).omit({
 });
 export type InsertAssessment = z.infer<typeof insertAssessmentSchema>;
 export type Assessment = typeof assessments.$inferSelect;
+
+// Teams table - for club squads
+export const teams = pgTable("teams", {
+  id: serial("id").primaryKey(),
+  clubId: text("club_id").notNull(),
+  name: text("name").notNull(),
+  category: text("category").notNull(), // U12, U15, U18, Senior, etc.
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertTeamSchema = createInsertSchema(teams).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type InsertTeam = z.infer<typeof insertTeamSchema>;
+export type Team = typeof teams.$inferSelect;
+
+// Players table - for team players
+export const players = pgTable("players", {
+  id: serial("id").primaryKey(),
+  clubId: text("club_id").notNull(),
+  teamId: integer("team_id").notNull(),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  position: text("position").notNull(),
+  jerseyNumber: integer("jersey_number"),
+  phone: text("phone").notNull(),
+  nationalId: text("national_id").notNull(),
+  birthDate: text("birth_date").notNull(),
+  height: text("height"),
+  weight: text("weight"),
+  status: text("status").notNull().default("active"), // active, inactive
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertPlayerSchema = createInsertSchema(players).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type InsertPlayer = z.infer<typeof insertPlayerSchema>;
+export type Player = typeof players.$inferSelect;

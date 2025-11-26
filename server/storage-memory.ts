@@ -1,6 +1,8 @@
-import { type User, type InsertUser, type Club, type InsertClub, type Assessment, type InsertAssessment } from "@shared/schema";
+import { type User, type InsertUser, type Club, type InsertClub, type Assessment, type InsertAssessment, type Team, type InsertTeam, type Player, type InsertPlayer } from "@shared/schema";
 
 let users: User[] = [];
+let teams: Team[] = [];
+let players: Player[] = [];
 // All clubs with hashed passwords (generated with bcrypt)
 let clubs: (Club)[] = [
   { id: 1, clubId: "al-ahly", name: "النادي الأهلي", logoUrl: "/logos/al_ahly.png", primaryColor: "hsl(354 70% 45%)", username: "ahly", password: "$2b$10$dtHKjQHDh9pdcnb0hIcDXejPcWGmjmZEnjiyCiAj6fX1pFQZo5a9K", assessmentPrice: 5000, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
@@ -56,6 +58,15 @@ export interface IStorage {
   createAssessment(assessment: InsertAssessment & { assessmentPrice: number }): Promise<Assessment>;
   updateAssessment(id: number, updates: Partial<Assessment>): Promise<Assessment | undefined>;
   deleteAssessment(id: number): Promise<void>;
+  getTeamsByClubId(clubId: string): Promise<Team[]>;
+  createTeam(team: InsertTeam): Promise<Team>;
+  updateTeam(id: number, updates: Partial<Team>): Promise<Team | undefined>;
+  deleteTeam(id: number): Promise<void>;
+  getPlayersByTeamId(teamId: number): Promise<Player[]>;
+  getPlayersByClubId(clubId: string): Promise<Player[]>;
+  createPlayer(player: InsertPlayer): Promise<Player>;
+  updatePlayer(id: number, updates: Partial<Player>): Promise<Player | undefined>;
+  deletePlayer(id: number): Promise<void>;
 }
 
 export class MemoryStorage implements IStorage {
