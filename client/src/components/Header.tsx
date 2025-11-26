@@ -80,7 +80,7 @@ export function Header({ selectedClub, onClubChange }: HeaderProps) {
             <SelectTrigger className="w-[200px] bg-muted" dir="rtl">
               <SelectValue placeholder="اختر النادي..." />
             </SelectTrigger>
-            <SelectContent dir="rtl">
+            <SelectContent dir="rtl" className="max-h-64 overflow-y-auto">
               {CLUBS.map((club) => (
                 <SelectItem key={club.id} value={club.id}>
                   <div className="flex items-center gap-2">
