@@ -83,7 +83,8 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
         throw new Error(error.message || "فشل حفظ البيانات");
       }
 
-      const data = await response.json();
+      const response_data = await response.json();
+      const assessment_data = response_data.data; // Unwrap the response formatter
 
       toast({
         title: "تم التسجيل بنجاح",
@@ -92,8 +93,11 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
       });
 
       // Redirect to payment methods
-      if (data.redirectUrl) {
-        window.location.href = data.redirectUrl;
+      if (assessment_data && assessment_data.redirectUrl) {
+        window.location.href = assessment_data.redirectUrl;
+      } else if (assessment_data && assessment_data.assessment) {
+        // Fallback: manually redirect if redirectUrl not present
+        window.location.href = `/payment-methods?assessment_id=${assessment_data.assessment.id}`;
       }
       
       form.reset();
