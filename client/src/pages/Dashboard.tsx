@@ -302,13 +302,12 @@ export default function Dashboard() {
                                   </Button>
                                   <Button
                                     size="sm"
-                                    variant="destructive"
+                                    variant="ghost"
                                     onClick={() => deleteMutation.mutate(assessment.id)}
                                     disabled={deleteMutation.isPending}
                                     data-testid={`button-delete-${assessment.id}`}
                                   >
-                                    <Trash2 className="h-4 w-4 mr-2" />
-                                    حذف
+                                    <Trash2 className="h-4 w-4 text-destructive" />
                                   </Button>
                                 </div>
                               </div>

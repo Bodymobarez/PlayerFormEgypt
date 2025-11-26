@@ -83,21 +83,17 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
         throw new Error(error.message || "فشل حفظ البيانات");
       }
 
-      const response_data = await response.json();
-      const assessment_data = response_data.data; // Unwrap the response formatter
+      const data = await response.json();
 
       toast({
         title: "تم التسجيل بنجاح",
-        description: "اختر طريقة الدفع التي تفضلها",
+        description: "سيتم توجيهك للدفع الآن",
         className: "bg-green-600 text-white border-none",
       });
 
-      // Redirect to payment methods
-      if (assessment_data && assessment_data.redirectUrl) {
-        window.location.href = assessment_data.redirectUrl;
-      } else if (assessment_data && assessment_data.assessment) {
-        // Fallback: manually redirect if redirectUrl not present
-        window.location.href = `/payment-methods?assessment_id=${assessment_data.assessment.id}`;
+      // Redirect to checkout
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
       }
       
       form.reset();
