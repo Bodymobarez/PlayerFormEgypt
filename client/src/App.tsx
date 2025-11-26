@@ -8,6 +8,7 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
 import Checkout from "@/pages/Checkout";
+import PaymentMethod from "@/pages/PaymentMethod";
 import AdminSettings from "@/pages/AdminSettings";
 import AdminMasterLogin from "@/pages/AdminMasterLogin";
 import AdminMasterPanel from "@/pages/AdminMasterPanel";
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/admin/master" component={AdminMasterPanel} />
       <Route path="/player/login" component={PlayerLogin} />
       <Route path="/player/dashboard" component={PlayerDashboard} />
+      <Route path="/payment-method" component={PaymentMethod} />
       <Route path="/checkout" component={Checkout} />
       <Route component={NotFound} />
     </Switch>
