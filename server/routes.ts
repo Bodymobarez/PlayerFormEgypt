@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import session from "express-session";
 import express from "express";
+import { WebSocketServer, WebSocket } from "ws";
 import { authService } from "./services/auth.service";
 import { assessmentService } from "./services/assessment.service";
 import { paymentService } from "./services/payment.service";
@@ -22,6 +23,8 @@ import { insertAssessmentSchema } from "@shared/schema";
 import { statsService } from "./services/stats.service";
 import { exportService } from "./services/export.service";
 import { cacheManager } from "./cache";
+import { notificationService } from "./services/notification.service";
+import { chatService } from "./services/chat.service";
 
 declare module "express-session" {
   interface SessionData {
@@ -577,10 +580,125 @@ export async function registerRoutes(app: Express): Promise<Server> {
     })
   );
 
+  // ==================== CHAT ROUTES ====================
+  app.post(
+    "/api/chat/sessions",
+    asyncHandler(async (req, res) => {
+      const { assessmentId, clubId, playerPhone, playerName, playerEmail } = req.body;
+
+      if (!assessmentId || !clubId) {
+        throw new ValidationError("Assessment ID and Club ID are required");
+      }
+
+      const session = chatService.createSession(
+        assessmentId,
+        clubId,
+        playerPhone,
+        playerName,
+        playerEmail
+      );
+
+      res.json(session);
+    })
+  );
+
+  app.get(
+    "/api/chat/sessions/:sessionId",
+    asyncHandler(async (req, res) => {
+      const { sessionId } = req.params;
+      const session = chatService.getSession(sessionId);
+
+      if (!session) {
+        throw new NotFoundError("Chat session");
+      }
+
+      res.json(session);
+    })
+  );
+
+  app.get(
+    "/api/chat/sessions/:sessionId/messages",
+    asyncHandler(async (req, res) => {
+      const { sessionId } = req.params;
+      const messages = chatService.getSessionHistory(sessionId);
+      res.json(messages);
+    })
+  );
+
   // Error handler (must be last)
   app.use(errorHandler);
 
   const httpServer = createServer(app);
+
+  // ==================== WEBSOCKET SERVER ====================
+  const wss = new WebSocketServer({ server: httpServer, path: "/ws" });
+
+  wss.on("connection", (ws: WebSocket, req) => {
+    const sessionId = new URLSearchParams(req.url?.split("?")[1]).get("sessionId");
+
+    if (!sessionId) {
+      ws.close(1008, "Session ID is required");
+      return;
+    }
+
+    const session = chatService.getSession(sessionId);
+    if (!session) {
+      ws.close(1008, "Session not found");
+      return;
+    }
+
+    chatService.registerClient(sessionId, ws);
+
+    // Send chat history to new client
+    const history = chatService.getSessionHistory(sessionId);
+    ws.send(JSON.stringify({ type: "history", messages: history }));
+
+    ws.on("message", async (data: string) => {
+      try {
+        const payload = JSON.parse(data);
+        const { senderType, senderId, senderName, message } = payload;
+
+        if (!message) {
+          return;
+        }
+
+        const chatMessage = chatService.addMessage(
+          sessionId,
+          senderId,
+          senderName,
+          senderType,
+          message
+        );
+
+        // Broadcast to all connected clients in this session
+        chatService.broadcastMessage(sessionId, {
+          type: "message",
+          data: chatMessage,
+        });
+
+        // Send email notification for admin messages
+        if (senderType === "admin" && session.playerEmail) {
+          await notificationService.sendChatNotification(
+            session.playerEmail,
+            session.playerName,
+            session.clubId,
+            message
+          );
+        }
+      } catch (error) {
+        console.error("WebSocket message error:", error);
+      }
+    });
+
+    ws.on("close", () => {
+      chatService.unregisterClient(sessionId, ws);
+    });
+
+    ws.on("error", (error) => {
+      console.error("WebSocket error:", error);
+      chatService.unregisterClient(sessionId, ws);
+    });
+  });
 
   return httpServer;
 }
