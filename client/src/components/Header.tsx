@@ -4,70 +4,46 @@ import { Zap } from "lucide-react";
 export interface Club {
   id: string;
   name: string;
+  logoUrl: string;
   primaryColor: string;
   assessmentPrice: number;
-  wikipediaLogo?: string;
 }
 
-export interface ClubData extends Club {
-  wikipediaLogo: string;
-}
-
-export const CLUBS: ClubData[] = [
-  { id: "al-ahly", name: "النادي الأهلي", primaryColor: "hsl(354 70% 45%)", assessmentPrice: 5000, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/7/70/Al_Ahly_SC_logo.svg" },
-  { id: "zamalek", name: "نادي الزمالك", primaryColor: "hsl(222 47% 11%)", assessmentPrice: 5000, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/e/ef/Zamalek_SC_logo.svg" },
-  { id: "pyramids", name: "نادي بيراميدز", primaryColor: "hsl(210 60% 30%)", assessmentPrice: 4500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/8/87/Pyramids_FC_%282020%29.png" },
-  { id: "al-masry", name: "النادي المصري", primaryColor: "hsl(140 60% 35%)", assessmentPrice: 4500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Flag_of_Egypt_%281922-1958%29.svg/30px-Flag_of_Egypt_%281922-1958%29.svg.png" },
-  { id: "ismaily", name: "النادي الإسماعيلي", primaryColor: "hsl(45 90% 50%)", assessmentPrice: 4000, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/7/7d/Ismaily_SC_logo.svg" },
-  { id: "al-ittihad", name: "الاتحاد السكندري", primaryColor: "hsl(340 60% 40%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/f/f0/Ittihad_of_Alexandria.png" },
-  { id: "nbe", name: "البنك الأهلي", primaryColor: "hsl(220 70% 40%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/5/5e/National_Bank_of_Egypt_SC.png" },
-  { id: "ceramica", name: "سيراميكا كليوباترا", primaryColor: "hsl(30 75% 45%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/c/c0/Ceramica_Cleopatra_FC.png" },
-  { id: "enppi", name: "إنبي", primaryColor: "hsl(200 75% 45%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/e/eb/ENPPI_SC_Logo.svg" },
-  { id: "modern-sport", name: "مودرن سبورت", primaryColor: "hsl(270 70% 40%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/0/0d/Modern_Sport_FC.png" },
-  { id: "talaea-el-gaish", name: "طلائع الجيش", primaryColor: "hsl(0 0% 20%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/a/a4/Tala%27ea_El_Gaish_SC.png" },
-  { id: "zed", name: "زد", primaryColor: "hsl(260 70% 50%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/c/c3/ZED_FC.png" },
-  { id: "pharco", name: "فاركو", primaryColor: "hsl(200 80% 45%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/9/9d/Pharco_FC.png" },
-  { id: "el-gouna", name: "الجونة", primaryColor: "hsl(45 90% 50%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/e/e0/El_Gouna_FC.png" },
-  { id: "ghazl-mahalla", name: "غزل المحلة", primaryColor: "hsl(0 85% 50%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/7/7f/Ghazl_El_Mahalla_SC.png" },
-  { id: "petrojet", name: "بتروجيت", primaryColor: "hsl(45 85% 45%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/0/0f/Petrojet_SC.png" },
-  { id: "smouha", name: "سموحة", primaryColor: "hsl(200 70% 40%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/1/1a/Smouha_SC.png" },
-  { id: "haras-el-hodoud", name: "حرس الحدود", primaryColor: "hsl(120 50% 40%)", assessmentPrice: 3500, wikipediaLogo: "https://upload.wikimedia.org/wikipedia/en/7/73/Haras_El_Hodoud_SC.png" },
+export const CLUBS: Club[] = [
+  { id: "al-ahly", name: "النادي الأهلي", logoUrl: "/logos/al_ahly.png", primaryColor: "hsl(354 70% 45%)", assessmentPrice: 5000 },
+  { id: "zamalek", name: "نادي الزمالك", logoUrl: "/logos/zamalek.png", primaryColor: "hsl(222 47% 11%)", assessmentPrice: 5000 },
+  { id: "pyramids", name: "نادي بيراميدز", logoUrl: "/logos/pyramids.png", primaryColor: "hsl(210 60% 30%)", assessmentPrice: 4500 },
+  { id: "al-masry", name: "النادي المصري", logoUrl: "/logos/al_masry.png", primaryColor: "hsl(140 60% 35%)", assessmentPrice: 4500 },
+  { id: "ismaily", name: "النادي الإسماعيلي", logoUrl: "/logos/ismaily.png", primaryColor: "hsl(45 90% 50%)", assessmentPrice: 4000 },
+  { id: "tanta", name: "نادي طنطا", logoUrl: "/logos/tanta.png", primaryColor: "hsl(25 85% 45%)", assessmentPrice: 3500 },
+  { id: "al-mansoura", name: "نادي المنصورة", logoUrl: "/logos/al_mansoura.png", primaryColor: "hsl(200 70% 40%)", assessmentPrice: 3500 },
+  { id: "aswan", name: "نادي أسوان", logoUrl: "/logos/aswan.png", primaryColor: "hsl(10 80% 50%)", assessmentPrice: 3500 },
+  { id: "al-ittihad", name: "الاتحاد السكندري", logoUrl: "/logos/al_ittihad.png", primaryColor: "hsl(340 60% 40%)", assessmentPrice: 3500 },
+  { id: "al-ahly-benha", name: "أهلي بنها", logoUrl: "/logos/al_ahly_benha.png", primaryColor: "hsl(354 70% 45%)", assessmentPrice: 3000 },
+  { id: "ghazl-mahalla", name: "غزل المحلة", logoUrl: "/logos/ghazl_mahalla.png", primaryColor: "hsl(0 85% 50%)", assessmentPrice: 3000 },
+  { id: "misr-railway", name: "مصر للسكك الحديدية", logoUrl: "/logos/misr_railway.png", primaryColor: "hsl(0 0% 20%)", assessmentPrice: 3000 },
+  { id: "petro-sport", name: "نادي بترو سبورت", logoUrl: "/logos/petro_sport.png", primaryColor: "hsl(45 90% 45%)", assessmentPrice: 3000 },
+  { id: "daqahlia", name: "نادي الدقهلية", logoUrl: "/logos/daqahlia.png", primaryColor: "hsl(150 70% 40%)", assessmentPrice: 3000 },
+  { id: "alyoum-sport", name: "نادي اليوم الرياضي", logoUrl: "/logos/alyoum_sport.png", primaryColor: "hsl(60 85% 45%)", assessmentPrice: 3000 },
+  { id: "arab-contractors", name: "المقاولون العرب", logoUrl: "/logos/arab_contractors.png", primaryColor: "hsl(30 80% 40%)", assessmentPrice: 3000 },
+  { id: "enppi", name: "نادي إنبي", logoUrl: "/logos/enppi.png", primaryColor: "hsl(200 75% 45%)", assessmentPrice: 3000 },
+  { id: "modern-sport", name: "نادي الرياضة الحديثة", logoUrl: "/logos/modern_sport.png", primaryColor: "hsl(270 70% 40%)", assessmentPrice: 3000 },
+  { id: "misr-makasa", name: "مصر المقاصة", logoUrl: "/logos/misr_makasa.png", primaryColor: "hsl(0 0% 30%)", assessmentPrice: 3000 },
+  { id: "zagazig", name: "نادي الزقازيق", logoUrl: "/logos/zagazig.png", primaryColor: "hsl(180 70% 40%)", assessmentPrice: 3000 },
+  { id: "qena", name: "نادي قنا", logoUrl: "/logos/qena.png", primaryColor: "hsl(40 85% 45%)", assessmentPrice: 3000 },
+  { id: "sohag", name: "نادي سوهاج", logoUrl: "/logos/sohag.png", primaryColor: "hsl(280 70% 40%)", assessmentPrice: 3000 },
+  { id: "assiut", name: "نادي أسيوط", logoUrl: "/logos/assiut.png", primaryColor: "hsl(20 85% 45%)", assessmentPrice: 3000 },
+  { id: "beni-suef", name: "نادي بني سويف", logoUrl: "/logos/beni_suef.png", primaryColor: "hsl(150 75% 40%)", assessmentPrice: 3000 },
+  { id: "fayyoum", name: "نادي الفيوم", logoUrl: "/logos/fayyoum.png", primaryColor: "hsl(60 80% 45%)", assessmentPrice: 3000 },
+  { id: "giza", name: "نادي الجيزة", logoUrl: "/logos/giza.png", primaryColor: "hsl(200 70% 40%)", assessmentPrice: 3000 },
+  { id: "helwan", name: "نادي حلوان", logoUrl: "/logos/helwan.png", primaryColor: "hsl(0 85% 50%)", assessmentPrice: 3000 },
+  { id: "october-city", name: "نادي مدينة أكتوبر", logoUrl: "/logos/october_city.png", primaryColor: "hsl(240 85% 45%)", assessmentPrice: 3000 },
+  { id: "zayed-military", name: "نادي النادي العسكري", logoUrl: "/logos/zayed_military.png", primaryColor: "hsl(0 0% 20%)", assessmentPrice: 3000 },
+  { id: "sporting-alexandria", name: "نادي سبورتنج الإسكندرية", logoUrl: "/logos/sporting_alexandria.png", primaryColor: "hsl(30 75% 40%)", assessmentPrice: 3000 },
+  { id: "alexandria-union", name: "اتحاد الإسكندرية", logoUrl: "/logos/alexandria_union.png", primaryColor: "hsl(260 70% 40%)", assessmentPrice: 3000 },
+  { id: "matarya", name: "نادي المطرية", logoUrl: "/logos/matarya.png", primaryColor: "hsl(100 70% 40%)", assessmentPrice: 3000 },
+  { id: "sporting-cairo", name: "نادي سبورتنج", logoUrl: "/logos/sporting_cairo.png", primaryColor: "hsl(200 80% 45%)", assessmentPrice: 3000 },
 ];
-
-function ClubBadge({ club }: { club: Club }) {
-  if (club.wikipediaLogo) {
-    return (
-      <img 
-        src={club.wikipediaLogo} 
-        alt={club.name} 
-        className="h-6 w-6 object-contain flex-shrink-0" 
-        title={club.name}
-        onError={(e) => {
-          const initial = club.name.charAt(0);
-          const parent = (e.target as HTMLImageElement).parentElement;
-          if (parent) {
-            const fallback = document.createElement('div');
-            fallback.className = "h-6 w-6 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0";
-            fallback.style.backgroundColor = club.primaryColor;
-            fallback.title = club.name;
-            fallback.textContent = initial;
-            parent.replaceChild(fallback, e.target as HTMLImageElement);
-          }
-        }}
-      />
-    );
-  }
-  const initial = club.name.charAt(0);
-  return (
-    <div
-      className="h-6 w-6 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-      style={{ backgroundColor: club.primaryColor }}
-      title={club.name}
-    >
-      {initial}
-    </div>
-  );
-}
 
 interface HeaderProps {
   selectedClub: Club | null;
@@ -93,7 +69,7 @@ export function Header({ selectedClub, onClubChange }: HeaderProps) {
         <div className="flex items-center gap-3">
           {selectedClub && (
             <div className="hidden sm:flex items-center gap-2">
-              <ClubBadge club={selectedClub} />
+              <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-10 w-10 object-contain" />
               <div>
                 <p className="text-sm font-semibold text-foreground">{selectedClub.name}</p>
                 <p className="text-xs text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(2)} ج.م</p>
@@ -104,11 +80,11 @@ export function Header({ selectedClub, onClubChange }: HeaderProps) {
             <SelectTrigger className="w-[200px] bg-muted" dir="rtl">
               <SelectValue placeholder="اختر النادي..." />
             </SelectTrigger>
-            <SelectContent dir="rtl" className="max-h-64 overflow-y-auto">
+            <SelectContent dir="rtl">
               {CLUBS.map((club) => (
                 <SelectItem key={club.id} value={club.id}>
                   <div className="flex items-center gap-2">
-                    <ClubBadge club={club} />
+                    <img src={club.logoUrl} alt={club.name} className="h-5 w-5 object-contain" />
                     {club.name}
                   </div>
                 </SelectItem>
