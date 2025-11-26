@@ -68,7 +68,7 @@ export const CLUBS: Club[] = [
   },
   {
     id: "modern-sport",
-    name: "نادي الرياضة الحديثة",
+    name: "مودرن سبورت",
     logoUrl: "/logos/modern_sport.png",
     primaryColor: "hsl(120 60% 40%)",
     assessmentPrice: 3500,
