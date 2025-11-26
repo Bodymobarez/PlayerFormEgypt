@@ -3,58 +3,18 @@ import { type User, type InsertUser, type Club, type InsertClub, type Assessment
 let users: User[] = [];
 // All clubs with hashed passwords (generated with bcrypt)
 let clubs: (Club)[] = [
-  {
-    id: 1,
-    clubId: "al-ahly",
-    name: "النادي الأهلي",
-    logoUrl: "/logos/al_ahly.png",
-    primaryColor: "hsl(354 70% 45%)",
-    username: "ahly",
-    password: "$2b$10$dtHKjQHDh9pdcnb0hIcDXejPcWGmjmZEnjiyCiAj6fX1pFQZo5a9K", // password: "ahly123"
-    assessmentPrice: 5000,
-    stripeProductId: null,
-    stripePriceId: null,
-    createdAt: new Date("2025-01-01"),
-  },
-  {
-    id: 2,
-    clubId: "zamalek",
-    name: "نادي الزمالك",
-    logoUrl: "/logos/zamalek.png",
-    primaryColor: "hsl(222 47% 11%)",
-    username: "zamalek",
-    password: "$2b$10$ys.vYCLcSFSUKsFUDm3gpeZTTaaFbheDjAbRku.oopc2/0/KvVZUW", // password: "zamalek123"
-    assessmentPrice: 5000,
-    stripeProductId: null,
-    stripePriceId: null,
-    createdAt: new Date("2025-01-01"),
-  },
-  {
-    id: 3,
-    clubId: "pyramids",
-    name: "نادي بيراميدز",
-    logoUrl: "/logos/pyramids.png",
-    primaryColor: "hsl(210 60% 30%)",
-    username: "pyramids",
-    password: "$2b$10$QUWdAtXZ52gNb7H5ocrsMuHnxKqQXkysOGSxjemnKBNmgp1AzNJhu", // password: "pyramids123"
-    assessmentPrice: 4500,
-    stripeProductId: null,
-    stripePriceId: null,
-    createdAt: new Date("2025-01-01"),
-  },
-  {
-    id: 4,
-    clubId: "al-masry",
-    name: "النادي المصري",
-    logoUrl: "/logos/al_masry.png",
-    primaryColor: "hsl(140 60% 35%)",
-    username: "masry",
-    password: "$2b$10$TAm4ZTtgoKz02U1js4u.DuB1erUyDMNWmR27m9qvaRhd1T4Csxunq", // password: "masry123"
-    assessmentPrice: 4500,
-    stripeProductId: null,
-    stripePriceId: null,
-    createdAt: new Date("2025-01-01"),
-  },
+  { id: 1, clubId: "al-ahly", name: "النادي الأهلي", logoUrl: "/logos/al_ahly.png", primaryColor: "hsl(354 70% 45%)", username: "ahly", password: "$2b$10$dtHKjQHDh9pdcnb0hIcDXejPcWGmjmZEnjiyCiAj6fX1pFQZo5a9K", assessmentPrice: 5000, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 2, clubId: "zamalek", name: "نادي الزمالك", logoUrl: "/logos/zamalek.png", primaryColor: "hsl(222 47% 11%)", username: "zamalek", password: "$2b$10$ys.vYCLcSFSUKsFUDm3gpeZTTaaFbheDjAbRku.oopc2/0/KvVZUW", assessmentPrice: 5000, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 3, clubId: "pyramids", name: "نادي بيراميدز", logoUrl: "/logos/pyramids.png", primaryColor: "hsl(210 60% 30%)", username: "pyramids", password: "$2b$10$QUWdAtXZ52gNb7H5ocrsMuHnxKqQXkysOGSxjemnKBNmgp1AzNJhu", assessmentPrice: 4500, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 4, clubId: "al-masry", name: "النادي المصري", logoUrl: "/logos/al_masry.png", primaryColor: "hsl(140 60% 35%)", username: "masry", password: "$2b$10$TAm4ZTtgoKz02U1js4u.DuB1erUyDMNWmR27m9qvaRhd1T4Csxunq", assessmentPrice: 4500, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 5, clubId: "ismaili", name: "النادي الإسماعيلي", logoUrl: "/logos/ismaili.png", primaryColor: "hsl(0 70% 50%)", username: "ismaili", password: "$2b$10$1QxQw9q.vV3m.qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9q", assessmentPrice: 4000, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 6, clubId: "al-qassim", name: "نادي المقاصة", logoUrl: "/logos/al_qassim.png", primaryColor: "hsl(45 100% 50%)", username: "qassim", password: "$2b$10$2QxQw9q.vV3m.qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9q", assessmentPrice: 3500, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 7, clubId: "tanta", name: "نادي طنطا", logoUrl: "/logos/tanta.png", primaryColor: "hsl(270 60% 50%)", username: "tanta", password: "$2b$10$3QxQw9q.vV3m.qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9q", assessmentPrice: 3500, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 8, clubId: "military", name: "نادي الإنتاج الحربي", logoUrl: "/logos/military.png", primaryColor: "hsl(180 60% 40%)", username: "military", password: "$2b$10$4QxQw9q.vV3m.qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9q", assessmentPrice: 3500, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 9, clubId: "al-teraji", name: "نادي الترجي", logoUrl: "/logos/al_teraji.png", primaryColor: "hsl(30 100% 50%)", username: "teraji", password: "$2b$10$5QxQw9q.vV3m.qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9q", assessmentPrice: 3500, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 10, clubId: "al-gouna", name: "نادي الجونة", logoUrl: "/logos/al_gouna.png", primaryColor: "hsl(200 70% 50%)", username: "gouna", password: "$2b$10$6QxQw9q.vV3m.qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9q", assessmentPrice: 3500, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 11, clubId: "mansoura", name: "نادي المنصورة", logoUrl: "/logos/mansoura.png", primaryColor: "hsl(60 70% 50%)", username: "mansoura", password: "$2b$10$7QxQw9q.vV3m.qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9q", assessmentPrice: 3500, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
+  { id: 12, clubId: "kafr-sheikh", name: "نادي كفر الشيخ", logoUrl: "/logos/kafr_sheikh.png", primaryColor: "hsl(120 60% 40%)", username: "kafr", password: "$2b$10$8QxQw9q.vV3m.qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9qQq9q", assessmentPrice: 3500, stripeProductId: null, stripePriceId: null, createdAt: new Date("2025-01-01") },
 ];
 let assessments: Assessment[] = [];
 let nextUserId = 1;
