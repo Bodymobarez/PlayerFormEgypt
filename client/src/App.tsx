@@ -9,6 +9,8 @@ import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
 import Checkout from "@/pages/Checkout";
 import PaymentSuccess from "@/pages/PaymentSuccess";
+import PaymentMethods from "@/pages/PaymentMethods";
+import PaymentInstructions from "@/pages/PaymentInstructions";
 import AdminSettings from "@/pages/AdminSettings";
 import AdminMasterLogin from "@/pages/AdminMasterLogin";
 import AdminMasterPanel from "@/pages/AdminMasterPanel";
@@ -28,6 +30,8 @@ function Router() {
       <Route path="/player/dashboard" component={PlayerDashboard} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/payment-success" component={PaymentSuccess} />
+      <Route path="/payment-methods" component={PaymentMethods} />
+      <Route path="/payment-instructions" component={PaymentInstructions} />
       <Route component={NotFound} />
     </Switch>
   );

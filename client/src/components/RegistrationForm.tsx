@@ -87,13 +87,13 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
 
       toast({
         title: "تم التسجيل بنجاح",
-        description: "سيتم توجيهك للدفع الآن",
+        description: "اختر طريقة الدفع التي تفضلها",
         className: "bg-green-600 text-white border-none",
       });
 
-      // Redirect to checkout
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+      // Redirect to payment methods
+      if (data.redirectUrl) {
+        window.location.href = data.redirectUrl;
       }
       
       form.reset();
