@@ -35,7 +35,9 @@ export default function PaymentInstructions() {
       try {
         const response = await fetch(`/api/payment/session/${sessionId}`);
         if (!response.ok) throw new Error("فشل جلب معلومات الدفع");
-        const data = await response.json();
+        const json = await response.json();
+        // Unwrap the response formatter
+        const data = json.data || json;
         setSession(data);
       } catch (error) {
         toast({

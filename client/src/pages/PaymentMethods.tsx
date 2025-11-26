@@ -27,7 +27,9 @@ export default function PaymentMethods() {
     queryFn: async () => {
       const response = await fetch("/api/payment/methods");
       if (!response.ok) throw new Error("فشل جلب طرق الدفع");
-      return response.json();
+      const json = await response.json();
+      // Unwrap the response formatter
+      return json.data || json;
     },
   });
 
@@ -56,7 +58,8 @@ export default function PaymentMethods() {
 
       if (!response.ok) throw new Error("فشل إنشاء جلسة الدفع");
 
-      const data = await response.json();
+      const json = await response.json();
+      const data = json.data || json;
 
       if (methodId === "card" && data.redirectUrl) {
         window.location.href = data.redirectUrl;
