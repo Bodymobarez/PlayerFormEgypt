@@ -1,4 +1,5 @@
-import { storage } from "./storage";
+import { db } from "./db";
+import { clubs } from "@shared/schema";
 import bcrypt from "bcrypt";
 
 const CLUBS_DATA = [
@@ -9,6 +10,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(354 70% 45%)",
     username: "ahly",
     password: "ahly123",
+    assessmentPrice: 5000,
   },
   {
     clubId: "zamalek",
@@ -17,6 +19,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(222 47% 11%)",
     username: "zamalek",
     password: "zamalek123",
+    assessmentPrice: 5000,
   },
   {
     clubId: "pyramids",
@@ -25,6 +28,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(210 60% 30%)",
     username: "pyramids",
     password: "pyramids123",
+    assessmentPrice: 4500,
   },
   {
     clubId: "al-masry",
@@ -33,6 +37,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(140 60% 35%)",
     username: "masry",
     password: "masry123",
+    assessmentPrice: 4500,
   },
   {
     clubId: "ismaily",
@@ -41,6 +46,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(45 90% 50%)",
     username: "ismaily",
     password: "ismaily123",
+    assessmentPrice: 4500,
   },
   {
     clubId: "al-ittihad",
@@ -49,6 +55,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(140 60% 35%)",
     username: "ittihad",
     password: "ittihad123",
+    assessmentPrice: 4500,
   },
   {
     clubId: "modern-sport",
@@ -57,6 +64,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(350 70% 40%)",
     username: "modern",
     password: "modern123",
+    assessmentPrice: 4000,
   },
   {
     clubId: "smouha",
@@ -65,6 +73,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(215 80% 45%)",
     username: "smouha",
     password: "smouha123",
+    assessmentPrice: 4500,
   },
   {
     clubId: "zed",
@@ -73,6 +82,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(150 100% 40%)",
     username: "zed",
     password: "zed123",
+    assessmentPrice: 4000,
   },
   {
     clubId: "ceramica",
@@ -81,6 +91,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(40 60% 45%)",
     username: "ceramica",
     password: "ceramica123",
+    assessmentPrice: 4000,
   },
   {
     clubId: "enppi",
@@ -89,6 +100,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(200 70% 30%)",
     username: "enppi",
     password: "enppi123",
+    assessmentPrice: 4000,
   },
   {
     clubId: "talaea",
@@ -97,6 +109,7 @@ const CLUBS_DATA = [
     primaryColor: "hsl(0 0% 20%)",
     username: "talaea",
     password: "talaea123",
+    assessmentPrice: 4000,
   },
 ];
 
@@ -105,13 +118,14 @@ async function seed() {
   try {
     for (const clubData of CLUBS_DATA) {
       const hashedPassword = await bcrypt.hash(clubData.password, 10);
-      await storage.createClub({
+      await db.insert(clubs).values({
         ...clubData,
         password: hashedPassword,
-      });
+      }).onConflictDoNothing();
       console.log(`✓ Added ${clubData.name}`);
     }
     console.log("✅ Seed completed successfully!");
+    process.exit(0);
   } catch (error) {
     console.error("❌ Seed failed:", error);
     process.exit(1);
