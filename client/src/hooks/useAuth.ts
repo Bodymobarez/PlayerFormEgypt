@@ -17,7 +17,9 @@ export function useAuth() {
     queryKey: ["auth", "me"],
     queryFn: async () => {
       try {
-        const response = await fetch("/api/auth/me");
+        const response = await fetch("/api/auth/me", {
+          credentials: "include",
+        });
         if (!response.ok) return null;
         const data = await response.json();
         return data.data?.club || null;
@@ -35,6 +37,7 @@ export function useAuth() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
+        credentials: "include",
       });
       if (!response.ok) {
         const error = await response.json();
@@ -52,7 +55,10 @@ export function useAuth() {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      const response = await fetch("/api/auth/logout", { method: "POST" });
+      const response = await fetch("/api/auth/logout", { 
+        method: "POST",
+        credentials: "include",
+      });
       if (!response.ok) throw new Error("Logout failed");
     },
     onSuccess: () => {

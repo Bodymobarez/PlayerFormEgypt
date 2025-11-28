@@ -19,6 +19,7 @@ export default function AdminMasterLogin() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: pwd }),
+        credentials: "include",
       });
       if (!response.ok) {
         const error = await response.json();

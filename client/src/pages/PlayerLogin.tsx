@@ -50,6 +50,7 @@ export default function PlayerLogin() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, nationalId }),
+        credentials: "include",
       });
 
       if (!response.ok) {
