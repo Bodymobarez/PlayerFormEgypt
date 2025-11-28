@@ -43,16 +43,17 @@ Soccer Hunters is a web-based player assessment registration platform for Egypti
 - RESTful API structure with professional error handling
 - Service layer pattern (auth, assessment, payment, stats, export)
 - Express session management for authentication
-- Stripe payment processing with webhook support
-- Memory-based storage (TODO: switch to Neon PostgreSQL)
+- Vodafone Cash payment (Stripe disabled)
+- PostgreSQL database via Neon
 - Request validation with Zod schemas
 - Response formatting middleware for consistent API responses
 - Built-in caching system for stats
 
-**Database (In-Memory - Development)**
+**Database (PostgreSQL - Neon)**
 - `clubs` - Club info, logo, pricing, credentials
+- `players` - Player accounts with authentication
 - `assessments` - Player registration and payment data
-- Pre-populated with sample club (النادي الأهلي - Al Ahly)
+- `users` - Admin users
 
 ### 🔧 Backend Services
 
@@ -102,12 +103,12 @@ Soccer Hunters is a web-based player assessment registration platform for Egypti
 
 ## Technical Decisions
 
-1. **Stripe Payments** - Direct integration for payment processing
+1. **Vodafone Cash Payment** - Manual payment via 01061887799 (Stripe disabled)
 2. **Session-based Auth** - Server-side sessions for security
 3. **Assessments Table** - Renamed from "players" to reflect assessment registration flow
 4. **Price per Club** - Each club can set different assessment fees
 5. **Service Layer** - Professional separation of concerns
-6. **In-Memory Storage** - Development storage (TODO: migrate to Neon)
+6. **PostgreSQL Database** - Neon-hosted PostgreSQL with Drizzle ORM
 7. **Error Handling Classes** - Comprehensive error management
 8. **Response Formatting Middleware** - Consistent API responses
 
@@ -152,11 +153,10 @@ The application is ready for development use with in-memory storage. For product
 ## Known Issues & TODOs
 
 - ✅ Backend API fully functional
-- ✅ Payment integration structure ready
+- ✅ Vodafone Cash payment integration complete
 - ✅ Error handling and validation complete
 - ✅ Admin Panel: Master control panel with user management complete
-- ⚠️ Database: Currently using in-memory storage (TODO: migrate to Neon)
-- ⚠️ Webhooks: Stripe webhook handlers need environment setup
+- ✅ Database: PostgreSQL via Neon (migrated from memory)
 - 📝 Email: Notification system not yet implemented
 
 ## File Structure
@@ -173,7 +173,10 @@ server/
 ├── middleware.ts       # Express middleware
 ├── errors.ts          # Error classes
 ├── validators.ts      # Zod schemas
-├── storage-memory.ts  # In-memory storage (development)
+├── storage.ts         # Storage exports (uses DbStorage)
+├── storage-db.ts      # PostgreSQL storage implementation
+├── storage-memory.ts  # In-memory storage (backup)
+├── db.ts              # Database connection
 ├── cache.ts           # Caching system
 └── types.ts           # TypeScript types
 
