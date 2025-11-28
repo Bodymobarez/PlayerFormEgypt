@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Redirect } from "wouter";
-import { LogOut, Save, Edit2, X } from "lucide-react";
+import { Redirect, Link } from "wouter";
+import { LogOut, Save, Edit2, X, ArrowRight, Building2, Palette, DollarSign, Image } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-interface ClubAdmin {
+interface ClubSettings {
   id: number;
   clubId: string;
   name: string;
@@ -23,36 +23,42 @@ export default function AdminSettings() {
   const { club, logout, isLoading: authLoading } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<Partial<ClubAdmin>>({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState<Partial<ClubSettings>>({});
 
-  const { data: clubs = [] } = useQuery<ClubAdmin[]>({
-    queryKey: ["admin", "clubs"],
+  const { data: clubSettings, isLoading: settingsLoading } = useQuery<ClubSettings | null>({
+    queryKey: ["club", "settings", club?.clubId],
     queryFn: async () => {
-      const response = await fetch("/api/admin/clubs");
-      if (!response.ok) throw new Error("فشل جلب البيانات");
+      if (!club?.clubId) return null;
+      const response = await fetch(`/api/clubs/${club.clubId}`, {
+        credentials: "include",
+      });
+      if (!response.ok) return null;
       const json = await response.json();
-      return json.data || [];
+      return json.data || null;
     },
+    enabled: !!club?.clubId,
   });
 
   const updateMutation = useMutation({
-    mutationFn: async (data: { clubId: string; updates: Partial<ClubAdmin> }) => {
-      const response = await fetch(`/api/admin/clubs/${data.clubId}`, {
+    mutationFn: async (updates: Partial<ClubSettings>) => {
+      const response = await fetch(`/api/admin/clubs/${club?.clubId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data.updates),
+        body: JSON.stringify(updates),
+        credentials: "include",
       });
       if (!response.ok) throw new Error("فشل التحديث");
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "clubs"] });
-      setEditingId(null);
+      queryClient.invalidateQueries({ queryKey: ["club", "settings"] });
+      queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
+      setIsEditing(false);
       setEditForm({});
       toast({
         title: "تم التحديث بنجاح",
-        description: "تم حفظ تغييرات النادي",
+        description: "تم حفظ إعدادات النادي",
       });
     },
     onError: () => {
@@ -64,30 +70,54 @@ export default function AdminSettings() {
     },
   });
 
-  if (authLoading) return <div className="p-8 text-center">جاري التحميل...</div>;
+  if (authLoading || settingsLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">جاري التحميل...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!club) return <Redirect to="/login" />;
 
-  const startEdit = (club: ClubAdmin) => {
-    setEditingId(club.id);
-    setEditForm(club);
-  };
-
-  const handleSave = () => {
-    const club = clubs.find(c => c.id === editingId);
-    if (!club) return;
-    
-    updateMutation.mutate({
-      clubId: club.clubId,
-      updates: editForm,
+  const startEdit = () => {
+    setIsEditing(true);
+    setEditForm({
+      name: clubSettings?.name || club.name,
+      assessmentPrice: clubSettings?.assessmentPrice || 5000,
+      primaryColor: clubSettings?.primaryColor || club.primaryColor,
+      logoUrl: clubSettings?.logoUrl || club.logoUrl,
     });
   };
 
+  const handleSave = () => {
+    updateMutation.mutate(editForm);
+  };
+
+  const displayData = clubSettings || {
+    name: club.name,
+    logoUrl: club.logoUrl,
+    primaryColor: club.primaryColor,
+    assessmentPrice: 5000,
+  };
+
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100" dir="rtl">
       {/* Header */}
       <div className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-foreground">إدارة النوادي والاشتراكات</h1>
+          <div className="flex items-center gap-4">
+            <Link href="/dashboard">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <ArrowRight className="h-4 w-4" />
+                العودة للوحة التحكم
+              </Button>
+            </Link>
+            <h1 className="text-2xl font-bold text-foreground">إعدادات النادي</h1>
+          </div>
           <Button
             variant="outline"
             onClick={() => logout()}
@@ -98,136 +128,183 @@ export default function AdminSettings() {
             تسجيل خروج
           </Button>
         </div>
+        <div className="h-1" style={{ backgroundColor: club.primaryColor }} />
       </div>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid gap-6">
-          {clubs.map((clubData) => (
-            <Card key={clubData.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <img 
-                      src={clubData.logoUrl} 
-                      alt={clubData.name} 
-                      className="h-10 w-10 object-contain"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect fill='%23e0e0e0' width='40' height='40'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='12' fill='%23999'%3E--%3C/text%3E%3C/svg%3E";
-                      }}
-                    />
-                    <div>
-                      <h3 className="text-lg font-bold text-foreground">{editingId === clubData.id ? editForm.name : clubData.name}</h3>
-                      <p className="text-sm text-muted-foreground">@{clubData.username}</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    {editingId === clubData.id ? (
-                      <>
-                        <Button
-                          size="sm"
-                          onClick={handleSave}
-                          disabled={updateMutation.isPending}
-                          data-testid={`button-save-${clubData.id}`}
-                        >
-                          <Save className="h-4 w-4 mr-2" />
-                          حفظ
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            setEditingId(null);
-                            setEditForm({});
-                          }}
-                          data-testid={`button-cancel-${clubData.id}`}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </>
-                    ) : (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => startEdit(clubData)}
-                        data-testid={`button-edit-${clubData.id}`}
-                      >
-                        <Edit2 className="h-4 w-4 mr-2" />
-                        تعديل
-                      </Button>
-                    )}
-                  </div>
+      <main className="container mx-auto px-4 py-8 max-w-3xl">
+        {/* Club Info Card */}
+        <Card className="shadow-lg mb-6 overflow-hidden">
+          <div 
+            className="h-32 flex items-center justify-center"
+            style={{ backgroundColor: displayData.primaryColor }}
+          >
+            <img 
+              src={displayData.logoUrl} 
+              alt={displayData.name} 
+              className="h-20 w-20 object-contain bg-white rounded-full p-2 shadow-lg"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23e0e0e0' width='80' height='80' rx='40'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='24' fill='%23999'%3E🏟%3C/text%3E%3C/svg%3E";
+              }}
+            />
+          </div>
+          <CardHeader className="text-center pb-2">
+            <CardTitle className="text-2xl">{isEditing ? editForm.name : displayData.name}</CardTitle>
+            <p className="text-muted-foreground">@{club.clubId}</p>
+          </CardHeader>
+          <CardContent className="pb-6">
+            <div className="flex justify-center">
+              {!isEditing ? (
+                <Button onClick={startEdit} className="gap-2" data-testid="button-edit-settings">
+                  <Edit2 className="h-4 w-4" />
+                  تعديل الإعدادات
+                </Button>
+              ) : (
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={handleSave} 
+                    disabled={updateMutation.isPending}
+                    className="gap-2"
+                    data-testid="button-save-settings"
+                  >
+                    <Save className="h-4 w-4" />
+                    {updateMutation.isPending ? "جاري الحفظ..." : "حفظ التغييرات"}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setIsEditing(false);
+                      setEditForm({});
+                    }}
+                    data-testid="button-cancel-edit"
+                  >
+                    <X className="h-4 w-4" />
+                    إلغاء
+                  </Button>
                 </div>
-              </CardHeader>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
-              <CardContent className="space-y-4">
-                {editingId === clubData.id ? (
-                  <>
-                    <div className="space-y-2">
-                      <Label>اسم النادي</Label>
-                      <Input
-                        value={editForm.name || ""}
-                        onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                        data-testid={`input-name-${clubData.id}`}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>قيمة الاشتراك (جنيه مصري)</Label>
+        {/* Settings Cards */}
+        <div className="grid gap-4">
+          {/* Club Name */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-blue-100">
+                  <Building2 className="h-6 w-6 text-blue-600" />
+                </div>
+                <div className="flex-1">
+                  <Label className="text-sm text-muted-foreground">اسم النادي</Label>
+                  {isEditing ? (
+                    <Input
+                      value={editForm.name || ""}
+                      onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                      className="mt-2"
+                      data-testid="input-club-name"
+                    />
+                  ) : (
+                    <p className="text-lg font-semibold mt-1">{displayData.name}</p>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Assessment Price */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-green-100">
+                  <DollarSign className="h-6 w-6 text-green-600" />
+                </div>
+                <div className="flex-1">
+                  <Label className="text-sm text-muted-foreground">قيمة الاشتراك في الاختبار</Label>
+                  {isEditing ? (
+                    <div className="flex items-center gap-2 mt-2">
                       <Input
                         type="number"
                         value={editForm.assessmentPrice || 0}
-                        onChange={(e) =>
-                          setEditForm({ ...editForm, assessmentPrice: Number(e.target.value) })
-                        }
-                        data-testid={`input-price-${clubData.id}`}
+                        onChange={(e) => setEditForm({ ...editForm, assessmentPrice: Number(e.target.value) })}
+                        className="w-32"
+                        data-testid="input-assessment-price"
                       />
+                      <span className="text-muted-foreground">جنيه مصري</span>
                     </div>
-                    <div className="space-y-2">
-                      <Label>اللون الأساسي</Label>
-                      <div className="flex gap-2">
-                        <Input
-                          type="text"
-                          value={editForm.primaryColor || ""}
-                          onChange={(e) => setEditForm({ ...editForm, primaryColor: e.target.value })}
-                          placeholder="مثال: hsl(354 70% 45%)"
-                          data-testid={`input-color-${clubData.id}`}
-                          className="flex-1"
-                        />
-                        <div
-                          className="w-12 h-10 rounded border border-border"
-                          style={{ backgroundColor: editForm.primaryColor }}
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>رابط الشعار</Label>
+                  ) : (
+                    <p className="text-2xl font-bold text-green-600 mt-1">
+                      {displayData.assessmentPrice?.toLocaleString()} ج.م
+                    </p>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Primary Color */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-purple-100">
+                  <Palette className="h-6 w-6 text-purple-600" />
+                </div>
+                <div className="flex-1">
+                  <Label className="text-sm text-muted-foreground">اللون الأساسي للنادي</Label>
+                  {isEditing ? (
+                    <div className="flex items-center gap-3 mt-2">
                       <Input
-                        value={editForm.logoUrl || ""}
-                        onChange={(e) => setEditForm({ ...editForm, logoUrl: e.target.value })}
-                        data-testid={`input-logo-${clubData.id}`}
+                        value={editForm.primaryColor || ""}
+                        onChange={(e) => setEditForm({ ...editForm, primaryColor: e.target.value })}
+                        placeholder="مثال: hsl(354 70% 45%)"
+                        className="flex-1"
+                        data-testid="input-primary-color"
+                      />
+                      <div
+                        className="w-12 h-10 rounded-lg border-2 border-border shadow-inner"
+                        style={{ backgroundColor: editForm.primaryColor }}
                       />
                     </div>
-                  </>
-                ) : (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-xs text-muted-foreground">قيمة الاشتراك</p>
-                      <p className="text-2xl font-bold text-primary">{clubData.assessmentPrice.toLocaleString()} ج.م</p>
+                  ) : (
+                    <div className="flex items-center gap-3 mt-2">
+                      <div
+                        className="w-10 h-10 rounded-lg border-2 border-border shadow-inner"
+                        style={{ backgroundColor: displayData.primaryColor }}
+                      />
+                      <code className="text-sm bg-muted px-2 py-1 rounded">{displayData.primaryColor}</code>
                     </div>
-                    <div>
-                      <p className="text-xs text-muted-foreground">اللون الأساسي</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <div
-                          className="w-8 h-8 rounded border border-border"
-                          style={{ backgroundColor: clubData.primaryColor }}
-                        />
-                        <code className="text-xs">{clubData.primaryColor}</code>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Logo URL */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-orange-100">
+                  <Image className="h-6 w-6 text-orange-600" />
+                </div>
+                <div className="flex-1">
+                  <Label className="text-sm text-muted-foreground">رابط شعار النادي</Label>
+                  {isEditing ? (
+                    <Input
+                      value={editForm.logoUrl || ""}
+                      onChange={(e) => setEditForm({ ...editForm, logoUrl: e.target.value })}
+                      placeholder="/logos/club.png"
+                      className="mt-2"
+                      data-testid="input-logo-url"
+                    />
+                  ) : (
+                    <p className="text-sm font-mono bg-muted px-2 py-1 rounded mt-2 break-all">
+                      {displayData.logoUrl}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
