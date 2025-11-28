@@ -547,7 +547,7 @@ export default function AdminMasterPanel() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                  {clubs.slice(0, 12).map((club) => (
+                  {clubs.map((club) => (
                     <div key={club.id} className="flex flex-col items-center p-4 bg-gray-800/50 rounded-xl hover:bg-gray-800 transition-colors">
                       <img
                         src={club.logoUrl}
