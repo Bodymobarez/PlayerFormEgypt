@@ -1,0 +1,76 @@
+index.iife.js:1 content script loaded
+refresh.js:27 WebSocket connection to 'ws://localhost:8081/' failed: 
+initClient @ refresh.js:27
+api/auth/me:1  Failed to load resource: the server responded with a status of 401 ()
+api/auth/me:1  Failed to load resource: the server responded with a status of 401 ()
+api/assessments:1  Failed to load resource: the server responded with a status of 401 ()
+index-Cat3V_QR.js:212  GET https://test.soccerhunters.com/api/auth/me 401 (Unauthorized)
+queryFn @ index-Cat3V_QR.js:212
+o @ index-Cat3V_QR.js:57
+A @ index-Cat3V_QR.js:57
+start @ index-Cat3V_QR.js:57
+fetch @ index-Cat3V_QR.js:57
+(anonymous) @ index-Cat3V_QR.js:57
+(anonymous) @ index-Cat3V_QR.js:57
+batch @ index-Cat3V_QR.js:57
+refetchQueries @ index-Cat3V_QR.js:57
+(anonymous) @ index-Cat3V_QR.js:57
+batch @ index-Cat3V_QR.js:57
+invalidateQueries @ index-Cat3V_QR.js:57
+onSuccess @ index-Cat3V_QR.js:212
+execute @ index-Cat3V_QR.js:57
+await in execute
+mutate @ index-Cat3V_QR.js:57
+(anonymous) @ index-Cat3V_QR.js:57
+m @ index-Cat3V_QR.js:252
+cg @ index-Cat3V_QR.js:48
+(anonymous) @ index-Cat3V_QR.js:48
+pm @ index-Cat3V_QR.js:48
+Ld @ index-Cat3V_QR.js:48
+Xd @ index-Cat3V_QR.js:49
+c_ @ index-Cat3V_QR.js:49
+index-Cat3V_QR.js:252  GET https://test.soccerhunters.com/api/assessments 401 (Unauthorized)
+queryFn @ index-Cat3V_QR.js:252
+o @ index-Cat3V_QR.js:57
+A @ index-Cat3V_QR.js:57
+start @ index-Cat3V_QR.js:57
+fetch @ index-Cat3V_QR.js:57
+#d @ index-Cat3V_QR.js:57
+onSubscribe @ index-Cat3V_QR.js:57
+subscribe @ index-Cat3V_QR.js:57
+(anonymous) @ index-Cat3V_QR.js:57
+gp @ index-Cat3V_QR.js:48
+Ui @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+qn @ index-Cat3V_QR.js:48
+My @ index-Cat3V_QR.js:48
+eg @ index-Cat3V_QR.js:48
+xo @ index-Cat3V_QR.js:48
+Jy @ index-Cat3V_QR.js:48
+$y @ index-Cat3V_QR.js:48
+qy @ index-Cat3V_QR.js:48
+By @ index-Cat3V_QR.js:48
+ig @ index-Cat3V_QR.js:48
+Zi @ index-Cat3V_QR.js:48
+ag @ index-Cat3V_QR.js:48
+(anonymous) @ index-Cat3V_QR.js:48

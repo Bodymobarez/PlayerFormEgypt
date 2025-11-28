@@ -40,7 +40,6 @@ export class PaymentService {
               product_data: {
                 name: `اختبار ${club.name}`,
                 description: `تسجيل اللاعب ${playerName}`,
-                images: club.logoUrl ? [club.logoUrl] : [],
               },
             },
             quantity: 1,
