@@ -621,11 +621,24 @@ export default function AdminMasterPanel() {
                       </div>
                       
                       <div className="flex items-center gap-2">
-                        <div 
-                          className="w-8 h-8 rounded-lg border-2 border-gray-600" 
-                          style={{ backgroundColor: club.primaryColor }}
-                          title="لون النادي"
-                        />
+                        {editingClubId === club.id ? (
+                          <div className="relative">
+                            <input
+                              type="color"
+                              value={editClubForm.primaryColor || club.primaryColor || "#10b981"}
+                              onChange={(e) => setEditClubForm({ ...editClubForm, primaryColor: e.target.value })}
+                              className="w-10 h-10 rounded-lg border-2 border-amber-500 cursor-pointer"
+                              title="اختر لون النادي"
+                              data-testid={`input-club-color-${club.id}`}
+                            />
+                          </div>
+                        ) : (
+                          <div 
+                            className="w-8 h-8 rounded-lg border-2 border-gray-600" 
+                            style={{ backgroundColor: club.primaryColor }}
+                            title="لون النادي"
+                          />
+                        )}
                         
                         {editingClubId === club.id ? (
                           <div className="flex gap-2">
