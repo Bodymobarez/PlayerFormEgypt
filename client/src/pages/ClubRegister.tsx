@@ -16,7 +16,7 @@ export default function ClubRegister() {
     password: "",
     confirmPassword: "",
     logoUrl: "",
-    primaryColor: "hsl(220 70% 50%)",
+    primaryColor: "#3b82f6",
     assessmentPrice: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -389,22 +389,17 @@ export default function ClubRegister() {
                   <Palette className="h-4 w-4" />
                   اللون الأساسي
                 </Label>
-                <div className="flex gap-2">
-                  <Input
+                <div className="flex items-center gap-3">
+                  <input
                     id="primaryColor"
-                    type="text"
-                    placeholder="hsl(220 70% 50%)"
+                    type="color"
                     value={formData.primaryColor}
                     onChange={(e) => handleChange("primaryColor", e.target.value)}
                     disabled={isLoading}
                     data-testid="input-club-color"
-                    className="h-12 text-base flex-1"
-                    dir="ltr"
+                    className="w-16 h-12 rounded-lg border-2 border-border cursor-pointer bg-transparent"
                   />
-                  <div
-                    className="w-12 h-12 rounded-lg border-2 border-border shadow-inner flex-shrink-0"
-                    style={{ backgroundColor: formData.primaryColor }}
-                  />
+                  <span className="text-sm text-muted-foreground">اضغط لاختيار لون ناديك</span>
                 </div>
               </div>
 
