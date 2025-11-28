@@ -583,40 +583,56 @@ export default function AdminMasterPanel() {
                       className="flex items-center justify-between p-4 bg-gray-800/50 rounded-xl border border-gray-700 hover:border-gray-600 transition-colors"
                     >
                       <div className="flex items-center gap-4">
-                        <img
-                          src={club.logoUrl}
-                          alt={club.name}
-                          className="w-14 h-14 object-contain rounded-xl bg-gray-700/50 p-2"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%23374151' width='56' height='56' rx='12'/%3E%3C/svg%3E";
-                          }}
-                        />
-                        <div>
+                        <div className="relative">
+                          <img
+                            src={editingClubId === club.id ? (editClubForm.logoUrl || club.logoUrl) : club.logoUrl}
+                            alt={club.name}
+                            className="w-14 h-14 object-contain rounded-xl bg-gray-700/50 p-2"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%23374151' width='56' height='56' rx='12'/%3E%3C/svg%3E";
+                            }}
+                          />
+                        </div>
+                        <div className="flex-1">
                           {editingClubId === club.id ? (
-                            <Input
-                              value={editClubForm.name || ""}
-                              onChange={(e) => setEditClubForm({ ...editClubForm, name: e.target.value })}
-                              className="bg-gray-700 border-gray-600 text-white mb-2"
-                              data-testid={`input-club-name-${club.id}`}
-                            />
-                          ) : (
-                            <h3 className="text-lg font-bold text-white">{club.name}</h3>
-                          )}
-                          <div className="flex items-center gap-3 text-sm text-gray-400">
-                            <span>@{club.username}</span>
-                            <span className="text-gray-600">•</span>
-                            {editingClubId === club.id ? (
+                            <div className="space-y-2">
                               <Input
-                                type="number"
-                                value={editClubForm.assessmentPrice || 0}
-                                onChange={(e) => setEditClubForm({ ...editClubForm, assessmentPrice: Number(e.target.value) })}
-                                className="bg-gray-700 border-gray-600 text-white w-24 h-8"
-                                data-testid={`input-club-price-${club.id}`}
+                                value={editClubForm.name || ""}
+                                onChange={(e) => setEditClubForm({ ...editClubForm, name: e.target.value })}
+                                className="bg-gray-700 border-gray-600 text-white"
+                                placeholder="اسم النادي"
+                                data-testid={`input-club-name-${club.id}`}
                               />
-                            ) : (
-                              <span className="text-amber-400">{club.assessmentPrice} ج.م</span>
-                            )}
-                          </div>
+                              <Input
+                                value={editClubForm.logoUrl || ""}
+                                onChange={(e) => setEditClubForm({ ...editClubForm, logoUrl: e.target.value })}
+                                className="bg-gray-700 border-gray-600 text-white text-xs"
+                                placeholder="رابط اللوجو (URL)"
+                                dir="ltr"
+                                data-testid={`input-club-logo-${club.id}`}
+                              />
+                              <div className="flex items-center gap-2">
+                                <span className="text-gray-400 text-sm">السعر:</span>
+                                <Input
+                                  type="number"
+                                  value={editClubForm.assessmentPrice || 0}
+                                  onChange={(e) => setEditClubForm({ ...editClubForm, assessmentPrice: Number(e.target.value) })}
+                                  className="bg-gray-700 border-gray-600 text-white w-24 h-8"
+                                  data-testid={`input-club-price-${club.id}`}
+                                />
+                                <span className="text-gray-400 text-sm">ج.م</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <>
+                              <h3 className="text-lg font-bold text-white">{club.name}</h3>
+                              <div className="flex items-center gap-3 text-sm text-gray-400">
+                                <span>@{club.username}</span>
+                                <span className="text-gray-600">•</span>
+                                <span className="text-amber-400">{club.assessmentPrice} ج.م</span>
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
                       
