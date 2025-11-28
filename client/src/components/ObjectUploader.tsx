@@ -53,8 +53,9 @@ export function ObjectUploader({
         throw new Error('فشل رفع الصورة');
       }
 
-      const data = await response.json();
-      onUploadComplete(data.url);
+      const result = await response.json();
+      const logoUrl = result.data?.url || result.url;
+      onUploadComplete(logoUrl);
     } catch (error) {
       console.error('Upload error:', error);
       alert('حدث خطأ أثناء رفع الصورة');

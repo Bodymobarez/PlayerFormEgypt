@@ -68,8 +68,9 @@ export default function ClubRegister() {
         throw new Error('فشل رفع الصورة');
       }
 
-      const data = await response.json();
-      setFormData(prev => ({ ...prev, logoUrl: data.url }));
+      const result = await response.json();
+      const logoUrl = result.data?.url || result.url;
+      setFormData(prev => ({ ...prev, logoUrl }));
       
       toast({
         title: "تم",
