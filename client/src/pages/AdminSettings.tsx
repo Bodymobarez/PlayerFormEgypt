@@ -42,7 +42,7 @@ export default function AdminSettings() {
 
   const updateMutation = useMutation({
     mutationFn: async (updates: Partial<ClubSettings>) => {
-      const response = await fetch(`/api/admin/clubs/${club?.clubId}`, {
+      const response = await fetch("/api/club/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates),

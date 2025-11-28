@@ -515,6 +515,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     })
   );
 
+  // ==================== CLUB SETTINGS ROUTES ====================
+  // Update own club settings (for logged-in club)
+  app.put(
+    "/api/club/settings",
+    requireAuth,
+    asyncHandler(async (req, res) => {
+      const { name, assessmentPrice, primaryColor, logoUrl } = req.body;
+      const clubId = req.session.clubId!;
+
+      const club = await storage.getClubByClubId(clubId);
+      if (!club) {
+        throw new NotFoundError("Club");
+      }
+
+      const updated = await storage.updateClub(club.id, {
+        ...(name && { name }),
+        ...(assessmentPrice !== undefined && { assessmentPrice }),
+        ...(primaryColor && { primaryColor }),
+        ...(logoUrl && { logoUrl }),
+      });
+
+      res.json({
+        id: updated!.id,
+        clubId: updated!.clubId,
+        name: updated!.name,
+        logoUrl: updated!.logoUrl,
+        primaryColor: updated!.primaryColor,
+        assessmentPrice: updated!.assessmentPrice,
+      });
+    })
+  );
+
   // ==================== PLAYER ROUTES ====================
   // Player login
   app.post(
