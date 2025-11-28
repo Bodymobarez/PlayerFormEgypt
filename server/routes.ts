@@ -33,14 +33,16 @@ declare module "express-session" {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Middleware
+  const isProduction = process.env.NODE_ENV === "production";
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "soccer-hunters-secret-2024",
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: process.env.NODE_ENV === "production",
+        secure: isProduction,
         httpOnly: true,
+        sameSite: isProduction ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 24 * 7,
       },
     })
