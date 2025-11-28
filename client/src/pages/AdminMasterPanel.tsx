@@ -31,6 +31,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ObjectUploader } from "@/components/ObjectUploader";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -603,14 +604,20 @@ export default function AdminMasterPanel() {
                                 placeholder="اسم النادي"
                                 data-testid={`input-club-name-${club.id}`}
                               />
-                              <Input
-                                value={editClubForm.logoUrl || ""}
-                                onChange={(e) => setEditClubForm({ ...editClubForm, logoUrl: e.target.value })}
-                                className="bg-gray-700 border-gray-600 text-white text-xs"
-                                placeholder="رابط اللوجو (URL)"
-                                dir="ltr"
-                                data-testid={`input-club-logo-${club.id}`}
-                              />
+                              <div className="flex items-center gap-2">
+                                <ObjectUploader
+                                  currentImage={editClubForm.logoUrl || club.logoUrl}
+                                  onUploadComplete={(url) => setEditClubForm({ ...editClubForm, logoUrl: url })}
+                                />
+                                <Input
+                                  value={editClubForm.logoUrl || ""}
+                                  onChange={(e) => setEditClubForm({ ...editClubForm, logoUrl: e.target.value })}
+                                  className="bg-gray-700 border-gray-600 text-white text-xs flex-1"
+                                  placeholder="أو أدخل رابط اللوجو"
+                                  dir="ltr"
+                                  data-testid={`input-club-logo-${club.id}`}
+                                />
+                              </div>
                               <div className="flex items-center gap-2">
                                 <span className="text-gray-400 text-sm">السعر:</span>
                                 <Input

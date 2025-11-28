@@ -3,6 +3,9 @@ import { createServer, type Server } from "http";
 import session from "express-session";
 import createMemoryStore from "memorystore";
 import express from "express";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 import { authService } from "./services/auth.service";
 import { assessmentService } from "./services/assessment.service";
 import { paymentService } from "./services/payment.service";
@@ -34,6 +37,34 @@ declare module "express-session" {
   }
 }
 
+// Multer configuration for file uploads
+const uploadDir = path.join(process.cwd(), 'uploads', 'logos');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const logoStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'logo-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const uploadLogo = multer({
+  storage: logoStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'));
+    }
+  }
+});
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Middleware
   const isProduction = process.env.NODE_ENV === "production";
@@ -58,6 +89,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.use(express.json());
   app.use(responseFormatter);
+
+  // Serve uploaded files
+  app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
+  // ==================== FILE UPLOAD ROUTES ====================
+  app.post(
+    "/api/upload/logo",
+    uploadLogo.single('file'),
+    asyncHandler(async (req, res) => {
+      if (!req.session.isAdmin) {
+        throw new AuthenticationError("Admin access required");
+      }
+
+      if (!req.file) {
+        throw new ValidationError("No file uploaded");
+      }
+
+      const fileUrl = `/uploads/logos/${req.file.filename}`;
+      res.json({ url: fileUrl, filename: req.file.filename });
+    })
+  );
 
   // ==================== AUTH ROUTES ====================
   app.post(
