@@ -7,7 +7,7 @@ interface PaymentMethodOption {
   id: string;
   name: string;
   description: string;
-  logos: string[];
+  logo: string;
   bgColor: string;
   available: boolean;
 }
@@ -20,7 +20,7 @@ export default function PaymentMethod() {
       id: "credit-card",
       name: "البطاقة الائتمانية",
       description: "الدفع عبر بطاقة ائتمان أو خصم (Visa / Mastercard)",
-      logos: ["/payment-logos/visa.png", "/payment-logos/mastercard.png"],
+      logo: "/payment-logos/visa.png",
       bgColor: "bg-gradient-to-br from-blue-500 to-blue-700",
       available: true,
     },
@@ -28,32 +28,32 @@ export default function PaymentMethod() {
       id: "vodafone",
       name: "فودافون كاش",
       description: "تحويل الأموال من محفظة فودافون كاش",
-      logos: ["/payment-logos/vodafone.png"],
-      bgColor: "bg-gradient-to-br from-red-500 to-red-700",
+      logo: "/payment-logos/vodafone-cash.png",
+      bgColor: "bg-gradient-to-br from-red-600 to-red-800",
       available: false,
     },
     {
       id: "instapay",
       name: "انستاباي",
       description: "الدفع الفوري عبر تطبيق انستاباي",
-      logos: ["/payment-logos/instapay.jpg"],
-      bgColor: "bg-gradient-to-br from-green-500 to-green-700",
+      logo: "/payment-logos/instapay-logo.png",
+      bgColor: "bg-gradient-to-br from-purple-600 to-purple-800",
       available: false,
     },
     {
       id: "e-wallet",
       name: "المحفظة الإلكترونية",
       description: "الدفع عبر محفظتك الإلكترونية",
-      logos: ["/payment-logos/wallet.jpg"],
-      bgColor: "bg-gradient-to-br from-purple-500 to-purple-700",
+      logo: "/payment-logos/ewallet.png",
+      bgColor: "bg-gradient-to-br from-sky-500 to-sky-700",
       available: false,
     },
     {
       id: "bank-transfer",
       name: "تحويل بنكي",
       description: "التحويل المباشر من حسابك البنكي",
-      logos: ["/payment-logos/bank.jpg"],
-      bgColor: "bg-gradient-to-br from-emerald-500 to-emerald-700",
+      logo: "/payment-logos/bank-transfer.png",
+      bgColor: "bg-gradient-to-br from-slate-600 to-slate-800",
       available: false,
     },
   ];
@@ -89,27 +89,20 @@ export default function PaymentMethod() {
               className={`overflow-hidden transition-all duration-300 border-0 shadow-lg ${
                 method.available 
                   ? "hover:shadow-2xl hover:scale-[1.02] cursor-pointer" 
-                  : "opacity-70"
+                  : "opacity-80"
               }`}
               onClick={() => method.available && handlePaymentSelect(method.id)}
             >
-              <div className={`${method.bgColor} p-6 relative min-h-[140px] flex items-center justify-center`}>
-                <div className="flex items-center justify-center gap-3">
-                  {method.logos.map((logo, index) => (
-                    <div key={index} className="bg-white rounded-xl p-3 shadow-lg">
-                      <img 
-                        src={logo} 
-                        alt={method.name}
-                        className="h-12 w-auto object-contain max-w-[100px]"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                    </div>
-                  ))}
+              <div className={`${method.bgColor} p-5 relative min-h-[160px] flex items-center justify-center`}>
+                <div className="bg-white rounded-2xl p-4 shadow-xl">
+                  <img 
+                    src={method.logo} 
+                    alt={method.name}
+                    className="h-20 w-auto object-contain max-w-[180px]"
+                  />
                 </div>
                 {!method.available && (
-                  <span className="absolute top-3 left-3 bg-white/30 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-bold text-white">
+                  <span className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-bold text-white">
                     قريباً
                   </span>
                 )}
