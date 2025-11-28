@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import session from "express-session";
+import createMemoryStore from "memorystore";
 import express from "express";
 import { authService } from "./services/auth.service";
 import { assessmentService } from "./services/assessment.service";
@@ -34,16 +35,21 @@ declare module "express-session" {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Middleware
   const isProduction = process.env.NODE_ENV === "production";
+  const MemoryStore = createMemoryStore(session);
+  
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "soccer-hunters-secret-2024",
       resave: false,
       saveUninitialized: false,
+      store: new MemoryStore({
+        checkPeriod: 86400000, // prune expired entries every 24h
+      }),
       cookie: {
         secure: isProduction,
         httpOnly: true,
         sameSite: isProduction ? "none" : "lax",
-        maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       },
     })
   );
