@@ -180,7 +180,7 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-2">
                 <Trophy className="h-5 w-5 text-yellow-400" />
-                <span>18 نادي</span>
+                <span>21 نادي</span>
               </div>
               <div className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-blue-400" />
@@ -216,7 +216,7 @@ export default function Home() {
               {
                 icon: Building2,
                 title: "اختر النادي",
-                description: "اختر النادي الذي تريد التسجيل في اختباراته من بين 18 نادي",
+                description: "اختر النادي الذي تريد التسجيل في اختباراته من بين 21 نادي",
                 color: "text-blue-500",
                 bg: "bg-blue-100",
               },
@@ -267,8 +267,8 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-4 max-w-6xl mx-auto">
-            {clubs.slice(0, 18).map((club) => (
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-4 max-w-6xl mx-auto">
+            {clubs.map((club) => (
               <div
                 key={club.id}
                 className="group cursor-pointer transform hover:scale-105 transition-transform"
