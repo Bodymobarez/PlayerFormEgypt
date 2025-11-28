@@ -64,7 +64,7 @@ export function useAuth() {
     onSuccess: () => {
       // Clear all cached data
       queryClient.clear();
-      navigate("/");
+      navigate("/login");
     },
   });
 
