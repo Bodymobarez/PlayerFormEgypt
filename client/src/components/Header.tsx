@@ -141,9 +141,10 @@ export const CLUBS: Club[] = [
 interface HeaderProps {
   selectedClub: Club | null;
   onClubChange: (clubId: string) => void;
+  clubs?: Club[];
 }
 
-export function Header({ selectedClub, onClubChange }: HeaderProps) {
+export function Header({ selectedClub, onClubChange, clubs = CLUBS }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-border shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-4" dir="rtl">
@@ -174,7 +175,7 @@ export function Header({ selectedClub, onClubChange }: HeaderProps) {
               <SelectValue placeholder="اختر النادي..." />
             </SelectTrigger>
             <SelectContent dir="rtl">
-              {CLUBS.map((club) => (
+              {clubs.map((club) => (
                 <SelectItem key={club.id} value={club.id}>
                   <div className="flex items-center gap-2">
                     <img src={club.logoUrl} alt={club.name} className="h-5 w-5 object-contain" />

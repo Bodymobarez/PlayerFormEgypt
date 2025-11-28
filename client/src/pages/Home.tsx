@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 import { Redirect } from "wouter";
 import { Header, CLUBS } from "@/components/Header";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -8,22 +9,76 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LogIn, Settings } from "lucide-react";
 
+interface ClubFromAPI {
+  clubId: string;
+  name: string;
+  logoUrl: string;
+  primaryColor: string;
+  assessmentPrice?: number;
+}
+
 export default function Home() {
   const { club: authClub, isAuthenticated } = useAuth();
-  const [selectedClub, setSelectedClub] = useState<Club | null>(CLUBS[0]);
+  const [selectedClub, setSelectedClub] = useState<Club | null>(null);
+
+  // Fetch clubs from API
+  const { data: apiClubs } = useQuery<ClubFromAPI[]>({
+    queryKey: ["clubs"],
+    queryFn: async () => {
+      const response = await fetch("/api/clubs", {
+        credentials: "include",
+      });
+      if (!response.ok) return [];
+      const json = await response.json();
+      return json.data || [];
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
+  // Merge API data with static CLUBS data
+  const clubs: Club[] = CLUBS.map(staticClub => {
+    const apiClub = apiClubs?.find(c => c.clubId === staticClub.id);
+    if (apiClub) {
+      return {
+        ...staticClub,
+        name: apiClub.name || staticClub.name,
+        logoUrl: apiClub.logoUrl || staticClub.logoUrl,
+        primaryColor: apiClub.primaryColor || staticClub.primaryColor,
+        assessmentPrice: apiClub.assessmentPrice ?? staticClub.assessmentPrice,
+      };
+    }
+    return staticClub;
+  });
+
+  // Set first club as default when clubs are loaded
+  useEffect(() => {
+    if (clubs.length > 0 && !selectedClub) {
+      setSelectedClub(clubs[0]);
+    }
+  }, [clubs, selectedClub]);
+
+  // Update selected club when API data changes
+  useEffect(() => {
+    if (selectedClub && apiClubs) {
+      const updatedClub = clubs.find(c => c.id === selectedClub.id);
+      if (updatedClub && updatedClub.assessmentPrice !== selectedClub.assessmentPrice) {
+        setSelectedClub(updatedClub);
+      }
+    }
+  }, [apiClubs, selectedClub, clubs]);
 
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
   }
 
   const handleClubChange = (clubId: string) => {
-    const club = CLUBS.find(c => c.id === clubId) || null;
+    const club = clubs.find(c => c.id === clubId) || null;
     setSelectedClub(club);
   };
 
   return (
     <div className="min-h-screen bg-background pb-20 font-sans">
-      <Header selectedClub={selectedClub} onClubChange={handleClubChange} />
+      <Header selectedClub={selectedClub} onClubChange={handleClubChange} clubs={clubs} />
       
       <main className="container mx-auto px-4 pt-8">
         <div className="max-w-4xl mx-auto mb-8 text-center space-y-2">
