@@ -7,35 +7,36 @@ import {
   type InsertClub,
   type Assessment,
   type InsertAssessment,
+  type Player,
+  type InsertPlayer,
   users,
   clubs,
   assessments,
+  players,
 } from "@shared/schema";
 
 export interface IStorage {
-  // User methods
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-
-  // Club methods
+  getPlayer(id: number): Promise<Player | undefined>;
+  getPlayerByUsername(username: string): Promise<Player | undefined>;
+  getAllPlayers(): Promise<Player[]>;
+  createPlayer(player: InsertPlayer): Promise<Player>;
+  updatePlayer(id: number, updates: Partial<Player>): Promise<Player | undefined>;
+  deletePlayer(id: number): Promise<void>;
+  deleteClub(id: number): Promise<void>;
   getClub(id: number): Promise<Club | undefined>;
   getClubByUsername(username: string): Promise<Club | undefined>;
   getClubByClubId(clubId: string): Promise<Club | undefined>;
   getAllClubs(): Promise<Club[]>;
   createClub(club: InsertClub): Promise<Club>;
   updateClub(id: number, updates: Partial<Club>): Promise<Club | undefined>;
-
-  // Assessment methods
   getAssessment(id: number): Promise<Assessment | undefined>;
   getAssessmentsByClubId(clubId: string): Promise<Assessment[]>;
-  createAssessment(
-    assessment: InsertAssessment & { assessmentPrice: number }
-  ): Promise<Assessment>;
-  updateAssessment(
-    id: number,
-    updates: Partial<Assessment>
-  ): Promise<Assessment | undefined>;
+  getAssessmentsByPlayerId(playerId: number): Promise<Assessment[]>;
+  createAssessment(assessment: InsertAssessment & { assessmentPrice: number; playerId?: number }): Promise<Assessment>;
+  updateAssessment(id: number, updates: Partial<Assessment>): Promise<Assessment | undefined>;
   deleteAssessment(id: number): Promise<void>;
 }
 
@@ -57,6 +58,42 @@ export class DbStorage implements IStorage {
   async createUser(insertUser: InsertUser): Promise<User> {
     const result = await db.insert(users).values(insertUser).returning();
     return result[0];
+  }
+
+  // Player methods
+  async getPlayer(id: number): Promise<Player | undefined> {
+    const result = await db.select().from(players).where(eq(players.id, id));
+    return result[0];
+  }
+
+  async getPlayerByUsername(username: string): Promise<Player | undefined> {
+    const result = await db
+      .select()
+      .from(players)
+      .where(eq(players.username, username));
+    return result[0];
+  }
+
+  async getAllPlayers(): Promise<Player[]> {
+    return await db.select().from(players);
+  }
+
+  async createPlayer(insertPlayer: InsertPlayer): Promise<Player> {
+    const result = await db.insert(players).values(insertPlayer).returning();
+    return result[0];
+  }
+
+  async updatePlayer(id: number, updates: Partial<Player>): Promise<Player | undefined> {
+    const result = await db
+      .update(players)
+      .set(updates)
+      .where(eq(players.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deletePlayer(id: number): Promise<void> {
+    await db.delete(players).where(eq(players.id, id));
   }
 
   // Club methods
@@ -102,6 +139,10 @@ export class DbStorage implements IStorage {
     return result[0];
   }
 
+  async deleteClub(id: number): Promise<void> {
+    await db.delete(clubs).where(eq(clubs.id, id));
+  }
+
   // Assessment methods
   async getAssessment(id: number): Promise<Assessment | undefined> {
     const result = await db
@@ -118,12 +159,22 @@ export class DbStorage implements IStorage {
       .where(eq(assessments.clubId, clubId));
   }
 
+  async getAssessmentsByPlayerId(playerId: number): Promise<Assessment[]> {
+    return await db
+      .select()
+      .from(assessments)
+      .where(eq(assessments.playerId, playerId));
+  }
+
   async createAssessment(
-    insertAssessment: InsertAssessment & { assessmentPrice: number }
+    insertAssessment: InsertAssessment & { assessmentPrice: number; playerId?: number }
   ): Promise<Assessment> {
     const result = await db
       .insert(assessments)
-      .values(insertAssessment)
+      .values({
+        ...insertAssessment,
+        playerId: insertAssessment.playerId || null,
+      })
       .returning();
     return result[0];
   }
