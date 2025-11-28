@@ -142,13 +142,44 @@ interface HeaderProps {
   selectedClub: Club | null;
   onClubChange: (clubId: string) => void;
   clubs?: Club[];
+  minimal?: boolean;
 }
 
-export function Header({ selectedClub, onClubChange, clubs = CLUBS }: HeaderProps) {
+export function Header({ selectedClub, onClubChange, clubs = CLUBS, minimal = false }: HeaderProps) {
+  if (minimal) {
+    return (
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 p-4 bg-white rounded-xl shadow-md max-w-xl mx-auto" dir="rtl">
+        {selectedClub && (
+          <div className="flex items-center gap-3">
+            <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-14 w-14 object-contain" />
+            <div>
+              <p className="text-lg font-bold text-foreground">{selectedClub.name}</p>
+              <p className="text-sm text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} ج.م</p>
+            </div>
+          </div>
+        )}
+        <Select value={selectedClub?.id || ""} onValueChange={onClubChange}>
+          <SelectTrigger className="w-[200px] bg-muted" dir="rtl">
+            <SelectValue placeholder="اختر النادي..." />
+          </SelectTrigger>
+          <SelectContent dir="rtl">
+            {clubs.map((club) => (
+              <SelectItem key={club.id} value={club.id}>
+                <div className="flex items-center gap-2">
+                  <img src={club.logoUrl} alt={club.name} className="h-5 w-5 object-contain" />
+                  {club.name}
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    );
+  }
+
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-border shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-4" dir="rtl">
-        {/* Logo and Title */}
         <div className="flex items-center gap-3">
           <div className="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-2 rounded-lg">
             <Zap className="h-6 w-6" />
@@ -159,14 +190,13 @@ export function Header({ selectedClub, onClubChange, clubs = CLUBS }: HeaderProp
           </div>
         </div>
 
-        {/* Club Selector */}
         <div className="flex items-center gap-3">
           {selectedClub && (
             <div className="hidden sm:flex items-center gap-2">
               <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-10 w-10 object-contain" />
               <div>
                 <p className="text-sm font-semibold text-foreground">{selectedClub.name}</p>
-                <p className="text-xs text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(2)} ج.م</p>
+                <p className="text-xs text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} ج.م</p>
               </div>
             </div>
           )}
