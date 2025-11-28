@@ -612,6 +612,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         name: club.name,
         logoUrl: club.logoUrl,
         primaryColor: club.primaryColor,
+        assessmentPrice: club.assessmentPrice,
       }));
       res.json(clubsData);
     })
