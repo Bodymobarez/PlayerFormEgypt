@@ -94,6 +94,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
   // ==================== FILE UPLOAD ROUTES ====================
+  // Admin logo upload (requires admin session)
   app.post(
     "/api/upload/logo",
     uploadLogo.single('file'),
@@ -102,6 +103,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         throw new AuthenticationError("Admin access required");
       }
 
+      if (!req.file) {
+        throw new ValidationError("No file uploaded");
+      }
+
+      const fileUrl = `/uploads/logos/${req.file.filename}`;
+      res.json({ url: fileUrl, filename: req.file.filename });
+    })
+  );
+
+  // Public logo upload (for club registration)
+  app.post(
+    "/api/upload/club-logo",
+    uploadLogo.single('file'),
+    asyncHandler(async (req, res) => {
       if (!req.file) {
         throw new ValidationError("No file uploaded");
       }

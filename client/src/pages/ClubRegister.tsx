@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useLocation, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Loader, Building2, User, Lock, Image, Palette, DollarSign, ArrowRight } from "lucide-react";
+import { Loader, Building2, User, Lock, Image, Palette, DollarSign, ArrowRight, Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ClubRegister() {
@@ -20,7 +20,81 @@ export default function ClubRegister() {
     assessmentPrice: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "خطأ",
+        description: "الرجاء اختيار صورة فقط",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "خطأ",
+        description: "حجم الصورة يجب أن يكون أقل من 5 ميجا",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setLogoPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      const formDataUpload = new FormData();
+      formDataUpload.append('file', file);
+
+      const response = await fetch('/api/upload/club-logo', {
+        method: 'POST',
+        body: formDataUpload,
+      });
+
+      if (!response.ok) {
+        throw new Error('فشل رفع الصورة');
+      }
+
+      const data = await response.json();
+      setFormData(prev => ({ ...prev, logoUrl: data.url }));
+      
+      toast({
+        title: "تم",
+        description: "تم رفع الشعار بنجاح",
+      });
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "خطأ",
+        description: "حدث خطأ أثناء رفع الصورة",
+        variant: "destructive",
+      });
+      setLogoPreview(null);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const removeLogo = () => {
+    setLogoPreview(null);
+    setFormData(prev => ({ ...prev, logoUrl: "" }));
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -252,21 +326,62 @@ export default function ClubRegister() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="logoUrl" className="text-base font-medium flex items-center gap-2">
+                <Label className="text-base font-medium flex items-center gap-2">
                   <Image className="h-4 w-4" />
-                  رابط شعار النادي (اختياري)
+                  شعار النادي (اختياري)
                 </Label>
-                <Input
-                  id="logoUrl"
-                  type="url"
-                  placeholder="https://example.com/logo.png"
-                  value={formData.logoUrl}
-                  onChange={(e) => handleChange("logoUrl", e.target.value)}
-                  disabled={isLoading}
-                  data-testid="input-club-logo"
-                  className="h-12 text-base"
-                  dir="ltr"
-                />
+                <div className="flex items-center gap-3">
+                  {logoPreview ? (
+                    <div className="relative">
+                      <img
+                        src={logoPreview}
+                        alt="Logo preview"
+                        className="w-16 h-16 object-contain rounded-lg border-2 border-blue-200 bg-white p-1"
+                      />
+                      <button
+                        type="button"
+                        onClick={removeLogo}
+                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                        data-testid="button-remove-logo"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                      <Image className="w-6 h-6 text-gray-400" />
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleLogoUpload}
+                    accept="image/*"
+                    className="hidden"
+                    data-testid="input-club-logo-file"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isLoading || isUploading}
+                    className="h-12 gap-2"
+                    data-testid="button-upload-logo"
+                  >
+                    {isUploading ? (
+                      <>
+                        <Loader className="h-4 w-4 animate-spin" />
+                        جاري الرفع...
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="h-4 w-4" />
+                        {logoPreview ? "تغيير الشعار" : "رفع شعار"}
+                      </>
+                    )}
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">صورة PNG أو JPG، الحد الأقصى 5 ميجا</p>
               </div>
 
               <div className="space-y-2">
