@@ -218,6 +218,10 @@ export default function Login() {
                     </Link>
                     <button
                       type="button"
+                      onClick={() => toast({
+                        title: "استعادة كلمة المرور",
+                        description: "تواصل مع الدعم الفني على support@soccerhunters.com لاستعادة كلمة المرور",
+                      })}
                       className="flex-1 flex items-center justify-center gap-2 h-11 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors text-sm font-medium"
                     >
                       <HelpCircle className="h-4 w-4" />
