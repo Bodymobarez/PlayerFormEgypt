@@ -239,9 +239,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Invalidate stats cache
       statsService.invalidateStats(data.clubId);
 
-      // Create Stripe checkout session
-      const { url: checkoutUrl, sessionId } =
-        await paymentService.createCheckoutSession(
+      // Try to create Stripe checkout session (optional - will work without Stripe)
+      let checkoutUrl: string | null = null;
+      let sessionId: string | null = null;
+      
+      try {
+        const checkoutResult = await paymentService.createCheckoutSession(
           assessment.id,
           data.clubId,
           data.assessmentPrice,
@@ -249,11 +252,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
           `${req.protocol}://${req.get("host")}/checkout?session_id={CHECKOUT_SESSION_ID}&assessment_id=${assessment.id}`,
           `${req.protocol}://${req.get("host")}/`
         );
+        checkoutUrl = checkoutResult.url;
+        sessionId = checkoutResult.sessionId;
+      } catch (stripeError) {
+        // Stripe not configured - assessment still created, payment pending
+        console.warn("Stripe checkout not available:", stripeError instanceof Error ? stripeError.message : "Unknown error");
+      }
 
       res.status(201).json({
         assessment,
         checkoutUrl,
         sessionId,
+        message: checkoutUrl ? undefined : "تم التسجيل بنجاح. الدفع غير متاح حالياً.",
       });
     })
   );

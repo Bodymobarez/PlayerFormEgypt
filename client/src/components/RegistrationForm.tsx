@@ -85,15 +85,27 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
 
       const data = await response.json();
 
-      toast({
-        title: "تم التسجيل بنجاح",
-        description: "اختر طريقة الدفع",
-        className: "bg-green-600 text-white border-none",
-      });
-
-      // Store assessment data and redirect to payment method selection
+      // Store assessment data
       sessionStorage.setItem("assessmentData", JSON.stringify(data));
-      window.location.href = "/payment-method";
+
+      // If Stripe checkout is available, redirect to payment method selection
+      // Otherwise, show success message (payment will be handled manually)
+      if (data.checkoutUrl) {
+        toast({
+          title: "تم التسجيل بنجاح",
+          description: "اختر طريقة الدفع",
+          className: "bg-green-600 text-white border-none",
+        });
+        window.location.href = "/payment-method";
+      } else {
+        toast({
+          title: "تم التسجيل بنجاح",
+          description: data.message || "سيتم التواصل معك لإتمام عملية الدفع",
+          className: "bg-green-600 text-white border-none",
+        });
+        // Redirect to home or success page
+        window.location.href = "/";
+      }
       
       form.reset();
     } catch (error) {
