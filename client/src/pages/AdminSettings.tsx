@@ -85,16 +85,23 @@ export default function AdminSettings() {
 
   const startEdit = () => {
     setIsEditing(true);
+    // Convert from piasters to EGP for display
+    const priceInEgp = (clubSettings?.assessmentPrice || 5000) / 100;
     setEditForm({
       name: clubSettings?.name || club.name,
-      assessmentPrice: clubSettings?.assessmentPrice || 5000,
+      assessmentPrice: priceInEgp,
       primaryColor: clubSettings?.primaryColor || club.primaryColor,
       logoUrl: clubSettings?.logoUrl || club.logoUrl,
     });
   };
 
   const handleSave = () => {
-    updateMutation.mutate(editForm);
+    // Convert from EGP to piasters for storage
+    const formToSave = {
+      ...editForm,
+      assessmentPrice: (editForm.assessmentPrice || 0) * 100,
+    };
+    updateMutation.mutate(formToSave);
   };
 
   const displayData = clubSettings || {
@@ -234,7 +241,7 @@ export default function AdminSettings() {
                     </div>
                   ) : (
                     <p className="text-2xl font-bold text-green-600 mt-1">
-                      {displayData.assessmentPrice?.toLocaleString()} ج.م
+                      {((displayData.assessmentPrice || 0) / 100).toLocaleString()} ج.م
                     </p>
                   )}
                 </div>
