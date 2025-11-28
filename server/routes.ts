@@ -652,6 +652,92 @@ export async function registerRoutes(app: Express): Promise<Server> {
     })
   );
 
+  // Get all players (admin)
+  app.get(
+    "/api/admin/players",
+    asyncHandler(async (req, res) => {
+      if (!req.session.isAdmin) {
+        throw new AuthenticationError("صلاحية إدارية مطلوبة");
+      }
+
+      const players = await storage.getAllPlayers();
+      const playersData = players.map(player => ({
+        id: player.id,
+        username: player.username,
+        fullName: player.fullName,
+        email: player.email,
+        phone: player.phone,
+        photoUrl: player.photoUrl,
+        createdAt: player.createdAt,
+      }));
+      res.json(playersData);
+    })
+  );
+
+  // Delete player (admin)
+  app.delete(
+    "/api/admin/players/:id",
+    asyncHandler(async (req, res) => {
+      if (!req.session.isAdmin) {
+        throw new AuthenticationError("صلاحية إدارية مطلوبة");
+      }
+
+      const id = parseInt(req.params.id);
+      await storage.deletePlayer(id);
+      res.json({ message: "تم حذف اللاعب بنجاح" });
+    })
+  );
+
+  // Update player (admin)
+  app.put(
+    "/api/admin/players/:id",
+    asyncHandler(async (req, res) => {
+      if (!req.session.isAdmin) {
+        throw new AuthenticationError("صلاحية إدارية مطلوبة");
+      }
+
+      const id = parseInt(req.params.id);
+      const { fullName, email, phone } = req.body;
+
+      const updated = await storage.updatePlayer(id, {
+        ...(fullName && { fullName }),
+        ...(email !== undefined && { email }),
+        ...(phone && { phone }),
+      });
+
+      if (!updated) {
+        throw new NotFoundError("Player");
+      }
+
+      res.json({
+        id: updated.id,
+        username: updated.username,
+        fullName: updated.fullName,
+        email: updated.email,
+        phone: updated.phone,
+      });
+    })
+  );
+
+  // Delete club (admin)
+  app.delete(
+    "/api/admin/clubs/:clubId",
+    asyncHandler(async (req, res) => {
+      if (!req.session.isAdmin) {
+        throw new AuthenticationError("صلاحية إدارية مطلوبة");
+      }
+
+      const { clubId } = req.params;
+      const club = await storage.getClubByClubId(clubId);
+      if (!club) {
+        throw new NotFoundError("Club");
+      }
+
+      await storage.deleteClub(club.id);
+      res.json({ message: "تم حذف النادي بنجاح" });
+    })
+  );
+
   // Update club settings (name, price, color, logo)
   app.put(
     "/api/admin/clubs/:clubId",

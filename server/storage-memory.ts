@@ -68,8 +68,11 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   getPlayer(id: number): Promise<Player | undefined>;
   getPlayerByUsername(username: string): Promise<Player | undefined>;
+  getAllPlayers(): Promise<Player[]>;
   createPlayer(player: InsertPlayer): Promise<Player>;
   updatePlayer(id: number, updates: Partial<Player>): Promise<Player | undefined>;
+  deletePlayer(id: number): Promise<void>;
+  deleteClub(id: number): Promise<void>;
   getClub(id: number): Promise<Club | undefined>;
   getClubByUsername(username: string): Promise<Club | undefined>;
   getClubByClubId(clubId: string): Promise<Club | undefined>;
@@ -131,6 +134,24 @@ export class MemoryStorage implements IStorage {
       Object.assign(player, updates);
     }
     return player;
+  }
+
+  async getAllPlayers(): Promise<Player[]> {
+    return [...playersList];
+  }
+
+  async deletePlayer(id: number): Promise<void> {
+    const index = playersList.findIndex((p) => p.id === id);
+    if (index !== -1) {
+      playersList.splice(index, 1);
+    }
+  }
+
+  async deleteClub(id: number): Promise<void> {
+    const index = clubs.findIndex((c) => c.id === id);
+    if (index !== -1) {
+      clubs.splice(index, 1);
+    }
   }
 
   async getClub(id: number): Promise<Club | undefined> {
