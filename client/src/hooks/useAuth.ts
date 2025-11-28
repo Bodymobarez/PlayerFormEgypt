@@ -62,6 +62,8 @@ export function useAuth() {
       if (!response.ok) throw new Error("Logout failed");
     },
     onSuccess: () => {
+      // Clear all cached data
+      queryClient.clear();
       navigate("/");
     },
   });
