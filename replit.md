@@ -18,9 +18,11 @@ Soccer Hunters is a web-based player assessment registration platform for Egypti
 
 ### 🎯 Key Pages
 - **Home** (`/`) - Public registration and club selection
-- **Login** (`/login`) - Club administrator login
+- **Login** (`/login`) - Club administrator login (emerald green theme)
 - **Dashboard** (`/dashboard`) - Admin panel with stats and assessment list
 - **Checkout** (`/checkout`) - Payment status page
+- **Admin Login** (`/admin/login`) - Master admin login (dark theme with gold accents)
+- **Admin Panel** (`/admin/master`) - Professional master control panel with user management
 
 ### 💳 Payment System
 - Stripe integration for handling payments
@@ -85,6 +87,19 @@ Soccer Hunters is a web-based player assessment registration platform for Egypti
 **Clubs**
 - `GET /api/clubs/:clubId` - Get public club information
 
+**Admin (Master Control Panel)**
+- `POST /api/admin/login` - Admin login
+- `POST /api/admin/logout` - Admin logout
+- `GET /api/admin/session` - Check admin session
+- `GET /api/admin/clubs` - List all clubs (admin only)
+- `PUT /api/admin/clubs/:clubId` - Update club settings (admin only)
+- `DELETE /api/admin/clubs/:clubId` - Delete club (admin only)
+- `GET /api/admin/players` - List all players (admin only)
+- `PUT /api/admin/players/:id` - Update player (admin only)
+- `DELETE /api/admin/players/:id` - Delete player (admin only)
+- `GET /api/admin/assessments` - List all assessments (admin only)
+- `DELETE /api/admin/assessments/:id` - Delete assessment (admin only)
+
 ## Technical Decisions
 
 1. **Stripe Payments** - Direct integration for payment processing
@@ -139,10 +154,10 @@ The application is ready for development use with in-memory storage. For product
 - ✅ Backend API fully functional
 - ✅ Payment integration structure ready
 - ✅ Error handling and validation complete
+- ✅ Admin Panel: Master control panel with user management complete
 - ⚠️ Database: Currently using in-memory storage (TODO: migrate to Neon)
 - ⚠️ Webhooks: Stripe webhook handlers need environment setup
 - 📝 Email: Notification system not yet implemented
-- 📝 Admin Panel: Club management UI in progress
 
 ## File Structure
 
