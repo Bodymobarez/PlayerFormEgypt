@@ -7,73 +7,9 @@ interface PaymentMethodOption {
   id: string;
   name: string;
   description: string;
-  logoUrl?: string;
-  logoComponent?: React.ReactNode;
+  logos: string[];
   bgColor: string;
   available: boolean;
-}
-
-function VodafoneLogo() {
-  return (
-    <svg viewBox="0 0 100 100" className="h-14 w-14">
-      <circle cx="50" cy="50" r="45" fill="#E60000"/>
-      <path d="M50 20c-16.5 0-30 13.5-30 30s13.5 30 30 30 30-13.5 30-30-13.5-30-30-30zm0 50c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20z" fill="white"/>
-      <text x="50" y="58" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">V</text>
-    </svg>
-  );
-}
-
-function VisaMastercardLogo() {
-  return (
-    <div className="flex items-center gap-2">
-      <svg viewBox="0 0 80 50" className="h-10 w-16">
-        <rect width="80" height="50" rx="4" fill="#1A1F71"/>
-        <text x="40" y="32" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold" fontStyle="italic">VISA</text>
-      </svg>
-      <svg viewBox="0 0 80 50" className="h-10 w-16">
-        <rect width="80" height="50" rx="4" fill="#000"/>
-        <circle cx="30" cy="25" r="18" fill="#EB001B"/>
-        <circle cx="50" cy="25" r="18" fill="#F79E1B"/>
-        <circle cx="40" cy="25" r="10" fill="#FF5F00"/>
-      </svg>
-    </div>
-  );
-}
-
-function InstaPayLogo() {
-  return (
-    <svg viewBox="0 0 100 100" className="h-14 w-14">
-      <circle cx="50" cy="50" r="45" fill="#00A651"/>
-      <path d="M30 50 L45 65 L70 35" stroke="white" strokeWidth="8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-      <text x="50" y="85" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">InstaPay</text>
-    </svg>
-  );
-}
-
-function WalletLogo() {
-  return (
-    <svg viewBox="0 0 100 100" className="h-14 w-14">
-      <rect x="10" y="25" width="80" height="55" rx="8" fill="#8B5CF6"/>
-      <rect x="55" y="40" width="30" height="25" rx="4" fill="#A78BFA"/>
-      <circle cx="70" cy="52" r="6" fill="white"/>
-      <rect x="20" y="35" width="25" height="4" rx="2" fill="#C4B5FD"/>
-      <rect x="20" y="43" width="18" height="4" rx="2" fill="#C4B5FD"/>
-    </svg>
-  );
-}
-
-function BankLogo() {
-  return (
-    <svg viewBox="0 0 100 100" className="h-14 w-14">
-      <polygon points="50,10 90,35 10,35" fill="#059669"/>
-      <rect x="15" y="38" width="70" height="5" fill="#059669"/>
-      <rect x="20" y="45" width="10" height="35" fill="#10B981"/>
-      <rect x="35" y="45" width="10" height="35" fill="#10B981"/>
-      <rect x="55" y="45" width="10" height="35" fill="#10B981"/>
-      <rect x="70" y="45" width="10" height="35" fill="#10B981"/>
-      <rect x="15" y="82" width="70" height="8" fill="#059669"/>
-    </svg>
-  );
 }
 
 export default function PaymentMethod() {
@@ -84,7 +20,7 @@ export default function PaymentMethod() {
       id: "credit-card",
       name: "البطاقة الائتمانية",
       description: "الدفع عبر بطاقة ائتمان أو خصم (Visa / Mastercard)",
-      logoComponent: <VisaMastercardLogo />,
+      logos: ["/payment-logos/visa.png", "/payment-logos/mastercard.png"],
       bgColor: "bg-gradient-to-br from-blue-500 to-blue-700",
       available: true,
     },
@@ -92,7 +28,7 @@ export default function PaymentMethod() {
       id: "vodafone",
       name: "فودافون كاش",
       description: "تحويل الأموال من محفظة فودافون كاش",
-      logoComponent: <VodafoneLogo />,
+      logos: ["/payment-logos/vodafone.png"],
       bgColor: "bg-gradient-to-br from-red-500 to-red-700",
       available: false,
     },
@@ -100,7 +36,7 @@ export default function PaymentMethod() {
       id: "instapay",
       name: "انستاباي",
       description: "الدفع الفوري عبر تطبيق انستاباي",
-      logoComponent: <InstaPayLogo />,
+      logos: ["/payment-logos/instapay.jpg"],
       bgColor: "bg-gradient-to-br from-green-500 to-green-700",
       available: false,
     },
@@ -108,7 +44,7 @@ export default function PaymentMethod() {
       id: "e-wallet",
       name: "المحفظة الإلكترونية",
       description: "الدفع عبر محفظتك الإلكترونية",
-      logoComponent: <WalletLogo />,
+      logos: ["/payment-logos/wallet.jpg"],
       bgColor: "bg-gradient-to-br from-purple-500 to-purple-700",
       available: false,
     },
@@ -116,7 +52,7 @@ export default function PaymentMethod() {
       id: "bank-transfer",
       name: "تحويل بنكي",
       description: "التحويل المباشر من حسابك البنكي",
-      logoComponent: <BankLogo />,
+      logos: ["/payment-logos/bank.jpg"],
       bgColor: "bg-gradient-to-br from-emerald-500 to-emerald-700",
       available: false,
     },
@@ -157,17 +93,26 @@ export default function PaymentMethod() {
               }`}
               onClick={() => method.available && handlePaymentSelect(method.id)}
             >
-              <div className={`${method.bgColor} p-6 relative`}>
-                <div className="flex justify-between items-start">
-                  <div className="bg-white/90 rounded-xl p-3 shadow-lg">
-                    {method.logoComponent}
-                  </div>
-                  {!method.available && (
-                    <span className="bg-white/30 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-bold text-white">
-                      قريباً
-                    </span>
-                  )}
+              <div className={`${method.bgColor} p-6 relative min-h-[140px] flex items-center justify-center`}>
+                <div className="flex items-center justify-center gap-3">
+                  {method.logos.map((logo, index) => (
+                    <div key={index} className="bg-white rounded-xl p-3 shadow-lg">
+                      <img 
+                        src={logo} 
+                        alt={method.name}
+                        className="h-12 w-auto object-contain max-w-[100px]"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  ))}
                 </div>
+                {!method.available && (
+                  <span className="absolute top-3 left-3 bg-white/30 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-bold text-white">
+                    قريباً
+                  </span>
+                )}
               </div>
 
               <CardContent className="pt-5 pb-5 bg-white">

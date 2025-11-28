@@ -1,41 +1,1257 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta charset="utf-8">
-<title>Wikimedia Error</title>
-<style>
-* { margin: 0; padding: 0; }
-body { background: #fff; font: 15px/1.6 sans-serif; color: #333; }
-.content { margin: 7% auto 0; padding: 2em 1em 1em; max-width: 640px; display: flex; flex-direction: row; flex-wrap: wrap; }
-.footer { clear: both; margin-top: 14%; border-top: 1px solid #e5e5e5; background: #f9f9f9; padding: 2em 0; font-size: 0.8em; text-align: center; }
-img { margin: 0 2em 2em 0; }
-a img { border: 0; }
-h1 { margin-top: 1em; font-size: 1.2em; }
-.content-text { flex: 1; }
-p { margin: 0.7em 0 1em 0; }
-a { color: #0645ad; text-decoration: none; }
-a:hover { text-decoration: underline; }
-code { font-family: sans-serif; }
-summary { font-weight: bold; cursor: pointer; }
-details[open] { background: #970302; color: #dfdedd; }
-.text-muted { color: #777; }
-@media (prefers-color-scheme: dark) {
-  a { color: #9e9eff; }
-  body { background: transparent; color: #ddd; }
-  .footer { border-top: 1px solid #444; background: #060606; }
-  #logo { filter: invert(1) hue-rotate(180deg); }
-  .text-muted { color: #888; }
-}
-</style>
-<meta name="color-scheme" content="light dark">
-<div class="content" role="main">
-<a href="https://www.wikimedia.org"><img id="logo" src="https://www.wikimedia.org/static/images/wmf-logo.png" srcset="https://www.wikimedia.org/static/images/wmf-logo-2x.png 2x" alt="Wikimedia" width="135" height="101">
-</a>
-<div class="content-text">
-<h1>Error</h1>
 
-<p>Our servers are currently under maintenance or experiencing a technical issue</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+			<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="rtl" dir="rtl" lang="ar-SA">
+
+<head>
+	<title>notfound</title>
+
+	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta content="4aaMkXYPyf0Ta1bcucx14KtquknYgq3IrnYDX2tO3UE" name="google-site-verification" />
+
+		<meta content="" name="description">
+		<meta content="" name="keywords">
+
+			<meta content="index, follow, NOODP" name="robots" >
+
+
+
+	<!-- Favicon -->
+	<link rel="icon" href="/theme-assets/static-lite-theme/images/favicon.ico">
+
+	<!--  Styles  -->
+	<link rel="stylesheet" href="/theme-assets/static-lite-theme/css/styles.css?v=0">
+
+    <!-- Canonical Tag -->
+	<link rel="canonical" href="https://web.vodafone.com.eg/ar/themes/starter/assets/images/vodafone-logo.png" />
+</head>
+
+<body class="other controls-visible  yui3-skin-sam signed-out public-page site">
+
+
+	<div id="wrapper">
+	
+		<!-- START: Header -->
+				<!-- page type assignment -->
+
+<div class="nudge nudge-top nudge-temp" id="js-nudge-top-header"></div>
+<header id="header">
+  <nav class="nav-switcher font-light d-none d-lg-block" aria-label="nav-switcher">
+      <div class="container">
+          <div class="d-flex justify-content-between">
+              <ul class="switcher-list">
+                          <li class="switcher-active"> <a href="home" class="switcher-link">أفراد</a></li>
+                          <li class=""> <a href="business" class="switcher-link">شركات</a></li>
+                          <li class=""> <a href="vodafone-egypt1" class="switcher-link">ڤودافون مصر</a></li>
+                          <li class=""> <a href="https://web.vodafone.com.eg/spa/NetworkCoverageChecker" class="switcher-link">تغطية الشبكة</a></li>
+              </ul>
+              <a href="/en/notfound"> <span class="switcher-link switcher-lang text-end">English</span></a>
+          </div>
+      </div>
+  </nav>
+  <div id="header-fixed-handling" class="d-block"></div>
+  <nav id="nav-header" class="nav-header shadow-sm" aria-label="nav-header">
+      <div class="container">
+          <div class="d-flex justify-content-between">
+              <div class="flex-fill">
+                  <div class="header-wrapper">
+                      <a href="home" class="nav-link nav-logo">
+                          <svg focusable="false" aria-hidden="true" class="nav-logo-item">
+                              <use xlink:href="#icon-vodafone-logo"></use>
+                          </svg>
+                      </a>
+                      <ul class="nav-list-items nav-step-one">
+                          <li class="d-lg-none">
+                              <a href="/en/notfound"> <span class="nav-item-link nav-lang font-light">English</span></a>
+                          </li>
+                                       <li>
+      <input type="checkbox" name="" id="تسوق" class="nav-flag d-lg-none" />
+      <label for="تسوق" class="nav-item-link d-lg-none">تسوق
+        <svg focusable="false" aria-hidden="true" class="icon nav-chevron">
+          <use xlink:href="#icon-chevron-down"></use>
+        </svg>
+      </label>
+      
+      <a href="https://eshop.vodafone.com.eg/ar/?channelId=INT&c_id=DACS0367&c_medium=INT&c_name=ShopHome&c_source=Website&c_term=ShopHome&c_type=Anonymous" class="nav-item-link d-none d-lg-block">تسوق</a>
+
+      
+        <div class="nav-step-two">
+          <ul>
+              <li>
+                <a href="https://eshop.vodafone.com.eg/ar/?channelId=INT&c_id=DACS0367&c_medium=INT&c_name=ShopHome&c_source=Website&c_term=ShopHome&c_type=Anonymous" class="nav-item-link d-lg-none">
+                  الذهاب إلى تسوق
+                  <svg focusable="false" aria-hidden="true" class="icon nav-chevron nav-chevron-direction d-lg-none">
+                    <use xlink:href="#icon-chevron-right"></use>
+                  </svg>
+                </a>
+              </li>
+            
+                  <li>
+                    <input type="checkbox" name="" id="أنظمة  ڤودافون2-1" class="nav-flag d-lg-none" />
+                    <label for="أنظمة  ڤودافون2-1" class="nav-item-link d-lg-none">أنظمة  ڤودافون
+                      <svg focusable="false" aria-hidden="true" class="icon nav-chevron">
+                        <use xlink:href="#icon-chevron-down"></use>
+                      </svg>
+                    </label>
+
+                    <a href="vodafone-rate-plans" class="nav-item-link d-none d-lg-block">أنظمة  ڤودافون</a>
+
+                      <div class="nav-step-three">
+                        <ul>
+                          <li>
+                            <a href="vodafone-rate-plans" class="nav-item-link d-lg-none">الذهاب إلى أنظمة  ڤودافون</a>
+                          </li>
+
+                            <li>
+                              <a href="https://web.vodafone.com.eg/ar/vodafone-red1" class="nav-item-link">
+                                Red
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://web.vodafone.com.eg/ar/vodafone-flex" class="nav-item-link">
+                                فليكس
+                              </a>
+                            </li>
+                            <li>
+                              <a href="kart-el-korout" class="nav-item-link">
+                                أنظمة الكارت
+                              </a>
+                            </li>
+                        </ul>
+                      </div>
+
+                  <li>
+                    <input type="checkbox" name="" id="تليفونات و اكسسوارات2-1" class="nav-flag d-lg-none" />
+                    <label for="تليفونات و اكسسوارات2-1" class="nav-item-link d-lg-none">تليفونات و اكسسوارات
+                      <svg focusable="false" aria-hidden="true" class="icon nav-chevron">
+                        <use xlink:href="#icon-chevron-down"></use>
+                      </svg>
+                    </label>
+
+                    <a href="https://eshop.vodafone.com.eg/ar/list?categoryUrls=*phones-accessories" class="nav-item-link d-none d-lg-block">تليفونات و اكسسوارات</a>
+
+                      <div class="nav-step-three">
+                        <ul>
+                          <li>
+                            <a href="https://eshop.vodafone.com.eg/ar/list?categoryUrls=*phones-accessories" class="nav-item-link d-lg-none">الذهاب إلى تليفونات و اكسسوارات</a>
+                          </li>
+
+                            <li>
+                              <a href="https://eshop.vodafone.com.eg/ar/list?categoryUrls=*smart-phones" class="nav-item-link">
+                                هواتف ذكيه
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://eshop.vodafone.com.eg/ar/list?categoryUrls=*tv" class="nav-item-link">
+                                تلفزيونات
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://eshop.vodafone.com.eg/ar/list?categoryUrls=*tablets" class="nav-item-link">
+                                تابلت
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://eshop.vodafone.com.eg/ar/list?categoryUrls=*accessories" class="nav-item-link">
+                                اكسسوارات
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://eshop.vodafone.com.eg/ar/list?categoryUrls=*gaming" class="nav-item-link">
+                                ألعاب
+                              </a>
+                            </li>
+                        </ul>
+                      </div>
+
+                  <li>
+                    <input type="checkbox" name="" id="إنترنت2-1" class="nav-flag d-lg-none" />
+                    <label for="إنترنت2-1" class="nav-item-link d-lg-none">إنترنت
+                      <svg focusable="false" aria-hidden="true" class="icon nav-chevron">
+                        <use xlink:href="#icon-chevron-down"></use>
+                      </svg>
+                    </label>
+
+                    <a href="#" class="nav-item-link d-none d-lg-block">إنترنت</a>
+
+                      <div class="nav-step-three">
+                        <ul>
+                          <li>
+                            <a href="#" class="nav-item-link d-lg-none">الذهاب إلى إنترنت</a>
+                          </li>
+
+                            <li>
+                              <a href="mobile-internet-bundles" class="nav-item-link">
+                                باقات الانترنت
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://eshop.vodafone.com.eg/ar/internetServices/dsl/bundles" class="nav-item-link">
+                                انترنت منزلى
+                              </a>
+                            </li>
+                            <li>
+                              <a href="wireless-net" class="nav-item-link">
+                                Home Wireless
+                              </a>
+                            </li>
+                        </ul>
+                      </div>
+
+            
+          </ul>
+        </div>
+    </li>
+    <li>
+      <input type="checkbox" name="" id="الخدمات" class="nav-flag d-lg-none" />
+      <label for="الخدمات" class="nav-item-link d-lg-none">الخدمات
+        <svg focusable="false" aria-hidden="true" class="icon nav-chevron">
+          <use xlink:href="#icon-chevron-down"></use>
+        </svg>
+      </label>
+      
+      <a href="services" class="nav-item-link d-none d-lg-block">الخدمات</a>
+
+        <div class="nav-step-two d-lg-none">
+          <ul>
+              <li>
+                <a href="services" class="nav-item-link">
+                  الذهاب إلى الخدمات
+                  <svg focusable="false" aria-hidden="true" class="icon nav-chevron nav-chevron-direction d-lg-none">
+                    <use xlink:href="#icon-chevron-right"></use>
+                  </svg>
+                </a>
+              </li>
+          </ul>
+        </div>
+      
+    </li>
+    <li>
+      <input type="checkbox" name="" id="العروض" class="nav-flag d-lg-none" />
+      <label for="العروض" class="nav-item-link d-lg-none">العروض
+        <svg focusable="false" aria-hidden="true" class="icon nav-chevron">
+          <use xlink:href="#icon-chevron-down"></use>
+        </svg>
+      </label>
+      
+      <a href="promotions" class="nav-item-link d-none d-lg-block">العروض</a>
+
+        <div class="nav-step-two d-lg-none">
+          <ul>
+              <li>
+                <a href="promotions" class="nav-item-link">
+                  الذهاب إلى العروض
+                  <svg focusable="false" aria-hidden="true" class="icon nav-chevron nav-chevron-direction d-lg-none">
+                    <use xlink:href="#icon-chevron-right"></use>
+                  </svg>
+                </a>
+              </li>
+          </ul>
+        </div>
+      
+    </li>
+ 
+                                  
+                                  
+                                  
+                          <li class="d-lg-none">
+                              <div class="mt-3">
+                                          <a href="home" class="btn btn-secondary btn-icon btn-lg mb-4 w-100 d-none"> <span> <span>أفراد</span> <span> <svg class="icon"> <use xlink:href="#icon-chevron-right" xmlns:xlink="http://www.w3.org/1999/xlink"></use> </svg> </span> </span>
+                                          </a>
+                                          <a href="business" class="btn btn-secondary btn-icon btn-lg mb-4 w-100 "> <span> <span>شركات</span> <span> <svg class="icon"> <use xlink:href="#icon-chevron-right" xmlns:xlink="http://www.w3.org/1999/xlink"></use> </svg> </span> </span>
+                                          </a>
+                                          <a href="vodafone-egypt1" class="btn btn-secondary btn-icon btn-lg mb-4 w-100 "> <span> <span>ڤودافون مصر</span> <span> <svg class="icon"> <use xlink:href="#icon-chevron-right" xmlns:xlink="http://www.w3.org/1999/xlink"></use> </svg> </span> </span>
+                                          </a>
+                                          <a href="https://web.vodafone.com.eg/spa/NetworkCoverageChecker" class="btn btn-secondary btn-icon btn-lg mb-4 w-100 "> <span> <span>تغطية الشبكة</span> <span> <svg class="icon"> <use xlink:href="#icon-chevron-right" xmlns:xlink="http://www.w3.org/1999/xlink"></use> </svg> </span> </span>
+                                          </a>
+                              </div>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+              <ul id='parentUl'  class="nav-list">
+                  <li>
+                      <a class="nav-link" id="searchIcon" href="https://web.vodafone.com.eg/spa/search">
+                          <svg focusable="false" aria-hidden="true" class="nav-link-svg rtl-flip-v">
+                              <use xlink:href="#icon-search"></use>
+                          </svg>
+                      </a>
+                  </li>
+                      <li id='notSignedItem' class="header-avatar">
+                          <span class="nav-link cursor-pointer" id="loginIcon">
+                              <svg focusable="false" aria-hidden="true" class="nav-link-svg">
+                                  <use xlink:href="#icon-vodafone-profile"></use>
+                              </svg>
+                          </span>
+                          <div class="nav-startup shadow-sm">
+                              <div class="font-light">
+                                  <h4 class="h4-3x mb-0">مرحبا</h4>
+                                  <h5 class="text-transform-none">هل تريد الدخول ؟</h5></div>
+                              <ul class="nav-startup-list">
+                                  <li>
+                                      <button id="InnerloginBtn" class="btn btn-primary w-100">نعم ، أريد الدخول</button>
+                                  </li>
+                                  <li>
+                                      <button class="btn btn-secondary w-100">لا شكرا</button>
+                                  </li>
+                              </ul>
+                          </div>
+                      </li>
+                      <li id='SignedItem'>
+                          <input type="checkbox" name="" id="user-options" class="nav-flag d-lg-none">
+                          <label id="avatar" for="user-options" class="__nav-item-link" onclick="navUserToggling(event)"><span class="nav-link nav-big"><svg focusable="false" aria-hidden="true" class="avatar-item"> <use xlink:href="#icon-avatar-user"></use> </svg> <span class="nav-close"><svg focusable="false" aria-hidden="true" class="icon icon-sm"> <use xlink:href="#icon-close"></use> </svg></span></span>
+                          </label>
+                          <div class="nav-step-three nav-radius-down shadow-sm">
+                              <ul class="nav-user-list">
+                                          <li><a href="https://web.vodafone.com.eg/spa/profile" class="nav-item-link">صفحتي</a></li>
+                                          <li><a href="javascript:routeToRatePlanPage(userRoles);" class="nav-item-link">إدارة خدماتي</a></li>
+                                          <li><a href="javascript:logoutKeyCloak();" class="nav-item-link">خروج</a></li>
+                              </ul>
+                          </div>
+                      </li>
+                  <li class="d-lg-none"> <span class="nav-link" onclick="navToggling()" id="nav-toggle"><div class="burger-toggle js-burger-toggle nav-link-svg" id="js-burger-toggle"> <input type="checkbox" class="checker"> <span></span></div>
+          </span>
+          </li>
+          </ul>
+      </div>
+      </div>
+  </nav>
+</header>
+
+<div id="bodyContainer"></div>
+<svg class="d-none">
+    <symbol id="icon-vodafone-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <g class="ab" clip-path="url(#a)">
+            <path class="ac" d="M47.95 23.952a23.993 23.993 0 0 1-24 24 23.907 23.907 0 0 1-23.9-24 23.886 23.886 0 0 1 23.9-23.9 23.972 23.972 0 0 1 24 23.9" fill="#e60000" fill-rule="evenodd" />
+            <path class="ad" d="M47.95 23.952a23.993 23.993 0 0 1-24 24 23.907 23.907 0 0 1-23.9-24 23.886 23.886 0 0 1 23.9-23.9 23.972 23.972 0 0 1 24 23.9z" fill="none" stroke="#fff" stroke-miterlimit="2.613" stroke-width=".216" />
+            <path class="ae" d="M37.877 25.142a13.023 13.023 0 0 1-13.222 12.822c-8.051 0-13.536-7.04-13.395-14.929 0-11.532 9.626-20.867 21.519-20.867q.743 0 1.472.049c-4.245 2.056-7.143 5.907-7.288 10.353a12.92 12.92 0 0 1 10.914 12.572" fill="#fff" fill-rule="evenodd" /> </g>
+    </symbol>
+    <symbol id="icon-chevron-down" viewBox="0 0 144 76">
+        <title>main_icn_Chevron_down</title>
+        <path data-name="&lt;Pfad&gt;" stroke-linecap="round" stroke-linejoin="round" d="M140 4L72 72 4 4" /> </symbol>
+    <symbol id="icon-chevron-right" viewBox="0 0 76 144">
+        <title>main_icn_Chevron_right</title>
+        <path data-name="&lt;Pfad&gt;" stroke-linecap="round" stroke-linejoin="round" d="M4 4l68 68-68 68" /> </symbol>
+    <symbol id="icon-search" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <path class="aa" fill="none" d="M0 0h40v40H0z" />
+        <circle class="ab" cx="11.667" cy="11.667" r="11.667" transform="translate(4.167 4.167)" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+        <path class="ab" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M24.081 24.081l11.752 11.752" /> </symbol>
+    <symbol id="icon-vodafone-profile" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <path class="aa" d="M32.5 34.187c-1.35-9.141-6.91-13.381-12.425-13.381S8.852 25.044 7.5 34.185" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+        <path class="ab" fill="none" d="M0 0h40v40H0z" />
+        <circle class="aa" cx="7.5" cy="7.5" r="7.5" transform="translate(12.5 5.806)" fill="none" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" /> </symbol>
+    <symbol id="icon-avatar-user" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle class="aa" cx="20" cy="20" r="20" fill="#ccc" />
+        <path class="ac" d="M8.986 8.86h21.6v22.5h-21.6z" fill="transparent" />
+        <path class="ad" d="M26.536 28.091c-.729-5.142-3.732-7.527-6.709-7.527s-6.061 2.384-6.791 7.526" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" />
+        <path class="ad" d="M22.65 13.362a4.344 4.344 0 0 1 0 5.966 3.936 3.936 0 0 1-5.728 0 4.344 4.344 0 0 1 0-5.966 3.936 3.936 0 0 1 5.728 0" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" /> </symbol>
+    <symbol id="icon-close" viewBox="0 0 144 144">
+        <title>main_icn_Close</title>
+        <path data-name="&lt;Pfad&gt;" stroke-linecap="round" stroke-linejoin="round" d="M4 4l136 136M4 140L140 4" /> </symbol>
+</svg>
+			
+
+		<!-- END: Header -->
+
+		<section id="content">
+		<h2 class="hide-accessible sr-only" role="heading" aria-level="1">notfound</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+		<style type="text/css">
+			.master-layout-fragment .portlet-header {
+				display: none;
+			}
+		</style>
+
+		
+
+		<div class="columns-1" id="main-content" role="main">
+	<div class="portlet-layout row">
+		<div class="col-md-12 portlet-column portlet-column-only" id="column-1">
+			<div class="portlet-dropzone portlet-column-content portlet-column-content-only" id="layout-column_column-1">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	<div class="portlet-boundary portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_  portlet-static portlet-static-end portlet-decorate portlet-journal-content " id="p_p_id_com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_Ef5M9tsvcSgQ_">
+		<span id="p_com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_Ef5M9tsvcSgQ"></span>
+
+
+
+
+	
+
+	
+		
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+<section class="portlet" id="portlet_com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_Ef5M9tsvcSgQ">
+
+
+	<div class="portlet-content">
+
+		<div class="autofit-float autofit-row portlet-header">
+
+			<div class="autofit-col autofit-col-end">
+				<div class="autofit-section">
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="visible-interaction">
+
+	
+
+	
+</div>				</div>
+			</div>
+		</div>
+
+		
+			<div class=" portlet-content-container">
+				
+
+
+	<div class="portlet-body">
+
+
+
+	
+		
+			
+				
+					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	
+
+
+
+
+
+
+
+
+				
+
+				
+					
+						
+
+
+	
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+		
+			
+			
+				
+					
+					
+					
+					
+
+						
+
+						
+
+							
+
+							<div class="" data-fragments-editor-item-id="29401-10457352" data-fragments-editor-item-type="fragments-editor-mapped-item" >
+								
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+		<div class="journal-content-article " data-analytics-asset-id="10457350" data-analytics-asset-title="error-homeR-content" data-analytics-asset-type="web-content" data-analytics-web-content-resource-pk="10457352">
+			
+
+			<section id="js-notfound-reporting" class="section mt-5 pt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm text-center">
+                        <a href="https://web.vodafone.com.eg/">
+                <span>
+                    <svg class="icon-10">
+                        <use xlink:href="#icon-vodafone-logo" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+                    </svg>
+                </span>
+                        </a>
+                        <h1 class="h3 my-3">الصفحة غير موجودة!</h1>
+                         <p class="">لا يوجد صفحة مسجلة بهذا العنوان. نعتقد أن ذلك قد يرجع للأسباب التالية.</p>
+                         <p class="">إذا قمت بكتابة عنوان الصفحة بنفسك، يرجى التأكد من العنوان وكتابته بشكل صحيح. وإذا ضغطت على رابط الوصول إلى هنا، فهذا الرابط قد تم تغييره، وزيارتك تساعدنا في العمل عليه الآن.</p>
+                         <p class="">نعتذر لك.</p>
+                         
+                        <div>
+                            <a class="btn btn-primary px-5 mb-0" href="https://web.vodafone.com.eg/">الصفحة الرئيسية</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- START: SVG Symbols -->
+<svg class="d-none">
+    <symbol id="icon-vodafone-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">         <g class="ab" clip-path="url(#a)">             <path class="ac"                   d="M47.95 23.952a23.993 23.993 0 0 1-24 24 23.907 23.907 0 0 1-23.9-24 23.886 23.886 0 0 1 23.9-23.9 23.972 23.972 0 0 1 24 23.9"                   fill="#e60000" fill-rule="evenodd"/>             <path class="ad"                   d="M47.95 23.952a23.993 23.993 0 0 1-24 24 23.907 23.907 0 0 1-23.9-24 23.886 23.886 0 0 1 23.9-23.9 23.972 23.972 0 0 1 24 23.9z"                   fill="none" stroke="#fff" stroke-miterlimit="2.613" stroke-width=".216"/>             <path class="ae"                   d="M37.877 25.142a13.023 13.023 0 0 1-13.222 12.822c-8.051 0-13.536-7.04-13.395-14.929 0-11.532 9.626-20.867 21.519-20.867q.743 0 1.472.049c-4.245 2.056-7.143 5.907-7.288 10.353a12.92 12.92 0 0 1 10.914 12.572"                   fill="#fff" fill-rule="evenodd"/>         </g>     </symbol>
+</svg>
+
+			
+		</div>
+
+		
+
+	
+
+
+
+							</div>
+						
+					
+				
+			
+		
+	
+
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+
+	
+	
+					
+				
+			
+		
+	
+	
+
+
+	</div>
+
+			</div>
+		
+	</div>
+</section>
+	
+
+		
+		
+
+
+
+
+
+
+
+	</div>
+
+
+
+
+
+
 </div>
+		</div>
+	</div>
 </div>
-<div class="footer"><p>If you report this error to the Wikimedia System Administrators, please include the details below.</p><p class="text-muted"><code>Request served via cp2040 cp2040, Varnish XID 536772219<br>Upstream caches: cp2040 int<br>Error: 404, Not Found at Fri, 28 Nov 2025 15:03:30 GMT<br><details><summary>Sensitive client information</summary>IP address: 136.111.202.26</details></code></p>
-</div>
+	
+
+
+<form action="#" aria-hidden="true" class="hide" id="hrefFm" method="post" name="hrefFm"><span></span><button hidden type="submit">مخفي</button></form>
+
+	
+		</section>
+
+		<!-- START: Footer -->
+				<!-- START: Footer -->
+  <footer class="footer">
+    <!--START: Main Footer-->
+    <div class="footer-main">
+      <div class="container">
+        <!--Start Footer Social and Ask community-->
+        <div class="row align-items-center">
+          <div class="col-3">
+            <a href="https://web.vodafone.com.eg/ar/home">
+              <svg class="icon-5">
+                <use xlink:href="#icon-vodafone-logo-white" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+              </svg>
+            </a>
+          </div>
+          <div class="col-9">
+            <ul class="footer-social">
+             <li class="footer-social-item">
+                <a href="https://www.facebook.com/Vodafone.Egypt/ ">
+                  <svg class="icon-4">
+                    <use xlink:href="#icon-facebook" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+                  </svg>
+                </a>
+              </li>
+                <!-- START: SVG Symbols -->
+  <svg class="d-none">
+<symbol id="icon-facebook" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">       <path fill="none" d="M0 0h38v38H0z" />       <path fill="none" d="M0 0h38v38H0z" />       <path         d="M29.884 3.452H8.117a4.678 4.678 0 0 0-4.665 4.665v21.767a4.678 4.678 0 0 0 4.665 4.668h11.855V21.527h-2.72v-4.475h2.72v-2.6c0-3.59 1.415-5.749 5.613-5.749h3.716v4.47h-2.186c-1.613 0-1.7.531-1.7 1.7v2.179h3.761l-.472 4.47h-3.29v13.03h4.47a4.678 4.678 0 0 0 4.668-4.668V8.117a4.678 4.678 0 0 0-4.668-4.665z"         fill="#fff" />     </symbol>
+  </svg>
+             <li class="footer-social-item">
+                <a href="https://twitter.com/VodafoneEgypt ">
+                  <svg class="icon-4">
+                    <use xlink:href="#icon-twitter" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+                  </svg>
+                </a>
+              </li>
+                <!-- START: SVG Symbols -->
+  <svg class="d-none">
+<symbol id="icon-twitter" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">       <path         d="M36.139 11.569a12.851 12.851 0 0 1-3.559.985 6.342 6.342 0 0 0 2.738-3.46 12.168 12.168 0 0 1-3.948 1.522 6.224 6.224 0 0 0-10.59 5.7A17.622 17.622 0 0 1 7.957 9.784a6.277 6.277 0 0 0 1.942 8.348 6 6 0 0 1-2.806-.78v.068a6.228 6.228 0 0 0 4.975 6.119 6.443 6.443 0 0 1-2.806.115 6.221 6.221 0 0 0 5.8 4.328 12.51 12.51 0 0 1-9.196 2.56 17.572 17.572 0 0 0 9.51 2.826c11.437 0 17.684-9.51 17.684-17.762 0-.274 0-.55-.022-.8a11.926 11.926 0 0 0 3.101-3.237z"         fill="#fff" />       <path fill="none" d="M0 0h42v42H0z" />     </symbol>
+  </svg>
+             <li class="footer-social-item">
+                <a href="https://www.instagram.com/vodafoneegypt/ ">
+                  <svg class="icon-4">
+                    <use xlink:href="#instagram" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+                  </svg>
+                </a>
+              </li>
+                <!-- START: SVG Symbols -->
+  <svg class="d-none">
+<symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="instagram">     <path fill-rule="evenodd" clip-rule="evenodd" d="M29.2719 10.4701C29.2104 9.05685 28.9647 8.07375 28.6574 7.21353C28.2888 6.35332 27.8587 5.61599 27.1214 4.87867C26.384 4.14134 25.6467 3.71123 24.7865 3.34257C23.9263 3.03535 22.9432 2.78957 21.53 2.72813C20.1167 2.66669 19.6252 2.66669 16 2.66669C12.3748 2.66669 11.9447 2.66669 10.47 2.72813C9.05684 2.78957 8.07375 3.03535 7.21353 3.34257C6.35332 3.71123 5.61598 4.14134 4.87865 4.87867C4.14132 5.61599 3.71122 6.35332 3.34255 7.21353C3.03533 8.07375 2.78956 9.05685 2.72811 10.4701C2.66667 11.8833 2.66667 12.3748 2.66667 16C2.66667 19.6252 2.66667 20.0553 2.72811 21.53C2.78956 22.9432 3.03533 23.9263 3.34255 24.7865C3.71122 25.6467 4.14132 26.384 4.87865 27.1214C5.61598 27.8587 6.35332 28.2888 7.21353 28.6575C8.07375 28.9647 9.05684 29.2104 10.47 29.2719C11.8833 29.3333 12.3748 29.3333 16 29.3333C19.6252 29.3333 20.0553 29.3333 21.53 29.2719C22.9432 29.2104 23.9263 28.9647 24.7865 28.6575C25.6467 28.2888 26.384 27.8587 27.1214 27.1214C27.8587 26.384 28.2888 25.6467 28.6574 24.7865C28.9647 23.9263 29.2104 22.9432 29.2719 21.53C29.3333 20.1168 29.3333 19.6252 29.3333 16C29.3333 12.3748 29.3333 11.9447 29.2719 10.4701ZM26.8756 21.4071C26.8141 22.6974 26.6298 23.4347 26.4455 23.8648C26.1997 24.4793 25.8925 24.9094 25.4624 25.4009C24.9708 25.8925 24.5407 26.1383 23.9263 26.384C23.4347 26.5684 22.7588 26.8141 21.4685 26.8141C20.0553 26.8756 19.6252 26.8756 16.0614 26.8756C12.4977 26.8756 12.0676 26.8756 10.6544 26.8141C9.36405 26.7527 8.62673 26.5684 8.19662 26.384C7.58218 26.1383 7.15207 25.831 6.66052 25.4009C6.16897 24.9094 5.92321 24.4793 5.67743 23.8648C5.4931 23.3733 5.24732 22.6974 5.24732 21.4071C5.18587 19.9939 5.18587 19.5638 5.18587 16C5.18587 12.4363 5.18587 12.0062 5.24732 10.5929C5.3034 9.41515 5.51308 8.6981 5.64268 8.25488L5.64271 8.2548C5.65508 8.21249 5.66672 8.17268 5.67743 8.13519C5.92321 7.52075 6.23041 7.09065 6.66052 6.5991C7.15207 6.10754 7.58218 5.86177 8.19662 5.61599C8.68817 5.43166 9.36405 5.18589 10.6544 5.18589C12.0676 5.12444 12.4977 5.12444 16.0614 5.12444C19.6252 5.12444 20.0553 5.12444 21.4685 5.18589C22.6463 5.24197 23.3634 5.45165 23.8066 5.58125C23.8489 5.59363 23.8888 5.60528 23.9263 5.61599C24.5407 5.86177 24.9708 6.16899 25.4624 6.5991C25.9539 7.09065 26.1997 7.52075 26.4455 8.13519C26.6298 8.62674 26.8756 9.30263 26.8756 10.5929C26.937 12.0058 26.937 12.4361 26.937 15.9974V16V16.0027C26.937 19.564 26.937 19.9942 26.8756 21.4071ZM16 9.1183C12.1905 9.1183 9.11828 12.1905 9.11828 16C9.11828 19.8095 12.1905 22.8203 16 22.8203C19.8095 22.8203 22.8203 19.7481 22.8203 16C22.8817 12.1905 19.8095 9.1183 16 9.1183ZM16 20.424C13.5422 20.424 11.576 18.4578 11.576 16C11.576 13.5423 13.5422 11.5761 16 11.5761C18.4578 11.5761 20.424 13.5423 20.424 16C20.4854 18.4578 18.4578 20.424 16 20.424ZM21.5301 8.87252C21.5301 8.01231 22.2674 7.27498 23.1276 7.27498C24.0493 7.27498 24.7252 8.01231 24.7252 8.87252C24.7252 9.73274 23.9878 10.4701 23.1276 10.4701C22.2674 10.4701 21.5301 9.73274 21.5301 8.87252Z" fill="white"></path>   </symbol>
+  </svg>
+             <li class="footer-social-item">
+                <a href="https://www.youtube.com/VodafoneEgypt ">
+                  <svg class="icon-4">
+                    <use xlink:href="#youtube" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+                  </svg>
+                </a>
+              </li>
+                <!-- START: SVG Symbols -->
+  <svg class="d-none">
+<symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="youtube">     <path fill-rule="evenodd" clip-rule="evenodd" d="M27.9125 8.08746C28.3263 8.50123 28.6241 9.01644 28.7761 9.58151C29.3333 11.6611 29.3333 16 29.3333 16C29.3333 16 29.3333 20.3389 28.7761 22.4185C28.6241 22.9836 28.3263 23.4988 27.9126 23.9126C27.4988 24.3263 26.9836 24.6241 26.4185 24.7761C24.3389 25.3334 16 25.3334 16 25.3334C16 25.3334 7.66111 25.3334 5.5815 24.7761C5.01644 24.6241 4.50122 24.3263 4.08745 23.9126C3.67369 23.4988 3.37589 22.9836 3.22389 22.4185C2.66667 20.3389 2.66667 16 2.66667 16C2.66667 16 2.66667 11.6611 3.22389 9.58151C3.37589 9.01644 3.67369 8.50123 4.08746 8.08747C4.50122 7.6737 5.01644 7.37591 5.5815 7.22391C7.66111 6.66669 16 6.66669 16 6.66669C16 6.66669 24.3389 6.66669 26.4185 7.22391C26.9836 7.37591 27.4988 7.6737 27.9125 8.08746ZM13.3334 12V19.9999L20.2612 16.0001L13.3334 12Z" fill="white"></path>   </symbol>
+  </svg>
+            </ul>
+          </div>
+          <div class="col-12">
+            <hr class="border-color-anthracite mt-4 d-none d-lg-block">
+          </div>
+        </div>
+        <!--End Footer Social and Ask community-->
+        
+        
+        
+        
+        
+        
+        <!--Start Footer Accordion-->
+        <div class="row">
+          <div class="col-12">
+            <div id="accordion" class="footer-accordion">
+              <div class="row">
+              <div class="col-lg-4">
+                  <a href="https://web.vodafone.com.eg/ar/about-us." onClick="footerHandler(event)" class="btn-accordion js-btn-accordion">
+                    <span>عن ڤودافون</span>
+                    <span class="btn-accordion-icon">
+                      <svg class="icon-2">
+                        <use xlink:href="#icon-arrow-down" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+                      </svg>
+                    </span>
+                  </a>
+                  <div class="accordion-content">
+                    <ul class="footer-list">
+                    <li class="footer-list-item">
+                    <a class="footer-list-link" href="https://web.vodafone.com.eg/en/join-vodafone">
+                    وظائف خالية 
+                    </a></li>
+                    <li class="footer-list-item">
+                    <a class="footer-list-link" href="https://web.vodafone.com.eg/ar/latest-news-2022">
+                    النشرات الصحفية 
+                    </a></li>
+                    <li class="footer-list-item">
+                    <a class="footer-list-link" href="https://www.youtube.com/user/vodafoneegypt">
+                    الإعلانات 
+                    </a></li>
+                    </ul>
+                  </div>
+                </div>
+              <div class="col-lg-4">
+                  <a href="https://web.vodafone.com.eg/ar/services" onClick="footerHandler(event)" class="btn-accordion js-btn-accordion">
+                    <span>خدمات ڤودافون</span>
+                    <span class="btn-accordion-icon">
+                      <svg class="icon-2">
+                        <use xlink:href="#icon-arrow-down" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+                      </svg>
+                    </span>
+                  </a>
+                  <div class="accordion-content">
+                    <ul class="footer-list">
+                    <li class="footer-list-item">
+                    <a class="footer-list-link" href="https://eshop.vodafone.com.eg/ar/">
+                    تسوق 
+                    </a></li>
+                    <li class="footer-list-item">
+                    <a class="footer-list-link" href="https://eshop.vodafone.com.eg/ar/internetServices/dsl/bundles">
+                    DSL 
+                    </a></li>
+                    <li class="footer-list-item">
+                    <a class="footer-list-link" href="https://web.vodafone.com.eg/ar/mobile-internet-bundles">
+                    انترنت 
+                    </a></li>
+                    </ul>
+                  </div>
+                </div>
+              <div class="col-lg-4">
+                  <a href="https://web.vodafone.com.eg/spa/contact-us" onClick="footerHandler(event)" class="btn-accordion js-btn-accordion">
+                    <span>المساعدة</span>
+                    <span class="btn-accordion-icon">
+                      <svg class="icon-2">
+                        <use xlink:href="#icon-arrow-down" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+                      </svg>
+                    </span>
+                  </a>
+                  <div class="accordion-content">
+                    <ul class="footer-list">
+                    <li class="footer-list-item">
+                    <a class="footer-list-link" href="https://web.vodafone.com.eg/ar/faq">
+                    الأسئلة الشائعة 
+                    </a></li>
+                    <li class="footer-list-item">
+                    <a class="footer-list-link" href="https://web.vodafone.com.eg/spa/contact-us">
+                    كلمنا 
+                    </a></li>
+                    <li class="footer-list-item">
+                    <a class="footer-list-link" href="https://web.vodafone.com.eg/spa/storeLocator">
+                    محدد الفروع 
+                    </a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--End Footer Accordion-->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <!--Start Other Links-->
+        <div class="mt-lg-4">
+          <ul class="footer-other-links">
+          <li class="footer-list-item">
+              <a class="footer-list-link" href="https://web.vodafone.com.eg/ar/contact-us">إتصل بنا</a>
+            </li>
+                    <li class="footer-list-item">
+              <a class="footer-list-link" href="https://web.vodafone.com.eg/ar/business">الأنتقال لخدمات الشركات</a>
+            </li>
+                    <li class="footer-list-item">
+              <a class="footer-list-link" href="https://web.vodafone.com.eg/ar/website-terms-conditions">الشروط والأحكام</a>
+            </li>
+                    <li class="footer-list-item">
+              <a class="footer-list-link" href="privacy-policy-of-vodafone-egypt">اشعار الخصوصية</a>
+            </li>
+           
+          </ul>
+        </div>
+        <!--End Other Links-->
+        <!--Start Copyrights-->
+        <div class="text-center">
+          <p class="mb-0 small-2x">© <span id="js-year"></span> ڤودافون مصر</p>
+        </div>
+        <!--End Copyrights-->
+      </div>
+    </div>
+    <!--END: Main Footer-->
+  </footer>
+  <!-- END: Footer -->
+    <!-- START: SVG Symbols -->
+  <svg class="d-none">
+  <symbol id="icon-vodafone-logo-white" fill="none" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">       <g clip-path="url(#clip0_22_15631)">         <path fill-rule="evenodd" clip-rule="evenodd"           d="M36 18c0 9.941-8.059 18-18 18S0 27.941 0 18 8.059 0 18 0c2.746 0 5.35.615 7.678 1.715-.31-.097-.796-.133-1.262-.133-3.746.013-7.877 1.615-10.892 4.112-3.09 2.565-5.509 6.88-5.497 11.361.021 6.778 5.167 11 10.113 10.983 6.11-.02 9.722-5.04 9.706-9.615-.015-4.576-2.503-7.883-7.984-9.218a1.871 1.871 0 0 1-.022-.293c-.011-3.456 2.592-6.502 5.864-7.185C31.791 4.614 36 10.816 36 18z"           fill="#fff" />       </g>     </symbol>
+   <symbol id="icon-arrow-down" fill="none" viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15.083 1.458L8 8.542.917 1.458" stroke="#fff" stroke-miterlimit="10" stroke-linecap="round" />
+    </symbol>
+  </svg>
+		<!-- END: Footer -->
+
+	</div>
+
+	<!-- START: Utag -->
+	<script>
+
+		var currentLang = "ar_SA";
+		var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',];
+
+        function formatTimeStamp() {
+          // Format date to be YYYY-MM-dd HH:mm:ss
+          var date = new Date();
+          var padL = function padL(nr, len, chr) {
+            if (len === undefined)
+              len = 2;
+            if (chr === undefined)
+              chr = '0';
+            return String(nr).padStart(len, chr);
+          };
+          return date.getFullYear() + "-" + padL(date.getMonth() + 1) + "-" + padL(date.getDate()) + " " + padL(date.getHours()) + ":" + padL(date.getMinutes()) + ":" + padL(date.getSeconds());
+        }
+
+		function getCommonData() {
+			var dateObj = new Date();
+			var dayObj = formatDay(dateObj);
+			var monthObj = dateObj.getMonth();
+			var yearObj = dateObj.getFullYear();
+			return { day: dayObj, month: monthObj, year: yearObj };
+   	    }
+
+		function formatDay(date) {
+			var yearData = date.getFullYear();
+			var monthData = String(date.getMonth() + 1).padStart(2, '0');
+			var dayData = String(date.getDate()).padStart(2, '0');
+			return yearData + "-" + monthData + "-" + dayData;
+		}
+
+		function setSharedData() {
+			var sharedData = {};
+			var commonDate = getCommonData();
+			let monthName = months[commonDate.month];
+			sharedData['year'] = commonDate.year;
+			sharedData['month'] = monthName + '_' + commonDate.year;
+			sharedData['day'] = commonDate.day;
+			return sharedData;
+		}
+		var reportingKeys = setSharedData();
+
+
+		var utag_data = {
+			"page_views_event": "view",
+			"page_name": "Website:notfound",
+			"page_server": "web.vodafone.com.eg",
+			"page_type": "Content",
+			"page_url": location.href,
+			"page_market": "EG",
+			page_time_code: formatTimeStamp(),
+			visitor_login_status: "Logged Out",
+			"event_category": "page",
+			"app_name": "website",
+			"day": reportingKeys["day"],
+			"month": reportingKeys["month"],
+			"year":  reportingKeys["year"]
+		}
+
+		function PageLang() {
+			if(currentLang == 'ar_SA') {
+				utag_data["page_language"] = "AR" ;
+			} else {
+				utag_data["page_language"] = "EN" ;
+			}
+		}
+		
+		PageLang();
+
+		function initUtagLoggedData() {
+			utag_data["visitor_login_status"] = "Logged In";
+			
+			if(localStorage.contractType === 'Prepaid') {
+				utag_data["rate_plan"] = localStorage.serviceClassName;
+			} else {
+				utag_data["rate_plan"] = localStorage.rateplanName;
+			}
+
+			utag_data["visitor_customer_id"] = localStorage.MSISDNX;
+			
+			if(localStorage.lastLoginDate && localStorage.lastLoginDate>0) {
+				utag_data["last_login_date"] = Date(parseInt(localStorage.lastLoginDate));
+				utag_data["visitor_days_since_last_visit"] = Math.floor((new Date() - new Date(parseInt(localStorage.lastLoginDate)))/(1000*60*60*24));
+				utag_data["visitor_new_or_repeat"] = "Repeated";
+			} else {
+				utag_data["visitor_new_or_repeat"] = "New";
+			}
+
+			utag_data["visitor_type"] = "Consumer"; // No "Enterprise" yet
+			var roles = JSON.stringify(localStorage.userRoles);
+						
+			if( roles !=null && roles != undefined) {
+				if(roles.includes("ROLE_DATA") && !(roles.includes("ROLE_VOICE") || roles.includes("ROLE_RED"))) {
+					utag_data["rate_plan_type"] = "USB"; // "Enterprise"
+				} else if (roles.includes("ROLE_PREPAID")) {
+					utag_data["rate_plan_type"] = "Prepaid"; // "Enterprise"
+				} else if (roles.includes("ROLE_FLEX_CL") || roles.includes("ASLY_CL") || roles.includes("ROLE_VIRTUALHYBRID")) {
+					utag_data["rate_plan_type"] = "Control";
+				} else {
+				utag_data["rate_plan_type"] = "Postpaid";
+				}
+			}
+		};
+		
+			initUtagLoggedData();
+	</script>
+	<!-- END: Utag -->
+
+	<!-- START: Load js after "Dom Content Load" -->
+	<script defer type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function () {
+			(function(a,b,c,d){a='/theme-assets/static-lite-theme/js/scripts.js?v=0';
+				b=document;c='script';d=b.createElement(c);d.src=a;d.type='text/java'+c;d.async=true;
+				a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a);
+			})();
+		});
+	</script>
+	<!-- END: Load js after "Dom Content Load" -->
+
+	<!-- Analytics Loading script asynchronously -->
+	<script defer type="text/javascript">
+		setTimeout(function(){
+			(function(a,b,c,d){a='//tags.tiqcdn.com/utag/vodafone/eg-main-new/prod/utag.js';
+				b=document;c='script';d=b.createElement(c);d.src=a;
+				d.type='text/java'+c;
+				a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a);
+				})();
+		}, 150);
+	</script>
+</body>
+
 </html>
+		
+	
+
