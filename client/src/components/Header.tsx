@@ -131,9 +131,30 @@ export const CLUBS: Club[] = [
   },
   {
     id: "haras-hodoud",
-    name: "حراس الحدود",
-    logoUrl: "/logos/haras_el_hodoud.png",
+    name: "حرس الحدود",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/a/a7/Haras_El_Hodoud_logo_2018.png",
     primaryColor: "hsl(210 70% 40%)",
+    assessmentPrice: 4000,
+  },
+  {
+    id: "wadi-degla",
+    name: "وادي دجلة",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/0/08/Wadi_Degla_Logo.png",
+    primaryColor: "hsl(340 80% 45%)",
+    assessmentPrice: 4500,
+  },
+  {
+    id: "mokawloon",
+    name: "المقاولون العرب",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/2/27/Al_Mokawloon_Al_Arab_SC_logo.png",
+    primaryColor: "hsl(45 90% 50%)",
+    assessmentPrice: 4500,
+  },
+  {
+    id: "kahraba-ismailia",
+    name: "كهرباء الإسماعيلية",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/1/11/Kahrabaa_Ismailia_Co.jpg",
+    primaryColor: "hsl(210 70% 50%)",
     assessmentPrice: 3500,
   },
 ];
