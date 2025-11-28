@@ -106,8 +106,11 @@ export default function PaymentMethod() {
 
   const assessmentData = sessionStorage.getItem("assessmentData");
   const parsedData = assessmentData ? JSON.parse(assessmentData) : null;
-  const amount = parsedData?.assessment?.assessmentPrice 
-    ? (parsedData.assessment.assessmentPrice / 100).toFixed(0) 
+  
+  // Handle both wrapped (data.assessment) and unwrapped (assessment) formats
+  const assessment = parsedData?.data?.assessment || parsedData?.assessment;
+  const amount = assessment?.assessmentPrice 
+    ? (assessment.assessmentPrice / 100).toFixed(0) 
     : "---";
 
   return (
