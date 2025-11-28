@@ -414,6 +414,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     })
   );
 
+  // ==================== CLUB REGISTRATION ====================
+  app.post(
+    "/api/clubs/register",
+    asyncHandler(async (req, res) => {
+      const { name, clubId, username, password, logoUrl, primaryColor, assessmentPrice } = req.body;
+      
+      if (!name || !username || !password || !assessmentPrice) {
+        throw new ValidationError("جميع الحقول المطلوبة يجب ملؤها");
+      }
+
+      if (password.length < 6) {
+        throw new ValidationError("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
+      }
+
+      // Check if username or clubId already exists
+      const existingByUsername = await storage.getClubByUsername(username);
+      if (existingByUsername) {
+        throw new ValidationError("اسم المستخدم مستخدم بالفعل");
+      }
+
+      const finalClubId = clubId || name.toLowerCase().replace(/[^\u0600-\u06FFa-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').substring(0, 30);
+      const existingByClubId = await storage.getClubByClubId(finalClubId);
+      if (existingByClubId) {
+        throw new ValidationError("معرف النادي مستخدم بالفعل");
+      }
+
+      // Hash password
+      const bcrypt = await import("bcrypt");
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const club = await storage.createClub({
+        name,
+        clubId: finalClubId,
+        username,
+        password: hashedPassword,
+        logoUrl: logoUrl || "/logos/default.png",
+        primaryColor: primaryColor || "hsl(220 70% 50%)",
+        assessmentPrice: assessmentPrice,
+      });
+
+      // Log in the club automatically
+      req.session.clubId = club.clubId;
+      req.session.clubUsername = club.username;
+
+      res.status(201).json({
+        club: {
+          id: club.id,
+          clubId: club.clubId,
+          name: club.name,
+          logoUrl: club.logoUrl,
+          primaryColor: club.primaryColor,
+        },
+      });
+    })
+  );
+
   // ==================== CLUB ROUTES ====================
   app.get(
     "/api/clubs/:clubId",

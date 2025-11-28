@@ -13,7 +13,9 @@ import AdminSettings from "@/pages/AdminSettings";
 import AdminMasterLogin from "@/pages/AdminMasterLogin";
 import AdminMasterPanel from "@/pages/AdminMasterPanel";
 import PlayerLogin from "@/pages/PlayerLogin";
+import PlayerRegister from "@/pages/PlayerRegister";
 import PlayerDashboard from "@/pages/PlayerDashboard";
+import ClubRegister from "@/pages/ClubRegister";
 
 function Router() {
   return (
@@ -25,7 +27,9 @@ function Router() {
       <Route path="/admin/login" component={AdminMasterLogin} />
       <Route path="/admin/master" component={AdminMasterPanel} />
       <Route path="/player/login" component={PlayerLogin} />
+      <Route path="/player/register" component={PlayerRegister} />
       <Route path="/player/dashboard" component={PlayerDashboard} />
+      <Route path="/club/register" component={ClubRegister} />
       <Route path="/payment-method" component={PaymentMethod} />
       <Route path="/checkout" component={Checkout} />
       <Route component={NotFound} />
