@@ -29,6 +29,8 @@ declare module "express-session" {
     clubId?: string;
     clubUsername?: string;
     isAdmin?: boolean;
+    playerId?: number;
+    playerUsername?: string;
   }
 }
 
@@ -110,6 +112,119 @@ export async function registerRoutes(app: Express): Promise<Server> {
           primaryColor: club.primaryColor,
         },
       });
+    })
+  );
+
+  // ==================== PLAYER AUTH ROUTES ====================
+  app.post(
+    "/api/player/register",
+    asyncHandler(async (req, res) => {
+      const { username, password, fullName, email, phone } = req.body;
+      
+      if (!username || !password || !fullName || !phone) {
+        throw new ValidationError("جميع الحقول مطلوبة");
+      }
+
+      // Check if username already exists
+      const existingPlayer = await storage.getPlayerByUsername(username);
+      if (existingPlayer) {
+        throw new ValidationError("اسم المستخدم مستخدم بالفعل");
+      }
+
+      // Hash password
+      const bcrypt = await import("bcrypt");
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const player = await storage.createPlayer({
+        username,
+        password: hashedPassword,
+        fullName,
+        email: email || null,
+        phone,
+        photoUrl: null,
+      });
+
+      req.session.playerId = player.id;
+      req.session.playerUsername = player.username;
+
+      res.status(201).json({
+        player: {
+          id: player.id,
+          username: player.username,
+          fullName: player.fullName,
+          phone: player.phone,
+        },
+      });
+    })
+  );
+
+  app.post(
+    "/api/player/login",
+    asyncHandler(async (req, res) => {
+      const { username, password } = req.body;
+      
+      if (!username || !password) {
+        throw new ValidationError("اسم المستخدم وكلمة المرور مطلوبان");
+      }
+
+      const player = await storage.getPlayerByUsername(username);
+      if (!player) {
+        throw new AuthenticationError("اسم المستخدم أو كلمة المرور غير صحيحة");
+      }
+
+      const bcrypt = await import("bcrypt");
+      const isValid = await bcrypt.compare(password, player.password);
+      if (!isValid) {
+        throw new AuthenticationError("اسم المستخدم أو كلمة المرور غير صحيحة");
+      }
+
+      req.session.playerId = player.id;
+      req.session.playerUsername = player.username;
+
+      res.json({
+        player: {
+          id: player.id,
+          username: player.username,
+          fullName: player.fullName,
+          phone: player.phone,
+        },
+      });
+    })
+  );
+
+  app.get(
+    "/api/player/me",
+    asyncHandler(async (req, res) => {
+      if (!req.session.playerId) {
+        throw new AuthenticationError();
+      }
+
+      const player = await storage.getPlayer(req.session.playerId);
+      if (!player) {
+        throw new NotFoundError("Player");
+      }
+
+      res.json({
+        player: {
+          id: player.id,
+          username: player.username,
+          fullName: player.fullName,
+          phone: player.phone,
+          photoUrl: player.photoUrl,
+        },
+      });
+    })
+  );
+
+  app.get(
+    "/api/player/assessments",
+    asyncHandler(async (req, res) => {
+      if (!req.session.playerId) {
+        throw new AuthenticationError();
+      }
+
+      const assessments = await storage.getAssessmentsByPlayerId(req.session.playerId);
+      res.json(assessments);
     })
   );
 

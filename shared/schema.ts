@@ -3,6 +3,7 @@ import { pgTable, text, varchar, serial, timestamp, integer, boolean } from "dri
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Admin users (site admins)
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
@@ -16,6 +17,25 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+// Players table - for player accounts
+export const players = pgTable("players", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
+  fullName: text("full_name").notNull(),
+  email: text("email"),
+  phone: text("phone").notNull(),
+  photoUrl: text("photo_url"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPlayerSchema = createInsertSchema(players).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertPlayer = z.infer<typeof insertPlayerSchema>;
+export type Player = typeof players.$inferSelect;
 
 // Clubs table - with assessment price
 export const clubs = pgTable("clubs", {
@@ -44,6 +64,7 @@ export type Club = typeof clubs.$inferSelect;
 // Player Assessments table
 export const assessments = pgTable("assessments", {
   id: serial("id").primaryKey(),
+  playerId: integer("player_id"),
   clubId: text("club_id").notNull(),
   fullName: text("full_name").notNull(),
   birthDate: text("birth_date").notNull(),
@@ -59,6 +80,7 @@ export const assessments = pgTable("assessments", {
   weight: text("weight"),
   previousClub: text("previous_club"),
   medicalHistory: text("medical_history"),
+  playerPhotoUrl: text("player_photo_url"),
   // Payment related
   stripeCheckoutSessionId: text("stripe_checkout_session_id"),
   stripePaymentIntentId: text("stripe_payment_intent_id"),
@@ -76,6 +98,7 @@ export const assessments = pgTable("assessments", {
 
 export const insertAssessmentSchema = createInsertSchema(assessments).omit({
   id: true,
+  playerId: true,
   createdAt: true,
   updatedAt: true,
   stripeCheckoutSessionId: true,
