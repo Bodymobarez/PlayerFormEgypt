@@ -7,15 +7,50 @@ export interface Club {
   logoUrl: string;
   primaryColor: string;
   assessmentPrice: number;
+  leagueId?: string;
 }
 
+export interface League {
+  id: string;
+  name: string;
+  country: string;
+  currency: string;
+  currencySymbol: string;
+}
+
+export const LEAGUES: League[] = [
+  {
+    id: "egypt",
+    name: "الدوري المصري",
+    country: "مصر",
+    currency: "EGP",
+    currencySymbol: "ج.م",
+  },
+  {
+    id: "saudi",
+    name: "دوري كأس الأمير محمد بن سلمان",
+    country: "السعودية",
+    currency: "SAR",
+    currencySymbol: "﷼",
+  },
+  {
+    id: "uae",
+    name: "دوري الاتحاد الإماراتي",
+    country: "الإمارات",
+    currency: "AED",
+    currencySymbol: "د.إ",
+  },
+];
+
 export const CLUBS: Club[] = [
+  // Egyptian League Clubs
   {
     id: "al-ahly",
     name: "النادي الأهلي",
     logoUrl: "/logos/al_ahly.png",
     primaryColor: "hsl(354 70% 45%)",
     assessmentPrice: 5000,
+    leagueId: "egypt",
   },
   {
     id: "zamalek",
@@ -23,6 +58,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/zamalek.png",
     primaryColor: "hsl(222 47% 11%)",
     assessmentPrice: 5000,
+    leagueId: "egypt",
   },
   {
     id: "pyramids",
@@ -30,6 +66,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/pyramids.png",
     primaryColor: "hsl(210 60% 30%)",
     assessmentPrice: 4500,
+    leagueId: "egypt",
   },
   {
     id: "al-masry",
@@ -37,6 +74,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/al_masry.png",
     primaryColor: "hsl(140 60% 35%)",
     assessmentPrice: 4500,
+    leagueId: "egypt",
   },
   {
     id: "ceramica-cleopatra",
@@ -44,6 +82,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/ceramica_cleopatra.png",
     primaryColor: "hsl(27 100% 50%)",
     assessmentPrice: 4000,
+    leagueId: "egypt",
   },
   {
     id: "bank-ahly",
@@ -51,6 +90,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/national_bank_of_egypt.png",
     primaryColor: "hsl(210 100% 50%)",
     assessmentPrice: 4000,
+    leagueId: "egypt",
   },
   {
     id: "zed-fc",
@@ -58,6 +98,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/zed.png",
     primaryColor: "hsl(39 100% 50%)",
     assessmentPrice: 3500,
+    leagueId: "egypt",
   },
   {
     id: "petrojet",
@@ -65,6 +106,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/petrojet.png",
     primaryColor: "hsl(0 100% 50%)",
     assessmentPrice: 4000,
+    leagueId: "egypt",
   },
   {
     id: "modern-sport",
@@ -72,6 +114,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/modern_sport.png",
     primaryColor: "hsl(120 60% 40%)",
     assessmentPrice: 3500,
+    leagueId: "egypt",
   },
   {
     id: "el-gouna",
@@ -79,6 +122,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/el_gouna.png",
     primaryColor: "hsl(0 100% 40%)",
     assessmentPrice: 3500,
+    leagueId: "egypt",
   },
   {
     id: "enppi",
@@ -86,6 +130,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/enppi.png",
     primaryColor: "hsl(0 0% 0%)",
     assessmentPrice: 3500,
+    leagueId: "egypt",
   },
   {
     id: "ismaily",
@@ -93,6 +138,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/ismaily.png",
     primaryColor: "hsl(0 100% 50%)",
     assessmentPrice: 4000,
+    leagueId: "egypt",
   },
   {
     id: "ghazl-mahalla",
@@ -100,6 +146,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/ghazl_el_mahalla.png",
     primaryColor: "hsl(210 100% 50%)",
     assessmentPrice: 3500,
+    leagueId: "egypt",
   },
   {
     id: "smouha",
@@ -107,6 +154,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/smouha.png",
     primaryColor: "hsl(210 100% 50%)",
     assessmentPrice: 3500,
+    leagueId: "egypt",
   },
   {
     id: "al-ittihad-alex",
@@ -114,6 +162,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/al_ittihad_alexandria.png",
     primaryColor: "hsl(220 80% 50%)",
     assessmentPrice: 4000,
+    leagueId: "egypt",
   },
   {
     id: "talaea-gaish",
@@ -121,6 +170,7 @@ export const CLUBS: Club[] = [
     logoUrl: "/logos/tala_ea_el_gaish.png",
     primaryColor: "hsl(0 100% 50%)",
     assessmentPrice: 3500,
+    leagueId: "egypt",
   },
   {
     id: "pharco",

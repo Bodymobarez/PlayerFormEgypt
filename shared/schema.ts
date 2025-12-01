@@ -3,6 +3,24 @@ import { pgTable, text, varchar, serial, timestamp, integer, boolean } from "dri
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Leagues table
+export const leagues = pgTable("leagues", {
+  id: serial("id").primaryKey(),
+  leagueId: text("league_id").notNull().unique(),
+  name: text("name").notNull(),
+  country: text("country").notNull(),
+  currency: text("currency").notNull(), // e.g., "EGP", "SAR", "AED"
+  currencySymbol: text("currency_symbol").notNull(), // e.g., "ج.م", "﷼", "د.إ"
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertLeagueSchema = createInsertSchema(leagues).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertLeague = z.infer<typeof insertLeagueSchema>;
+export type League = typeof leagues.$inferSelect;
+
 // Admin users (site admins)
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -44,6 +62,7 @@ export const clubs = pgTable("clubs", {
   name: text("name").notNull(),
   logoUrl: text("logo_url").notNull(),
   primaryColor: text("primary_color").notNull(),
+  leagueId: text("league_id").notNull().default("egypt"), // League identifier
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
   assessmentPrice: integer("assessment_price").notNull().default(5000), // Price in cents
