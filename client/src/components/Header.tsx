@@ -320,7 +320,7 @@ export const CLUBS: Club[] = [
   {
     id: "al-shabab",
     name: "نادي الشباب",
-    logoUrl: "/logos/al_shabab.png",
+    logoUrl: "/logos/al_shabab.svg",
     primaryColor: "hsl(0 80% 45%)",
     assessmentPrice: 5000,
     leagueId: "saudi",
@@ -360,7 +360,7 @@ export const CLUBS: Club[] = [
   {
     id: "al-najma",
     name: "نادي النجمة",
-    logoUrl: "/logos/al_najma.svg",
+    logoUrl: "/logos/al_najma.png",
     primaryColor: "hsl(120 100% 25%)",
     assessmentPrice: 4000,
     leagueId: "saudi",
