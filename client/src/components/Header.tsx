@@ -1,6 +1,18 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Zap } from "lucide-react";
 
+function getCurrencySymbol(leagueId?: string): string {
+  switch (leagueId) {
+    case "saudi":
+      return "﷼";
+    case "uae":
+      return "د.إ";
+    case "egypt":
+    default:
+      return "ج.م";
+  }
+}
+
 export interface Club {
   id: string;
   name: string;
@@ -356,7 +368,7 @@ export function Header({ selectedClub, onClubChange, clubs = CLUBS, minimal = fa
             <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-14 w-14 object-contain" />
             <div>
               <p className="text-lg font-bold text-foreground">{selectedClub.name}</p>
-              <p className="text-sm text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} ج.م</p>
+              <p className="text-sm text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} {getCurrencySymbol(selectedClub.leagueId)}</p>
             </div>
           </div>
         )}
