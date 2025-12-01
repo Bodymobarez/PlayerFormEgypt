@@ -206,6 +206,137 @@ export const CLUBS: Club[] = [
     logoUrl: "https://upload.wikimedia.org/wikipedia/commons/1/11/Kahrabaa_Ismailia_Co.jpg",
     primaryColor: "hsl(210 70% 50%)",
     assessmentPrice: 3500,
+    leagueId: "egypt",
+  },
+  // Saudi Pro League Clubs
+  {
+    id: "al-hilal",
+    name: "نادي الهلال السعودي",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/f/f0/Al_Hilal_FC_logo.png",
+    primaryColor: "hsl(0 0% 0%)",
+    assessmentPrice: 6000,
+    leagueId: "saudi",
+  },
+  {
+    id: "al-nassr",
+    name: "نادي النصر",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/d/d7/Al_Nassr_FC_Logo.png",
+    primaryColor: "hsl(0 100% 50%)",
+    assessmentPrice: 5500,
+    leagueId: "saudi",
+  },
+  {
+    id: "al-faisaly",
+    name: "نادي الفيصلي",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/9/98/Al_Faisaly_FC_Logo.png",
+    primaryColor: "hsl(0 0% 0%)",
+    assessmentPrice: 5000,
+    leagueId: "saudi",
+  },
+  {
+    id: "al-ahli-saudi",
+    name: "نادي الأهلي السعودي",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/0/0e/AlAhli_FC_Logo.png",
+    primaryColor: "hsl(0 100% 50%)",
+    assessmentPrice: 5500,
+    leagueId: "saudi",
+  },
+  {
+    id: "al-shabab",
+    name: "نادي الشباب السعودي",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/f/fa/Al_Shabab_FC_logo.png",
+    primaryColor: "hsl(0 100% 50%)",
+    assessmentPrice: 5000,
+    leagueId: "saudi",
+  },
+  {
+    id: "al-taawon",
+    name: "نادي التعاون",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/0/0f/Al_Taawon_FC_Logo.png",
+    primaryColor: "hsl(38 100% 50%)",
+    assessmentPrice: 4500,
+    leagueId: "saudi",
+  },
+  {
+    id: "al-ittihad-saudi",
+    name: "نادي الاتحاد السعودي",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/f/f0/Al_Ittihad_FC_logo.png",
+    primaryColor: "hsl(0 0% 0%)",
+    assessmentPrice: 5500,
+    leagueId: "saudi",
+  },
+  {
+    id: "al-raed",
+    name: "نادي الريد",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/d/d8/Al-Raed_FC_Logo.png",
+    primaryColor: "hsl(3 100% 45%)",
+    assessmentPrice: 4500,
+    leagueId: "saudi",
+  },
+  // UAE Pro League Clubs
+  {
+    id: "al-ain",
+    name: "نادي العين",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/6/60/Al_Ain_FC_logo.png",
+    primaryColor: "hsl(0 100% 50%)",
+    assessmentPrice: 5500,
+    leagueId: "uae",
+  },
+  {
+    id: "al-ahli-uae",
+    name: "نادي الأهلي الإماراتي",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/0/04/Al_Ahli_UAE_FC_logo.png",
+    primaryColor: "hsl(0 100% 50%)",
+    assessmentPrice: 5500,
+    leagueId: "uae",
+  },
+  {
+    id: "sharjah",
+    name: "نادي الشارقة",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/7/70/Sharjah_FC_Logo.png",
+    primaryColor: "hsl(0 100% 50%)",
+    assessmentPrice: 5000,
+    leagueId: "uae",
+  },
+  {
+    id: "dubai-fc",
+    name: "نادي دبي",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/c/c4/Dubai_FC_logo.png",
+    primaryColor: "hsl(0 100% 50%)",
+    assessmentPrice: 5000,
+    leagueId: "uae",
+  },
+  {
+    id: "fujairah",
+    name: "نادي الفجيرة",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/4/47/Fujairah_FC_Logo.png",
+    primaryColor: "hsl(120 100% 25%)",
+    assessmentPrice: 4500,
+    leagueId: "uae",
+  },
+  {
+    id: "khor-fakkan",
+    name: "نادي خورفكان",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/0/09/Khorfakkan_FC_Logo.png",
+    primaryColor: "hsl(270 100% 35%)",
+    assessmentPrice: 4500,
+    leagueId: "uae",
+  },
+  {
+    id: "ras-khaimah",
+    name: "نادي رأس الخيمة",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/3/35/RAS_KHAIMAH_FC.png",
+    primaryColor: "hsl(120 100% 40%)",
+    assessmentPrice: 4500,
+    leagueId: "uae",
+  },
+  {
+    id: "umm-al-quwain",
+    name: "نادي أم القيوين",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/3/3f/Umm_Al_Quwain_FC_Logo.png",
+    primaryColor: "hsl(0 100% 50%)",
+    assessmentPrice: 4000,
+    leagueId: "uae",
   },
 ];
 
@@ -267,7 +398,7 @@ export function Header({ selectedClub, onClubChange, clubs = CLUBS, minimal = fa
               <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-10 w-10 object-contain" />
               <div>
                 <p className="text-sm font-semibold text-foreground">{selectedClub.name}</p>
-                <p className="text-xs text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} ج.م</p>
+                <p className="text-xs text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} {getCurrencySymbol(selectedClub.leagueId)}</p>
               </div>
             </div>
           )}

@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { Redirect, Link } from "wouter";
-import { Header, CLUBS, Club } from "@/components/Header";
+import { Header, CLUBS, LEAGUES, Club, League } from "@/components/Header";
 import { RegistrationForm } from "@/components/RegistrationForm";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   LogIn, 
   Settings, 
@@ -30,6 +31,7 @@ interface ClubFromAPI {
 
 export default function Home() {
   const { club: authClub, isAuthenticated } = useAuth();
+  const [selectedLeague, setSelectedLeague] = useState<League>(LEAGUES[0]);
   const [selectedClub, setSelectedClub] = useState<Club | null>(null);
   const [showRegistration, setShowRegistration] = useState(false);
 
@@ -46,7 +48,9 @@ export default function Home() {
     staleTime: 1000 * 60 * 5,
   });
 
-  const clubs: Club[] = CLUBS.map(staticClub => {
+  const filteredClubs: Club[] = CLUBS.filter(club => club.leagueId === selectedLeague.id);
+
+  const clubs: Club[] = filteredClubs.map(staticClub => {
     const apiClub = apiClubs?.find(c => c.clubId === staticClub.id);
     if (apiClub) {
       return {
@@ -134,7 +138,28 @@ export default function Home() {
           <div className="max-w-4xl animate-fadeIn">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-green-300 text-sm mb-6">
               <Star className="h-4 w-4" />
-              <span>أكبر منصة اختبارات لاعبين في مصر</span>
+              <span>أكبر منصة اختبارات لاعبين في الشرق الأوسط</span>
+            </div>
+            
+            <div className="mb-8 flex justify-center">
+              <Select value={selectedLeague.id} onValueChange={(leagueId) => {
+                const league = LEAGUES.find(l => l.id === leagueId);
+                if (league) {
+                  setSelectedLeague(league);
+                  setSelectedClub(null);
+                }
+              }}>
+                <SelectTrigger className="w-[280px] bg-white/10 text-white border-white/20 backdrop-blur-sm" dir="rtl">
+                  <SelectValue placeholder="اختر الدوري..." />
+                </SelectTrigger>
+                <SelectContent dir="rtl" className="bg-slate-900 border-white/20">
+                  {LEAGUES.map((league) => (
+                    <SelectItem key={league.id} value={league.id} className="text-white">
+                      <span>{league.name} - {league.country}</span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight">
@@ -146,7 +171,7 @@ export default function Home() {
             </h1>
             
             <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-              سجل في اختبارات أكبر الأندية المصرية واحصل على فرصتك للاحتراف مع أفضل الفرق
+              سجل في اختبارات أندية {selectedLeague.name} واحصل على فرصتك للاحتراف مع أفضل الفرق
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
