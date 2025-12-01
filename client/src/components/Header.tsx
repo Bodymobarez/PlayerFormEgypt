@@ -256,7 +256,7 @@ export const CLUBS: Club[] = [
   {
     id: "al-qadisiyah",
     name: "نادي القادسية",
-    logoUrl: "/logos/al_qadisiyah.svg",
+    logoUrl: "/logos/al_qadisiyah.png",
     primaryColor: "hsl(45 100% 50%)",
     assessmentPrice: 5000,
     leagueId: "saudi",
@@ -304,7 +304,7 @@ export const CLUBS: Club[] = [
   {
     id: "al-kholood",
     name: "نادي الخلود",
-    logoUrl: "/logos/al_kholood.svg",
+    logoUrl: "/logos/al_kholood.png",
     primaryColor: "hsl(25 100% 50%)",
     assessmentPrice: 4500,
     leagueId: "saudi",
@@ -312,7 +312,7 @@ export const CLUBS: Club[] = [
   {
     id: "al-hazm",
     name: "نادي الحزم",
-    logoUrl: "/logos/al_hazm.svg",
+    logoUrl: "/logos/al_hazm.png",
     primaryColor: "hsl(120 60% 35%)",
     assessmentPrice: 4500,
     leagueId: "saudi",
@@ -320,7 +320,7 @@ export const CLUBS: Club[] = [
   {
     id: "al-shabab",
     name: "نادي الشباب",
-    logoUrl: "/logos/al_shabab.svg",
+    logoUrl: "/logos/al_shabab.png",
     primaryColor: "hsl(0 80% 45%)",
     assessmentPrice: 5000,
     leagueId: "saudi",
@@ -336,7 +336,7 @@ export const CLUBS: Club[] = [
   {
     id: "al-akhdoud",
     name: "نادي الأخدود",
-    logoUrl: "/logos/al_akhdoud.svg",
+    logoUrl: "/logos/al_akhdoud.png",
     primaryColor: "hsl(220 100% 40%)",
     assessmentPrice: 4500,
     leagueId: "saudi",
