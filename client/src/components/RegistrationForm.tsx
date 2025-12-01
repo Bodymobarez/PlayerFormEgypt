@@ -2,7 +2,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Club } from "./Header";
+import { Club, LEAGUES } from "./Header";
+
+function getCurrencySymbol(leagueId?: string): string {
+  const league = LEAGUES.find(l => l.id === leagueId);
+  return league?.currencySymbol || "ج.م";
+}
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -119,7 +124,7 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
               <>
                 تسجيل في اختبارات {selectedClub.name}
                 <br />
-                <span className="text-primary font-bold text-base">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(2)} جنيه</span>
+                <span className="text-primary font-bold text-base">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(2)} {getCurrencySymbol(selectedClub.leagueId)}</span>
               </>
             ) : "يرجى اختيار النادي للبدء في التسجيل"}
           </CardDescription>

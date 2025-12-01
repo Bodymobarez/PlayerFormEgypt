@@ -70,6 +70,16 @@ export default function Checkout() {
     });
   };
 
+  const getCurrencySymbol = (leagueId?: string): string => {
+    const LEAGUES = [
+      { id: "egypt", currencySymbol: "ج.م" },
+      { id: "saudi", currencySymbol: "﷼" },
+      { id: "uae", currencySymbol: "د.إ" },
+    ];
+    const league = LEAGUES.find(l => l.id === leagueId);
+    return league?.currencySymbol || "ج.م";
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-background to-blue-50 flex items-center justify-center p-4" dir="rtl">
       <div className="w-full max-w-lg">
@@ -139,7 +149,7 @@ export default function Checkout() {
                 {details?.amount && (
                   <div>
                     <p className="text-xs text-muted-foreground mb-1">المبلغ المدفوع</p>
-                    <p className="font-semibold text-green-600">{(details.amount / 100).toFixed(2)} جنيه</p>
+                    <p className="font-semibold text-green-600">{(details.amount / 100).toFixed(2)} {getCurrencySymbol()}</p>
                   </div>
                 )}
 

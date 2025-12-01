@@ -112,6 +112,19 @@ export default function PaymentMethod() {
   const amount = assessment?.assessmentPrice 
     ? (assessment.assessmentPrice / 100).toFixed(0) 
     : "---";
+  
+  // Get currency symbol from league
+  const getCurrencySymbol = (leagueId?: string): string => {
+    const LEAGUES = [
+      { id: "egypt", currencySymbol: "ج.م" },
+      { id: "saudi", currencySymbol: "﷼" },
+      { id: "uae", currencySymbol: "د.إ" },
+    ];
+    const league = LEAGUES.find(l => l.id === leagueId);
+    return league?.currencySymbol || "ج.م";
+  };
+  
+  const currencySymbol = getCurrencySymbol(assessment?.leagueId);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-100 py-12 px-4" dir="rtl">
@@ -121,7 +134,7 @@ export default function PaymentMethod() {
           <p className="text-lg text-gray-600">اختر الطريقة التي تناسبك للدفع الآمن والسريع</p>
           {amount !== "---" && (
             <div className="mt-4 inline-block bg-emerald-100 text-emerald-800 px-6 py-2 rounded-full font-bold text-lg">
-              المبلغ المطلوب: {amount} جنيه
+              المبلغ المطلوب: {amount} {currencySymbol}
             </div>
           )}
         </div>
