@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#FF0000"/>
+  <circle cx="50" cy="50" r="40" fill="#FFFFFF"/>
+  <polygon points="50,25 65,75 35,75" fill="#FF0000"/>
+  <text x="50" y="90" font-size="10" font-weight="bold" fill="#000" text-anchor="middle" font-family="Arial">الشارقة</text>
+</svg>

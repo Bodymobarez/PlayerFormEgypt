@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#66BB6A"/>
+  <circle cx="50" cy="50" r="40" fill="#FFFFFF"/>
+  <circle cx="50" cy="45" r="18" fill="#66BB6A"/>
+  <text x="50" y="85" font-size="8" font-weight="bold" fill="#66BB6A" text-anchor="middle" font-family="Arial">رأس الخيمة</text>
+</svg>

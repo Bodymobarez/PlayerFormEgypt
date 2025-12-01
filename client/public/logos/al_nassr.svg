@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#FFD700"/>
+  <circle cx="50" cy="50" r="40" fill="#FFFFFF"/>
+  <polygon points="50,20 55,40 75,40 60,52 65,72 50,60 35,72 40,52 25,40 45,40" fill="#FFD700"/>
+  <text x="50" y="85" font-size="12" font-weight="bold" fill="#000" text-anchor="middle" font-family="Arial">النصر</text>
+</svg>
