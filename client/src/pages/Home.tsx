@@ -401,9 +401,9 @@ export default function Home() {
       {showRegistration && (
         <section id="registration-section" className="py-20 bg-gray-50">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">سجل في الاختبار</h2>
-              <p className="text-muted-foreground text-lg">
+            <div className="text-center mb-8 sm:mb-10">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4">سجل في الاختبار</h2>
+              <p className="text-muted-foreground text-sm sm:text-base md:text-lg">
                 أكمل بياناتك وانضم لنادي أحلامك
               </p>
             </div>

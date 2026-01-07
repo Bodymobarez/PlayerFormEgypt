@@ -115,18 +115,18 @@ export function Header({ selectedClub, onClubChange, clubs = CLUBS, minimal = fa
             <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-10 w-10 object-contain" />
           )}
           <div>
-            <h1 className="text-2xl font-bold text-foreground">سيراميكا كليوباترا</h1>
-            <p className="text-xs text-muted-foreground">Cleopatra F.C.</p>
+            <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-foreground">سيراميكا كليوباترا</h1>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">Cleopatra F.C.</p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           {selectedClub && (
             <div className="hidden sm:flex items-center gap-2">
-              <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-10 w-10 object-contain" />
+              <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-8 w-8 md:h-10 md:w-10 object-contain" />
               <div>
-                <p className="text-sm font-semibold text-foreground">{selectedClub.name}</p>
-                <p className="text-xs text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} {getCurrencySymbol(selectedClub.leagueId)}</p>
+                <p className="text-xs md:text-sm font-semibold text-foreground">{selectedClub.name}</p>
+                <p className="text-[10px] md:text-xs text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} {getCurrencySymbol(selectedClub.leagueId)}</p>
               </div>
             </div>
           )}
