@@ -78,11 +78,11 @@ export function Header({ selectedClub, onClubChange, clubs = CLUBS, minimal = fa
     return (
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 p-4 bg-white rounded-xl shadow-md max-w-xl mx-auto" dir="rtl">
         {selectedClub && (
-          <div className="flex items-center gap-3">
-            <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-14 w-14 object-contain" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
             <div>
-              <p className="text-lg font-bold text-foreground">{selectedClub.name}</p>
-              <p className="text-sm text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} {getCurrencySymbol(selectedClub.leagueId)}</p>
+              <p className="text-sm sm:text-base md:text-lg font-bold text-foreground">{selectedClub.name}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} {getCurrencySymbol(selectedClub.leagueId)}</p>
             </div>
           </div>
         )}
