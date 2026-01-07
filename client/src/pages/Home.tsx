@@ -410,12 +410,12 @@ export default function Home() {
             
             {/* لا حاجة للـ Header - النادي واحد فقط */}
             {selectedClub && (
-              <div className="flex items-center justify-center mb-8">
-                <div className="bg-white rounded-xl p-6 shadow-md flex items-center gap-4">
-                  <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-20 w-20 object-contain" />
+              <div className="flex items-center justify-center mb-6 sm:mb-8">
+                <div className="bg-white rounded-xl p-4 sm:p-6 shadow-md flex items-center gap-3 sm:gap-4">
+                  <img src={selectedClub.logoUrl} alt={selectedClub.name} className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain" />
                   <div>
-                    <h3 className="text-2xl font-bold text-foreground">{selectedClub.name}</h3>
-                    <p className="text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} ج.م</p>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground">{selectedClub.name}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">رسم التسجيل: {(selectedClub.assessmentPrice / 100).toFixed(0)} ج.م</p>
                   </div>
                 </div>
               </div>
