@@ -7,7 +7,7 @@
     "dev:client": "vite dev --port 5000",
     "dev": "NODE_ENV=development tsx server/index-dev.ts",
     "build": "vite build && esbuild server/index-prod.ts --platform=node --packages=external --bundle --format=esm --outfile=dist/index.js",
-    "build:netlify": "tsx --bundle netlify/functions/server.ts --outfile netlify/functions/server.js --format esm",
+    "build:netlify": "esbuild netlify/functions/server.ts --platform=node --bundle --format=esm --outfile=netlify/functions/server.js --external:express --external:express-session --external:passport --external:passport-local --external:bcrypt --external:multer",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc",
     "db:push": "drizzle-kit push"

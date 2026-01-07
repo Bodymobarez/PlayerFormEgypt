@@ -14,32 +14,14 @@ let routesRegistered = false;
 
 async function createHandler() {
   if (!routesRegistered) {
-    // Register routes - we pass a dummy server since we don't need it for serverless
-    const dummyServer = createServer(app);
+    // Register routes
     await registerRoutes(app);
     routesRegistered = true;
   }
   
-  // Serve static files (for non-API routes)
-  const distPath = path.resolve(__dirname, '../../dist/public');
-  
-  // Add static file serving for non-API routes
-  app.use((req, res, next) => {
-    if (req.path.startsWith('/api')) {
-      return next();
-    }
-    express.static(distPath)(req, res, next);
+  return serverless(app, {
+    binary: ['image/*', 'application/pdf']
   });
-  
-  // SPA fallback - only for non-API routes
-  app.use((req, res, next) => {
-    if (req.path.startsWith('/api')) {
-      return next();
-    }
-    res.sendFile(path.resolve(distPath, 'index.html'));
-  });
-  
-  return serverless(app);
 }
 
 export const handler = async (event: any, context: any) => {
