@@ -1,6 +1,39 @@
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { ValidationError } from "./errors";
+import { ELIGIBILITY } from "./constants";
+
+// Helper function to calculate age from birth date
+export function calculateAge(birthDate: string): number {
+  const birth = new Date(birthDate);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDiff = today.getMonth() - birth.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+// Helper function to check eligibility
+export function isEligibleByAge(birthDate: string): { eligible: boolean; age: number; message?: string } {
+  const age = calculateAge(birthDate);
+  if (age < ELIGIBILITY.MIN_AGE) {
+    return {
+      eligible: false,
+      age,
+      message: `العمر ${age} سنوات أقل من الحد الأدنى المسموح (${ELIGIBILITY.MIN_AGE} سنوات)`,
+    };
+  }
+  if (age > ELIGIBILITY.MAX_AGE) {
+    return {
+      eligible: false,
+      age,
+      message: `العمر ${age} سنوات أكثر من الحد الأقصى المسموح (${ELIGIBILITY.MAX_AGE} سنوات)`,
+    };
+  }
+  return { eligible: true, age };
+}
 
 // Auth validators
 export const loginSchema = z.object({
@@ -12,7 +45,16 @@ export const loginSchema = z.object({
 export const assessmentSchema = z.object({
   clubId: z.string().min(1),
   fullName: z.string().min(10, "Full name required"),
-  birthDate: z.string().refine((val) => val !== "", "Birth date required"),
+  birthDate: z.string()
+    .refine((val) => val !== "", "Birth date required")
+    .refine((val) => {
+      if (!val) return false;
+      const eligibility = isEligibleByAge(val);
+      return eligibility.eligible;
+    }, (val) => {
+      const eligibility = isEligibleByAge(val);
+      return { message: eligibility.message || "Age not eligible" };
+    }),
   birthPlace: z.string().min(2),
   nationalId: z.string().length(14).regex(/^\d+$/),
   address: z.string().min(5),

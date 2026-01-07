@@ -217,7 +217,7 @@ export default function Dashboard() {
   const primaryColor = club.primaryColor || "hsl(160 84% 39%)";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50/30" dir="rtl">
       {/* Professional Header */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-slate-200 shadow-sm">
         <div className="container mx-auto px-4">
@@ -451,7 +451,13 @@ export default function Dashboard() {
           <TabsList className="bg-white border border-slate-200 p-1 mb-6 gap-1">
             <TabsTrigger 
               value="registrations" 
-              className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+              className="data-[state=active]:text-white"
+              style={{
+                ...({} as any),
+                ...(activeTab === "registrations" ? {
+                  backgroundColor: primaryColor
+                } : {})
+              }}
               data-testid="tab-registrations"
             >
               <Users className="w-4 h-4 ml-2" />

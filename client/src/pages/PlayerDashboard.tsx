@@ -112,7 +112,7 @@ export default function PlayerDashboard() {
       <div className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-primary">Soccer Hunters</h1>
+            <h1 className="text-3xl font-bold text-primary">سيراميكا كليوباترا</h1>
             <p className="text-sm text-muted-foreground">حالة اختبارك</p>
           </div>
           <Button

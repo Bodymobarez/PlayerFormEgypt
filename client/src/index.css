@@ -9,8 +9,9 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   
-  /* Sporty, Clean Theme Colors */
-  --color-background: hsl(210 20% 98%);
+  /* سيراميكا كليوباترا - ألوان من اللوجو */
+  /* Red from logo */
+  --color-background: hsl(0 0% 98%);
   --color-foreground: hsl(222 47% 11%);
 
   --color-card: hsl(0 0% 100%);
@@ -19,11 +20,11 @@
   --color-popover: hsl(0 0% 100%);
   --color-popover-foreground: hsl(222 47% 11%);
 
-  /* Primary: Egyptian Red/Crimson */
-  --color-primary: hsl(354 70% 45%);
-  --color-primary-foreground: hsl(210 40% 98%);
+  /* Primary: Cleopatra Red (من اللوجو) */
+  --color-primary: hsl(0 84% 48%);
+  --color-primary-foreground: hsl(43 96% 98%);
 
-  /* Secondary: Gold/Bronze */
+  /* Secondary: Gold (من اللوجو) */
   --color-secondary: hsl(43 96% 58%);
   --color-secondary-foreground: hsl(222 47% 11%);
 
@@ -38,7 +39,7 @@
 
   --color-border: hsl(214.3 31.8% 91.4%);
   --color-input: hsl(214.3 31.8% 91.4%);
-  --color-ring: hsl(354 70% 45%);
+  --color-ring: hsl(0 84% 48%);
 
   --color-chart-1: hsl(12 76% 61%);
   --color-chart-2: hsl(173 58% 39%);

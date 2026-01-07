@@ -17,9 +17,56 @@ import { Separator } from "@/components/ui/separator";
 import { User, Phone, Shield, Activity, Loader } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// Helper function to calculate age from birth date
+function calculateAge(birthDate: string): number {
+  const birth = new Date(birthDate);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDiff = today.getMonth() - birth.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+// Eligibility constants
+const MIN_AGE = 8;
+const MAX_AGE = 25;
+
+// Helper function to check eligibility
+function isEligibleByAge(birthDate: string): { eligible: boolean; age: number; message?: string } {
+  if (!birthDate) {
+    return { eligible: false, age: 0, message: "تاريخ الميلاد مطلوب" };
+  }
+  const age = calculateAge(birthDate);
+  if (age < MIN_AGE) {
+    return {
+      eligible: false,
+      age,
+      message: `العمر ${age} سنوات أقل من الحد الأدنى المسموح (${MIN_AGE} سنوات)`,
+    };
+  }
+  if (age > MAX_AGE) {
+    return {
+      eligible: false,
+      age,
+      message: `العمر ${age} سنوات أكثر من الحد الأقصى المسموح (${MAX_AGE} سنوات)`,
+    };
+  }
+  return { eligible: true, age };
+}
+
 const formSchema = z.object({
   fullName: z.string().min(10, "الاسم يجب أن يكون رباعياً على الأقل"),
-  birthDate: z.string().refine((val) => val !== "", "تاريخ الميلاد مطلوب"),
+  birthDate: z.string()
+    .refine((val) => val !== "", "تاريخ الميلاد مطلوب")
+    .refine((val) => {
+      const eligibility = isEligibleByAge(val);
+      return eligibility.eligible;
+    }, (val) => {
+      const eligibility = isEligibleByAge(val);
+      return { message: eligibility.message || "العمر غير مؤهل" };
+    }),
   birthPlace: z.string().min(2, "محل الميلاد مطلوب"),
   nationalId: z.string().length(14, "الرقم القومي يجب أن يكون ١٤ رقماً").regex(/^\d+$/, "أرقام فقط"),
   address: z.string().min(5, "العنوان بالتفصيل مطلوب"),
@@ -172,15 +219,34 @@ export function RegistrationForm({ selectedClub }: RegistrationFormProps) {
                   <FormField
                     control={form.control}
                     name="birthDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>تاريخ الميلاد</FormLabel>
-                        <FormControl>
-                          <Input type="date" {...field} disabled={isSubmitting} className="bg-muted/30" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      const birthDateValue = field.value;
+                      const ageInfo = birthDateValue ? isEligibleByAge(birthDateValue) : null;
+                      
+                      return (
+                        <FormItem>
+                          <FormLabel>تاريخ الميلاد</FormLabel>
+                          <FormControl>
+                            <div className="space-y-1">
+                              <Input 
+                                type="date" 
+                                {...field} 
+                                disabled={isSubmitting} 
+                                className="bg-muted/30" 
+                                max={new Date(new Date().setFullYear(new Date().getFullYear() - MIN_AGE)).toISOString().split('T')[0]}
+                                min={new Date(new Date().setFullYear(new Date().getFullYear() - MAX_AGE)).toISOString().split('T')[0]}
+                              />
+                              {ageInfo && ageInfo.eligible && (
+                                <p className="text-sm text-green-600 font-medium">
+                                  ✓ العمر: {ageInfo.age} سنوات (مؤهل)
+                                </p>
+                              )}
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
 
                   <FormField

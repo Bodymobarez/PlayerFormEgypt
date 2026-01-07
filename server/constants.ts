@@ -49,3 +49,9 @@ export const VALIDATION = {
   MAX_NAME_LENGTH: 100,
   MIN_PASSWORD_LENGTH: 6,
 } as const;
+
+// Eligibility constants
+export const ELIGIBILITY = {
+  MIN_AGE: 8,  // Minimum age in years
+  MAX_AGE: 25, // Maximum age in years
+} as const;

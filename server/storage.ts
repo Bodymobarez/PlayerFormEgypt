@@ -1,2 +1,3 @@
-// Using PostgreSQL database storage
-export { DbStorage, storage, type IStorage } from "./storage-db";
+// Use memory storage by default
+// If DATABASE_URL is set, this can be overridden at runtime
+export { storage, type IStorage } from "./storage-memory";

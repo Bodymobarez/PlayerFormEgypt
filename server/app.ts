@@ -79,15 +79,10 @@ export default async function runApp(
   await setup(app, server);
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
+  // Default to 3000 if not specified (5000 is often used by AirPlay on macOS).
   // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
+  const port = parseInt(process.env.PORT || '3000', 10);
+  server.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
   });
 }

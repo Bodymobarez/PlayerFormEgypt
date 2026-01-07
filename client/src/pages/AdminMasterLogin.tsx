@@ -112,14 +112,14 @@ export default function AdminMasterLogin() {
             </div>
             <div>
               <h1 className="text-3xl font-bold">لوحة تحكم الإدارة</h1>
-              <p className="text-white/70">Soccer Hunters</p>
+              <p className="text-white/70">سيراميكا كليوباترا</p>
             </div>
           </div>
 
           <h2 className="text-4xl font-bold mb-6 leading-tight">
             تحكم كامل
             <br />
-            <span className="text-amber-400">في منصة Soccer Hunters</span>
+            <span className="text-amber-400">في منصة سيراميكا كليوباترا</span>
           </h2>
 
           <p className="text-xl text-white/80 mb-12 leading-relaxed">
@@ -165,7 +165,7 @@ export default function AdminMasterLogin() {
                 </div>
                 <div className="text-right">
                   <h1 className="text-xl font-bold">لوحة تحكم الإدارة</h1>
-                  <p className="text-sm text-white/70">Soccer Hunters</p>
+                  <p className="text-sm text-white/70">سيراميكا كليوباترا</p>
                 </div>
               </div>
             </div>

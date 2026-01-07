@@ -77,8 +77,8 @@ export default function Login() {
               <Building2 className="h-8 w-8" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold">بوابة الأندية</h1>
-              <p className="text-white/70">Soccer Hunters</p>
+              <h1 className="text-3xl font-bold">سيراميكا كليوباترا</h1>
+              <p className="text-white/70">Cleopatra F.C.</p>
             </div>
           </div>
 
@@ -127,8 +127,8 @@ export default function Login() {
                   <Building2 className="h-6 w-6" />
                 </div>
                 <div className="text-right">
-                  <h1 className="text-xl font-bold">بوابة الأندية</h1>
-                  <p className="text-sm text-white/70">Soccer Hunters</p>
+                  <h1 className="text-xl font-bold">سيراميكا كليوباترا</h1>
+                  <p className="text-sm text-white/70">Cleopatra F.C.</p>
                 </div>
               </div>
             </div>

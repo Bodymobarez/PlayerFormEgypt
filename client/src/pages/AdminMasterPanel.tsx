@@ -312,7 +312,7 @@ export default function AdminMasterPanel() {
                   <Shield className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-white">Soccer Hunters</h1>
+                  <h1 className="text-xl font-bold text-white">سيراميكا كليوباترا</h1>
                   <p className="text-xs text-amber-500">لوحة تحكم المشرف</p>
                 </div>
               </div>

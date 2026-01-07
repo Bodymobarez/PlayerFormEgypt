@@ -4,55 +4,17 @@ let users: User[] = [];
 let playersList: Player[] = [];
 let nextPlayerId = 1;
 // All clubs with hashed passwords (generated with bcrypt)
+// سيراميكا كليوباترا فقط
 let clubs: (Club)[] = [
   {
     id: 1,
-    clubId: "al-ahly",
-    name: "النادي الأهلي",
-    logoUrl: "/logos/al_ahly.png",
-    primaryColor: "hsl(354 70% 45%)",
-    username: "ahly",
-    password: "$2b$10$dtHKjQHDh9pdcnb0hIcDXejPcWGmjmZEnjiyCiAj6fX1pFQZo5a9K", // password: "ahly123"
-    assessmentPrice: 5000,
-    stripeProductId: null,
-    stripePriceId: null,
-    createdAt: new Date("2025-01-01"),
-  },
-  {
-    id: 2,
-    clubId: "zamalek",
-    name: "نادي الزمالك",
-    logoUrl: "/logos/zamalek.png",
-    primaryColor: "hsl(222 47% 11%)",
-    username: "zamalek",
-    password: "$2b$10$ys.vYCLcSFSUKsFUDm3gpeZTTaaFbheDjAbRku.oopc2/0/KvVZUW", // password: "zamalek123"
-    assessmentPrice: 5000,
-    stripeProductId: null,
-    stripePriceId: null,
-    createdAt: new Date("2025-01-01"),
-  },
-  {
-    id: 3,
-    clubId: "pyramids",
-    name: "نادي بيراميدز",
-    logoUrl: "/logos/pyramids.png",
-    primaryColor: "hsl(210 60% 30%)",
-    username: "pyramids",
-    password: "$2b$10$QUWdAtXZ52gNb7H5ocrsMuHnxKqQXkysOGSxjemnKBNmgp1AzNJhu", // password: "pyramids123"
-    assessmentPrice: 4500,
-    stripeProductId: null,
-    stripePriceId: null,
-    createdAt: new Date("2025-01-01"),
-  },
-  {
-    id: 4,
-    clubId: "al-masry",
-    name: "النادي المصري",
-    logoUrl: "/logos/al_masry.png",
-    primaryColor: "hsl(140 60% 35%)",
-    username: "masry",
-    password: "$2b$10$TAm4ZTtgoKz02U1js4u.DuB1erUyDMNWmR27m9qvaRhd1T4Csxunq", // password: "masry123"
-    assessmentPrice: 4500,
+    clubId: "ceramica-cleopatra",
+    name: "سيراميكا كليوباترا",
+    logoUrl: "/logos/ceramica_cleopatra.png",
+    primaryColor: "hsl(0 84% 48%)", // أحمر من اللوجو
+    username: "ceramica",
+    password: "$2b$10$dtHKjQHDh9pdcnb0hIcDXejPcWGmjmZEnjiyCiAj6fX1pFQZo5a9K", // password: "ceramica123"
+    assessmentPrice: 4000,
     stripeProductId: null,
     stripePriceId: null,
     createdAt: new Date("2025-01-01"),

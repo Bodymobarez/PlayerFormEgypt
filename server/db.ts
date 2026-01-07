@@ -6,8 +6,10 @@ neonConfig.webSocketConstructor = ws;
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
-  throw new Error("DATABASE_URL is not set");
+  // Don't throw error - allow app to use memory storage instead
+  // Just export a dummy db that won't be used
+  export const db = null as any;
+} else {
+  const pool = new Pool({ connectionString });
+  export const db = drizzle(pool);
 }
-
-const pool = new Pool({ connectionString });
-export const db = drizzle(pool);
